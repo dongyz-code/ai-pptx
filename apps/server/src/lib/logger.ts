@@ -2,7 +2,7 @@ import { LoggerService } from '@nestjs/common';
 import { createLogger, format, Logger, transports, type LoggerOptions } from 'winston';
 import chalk from 'chalk';
 import dayjs from 'dayjs';
-import { LOG_DIR } from '../config/index.js';
+import { LOG_DIR } from '@/common/env/static.js';
 import 'winston-daily-rotate-file';
 
 class MLogger implements LoggerService {

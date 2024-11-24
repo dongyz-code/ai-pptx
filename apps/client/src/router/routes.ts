@@ -2,20 +2,19 @@ import { RouteRecordRaw } from 'vue-router';
 
 export const routes: RouteRecordRaw[] = [
   {
-    path: '',
-    name: '',
-    component: () => import('@/layout/BasicLayout.vue'),
+    path: '/',
+    name: 'BasicLayout',
+    component: () => import('@/layout/BasicLayout.tsx'),
     redirect: '/home',
     children: [
       {
         path: 'home',
         name: 'Home',
-        component: () => import('@/pages/home/index.vue'),
+        component: () => import('@/pages/Home/index.tsx'),
         meta: {
-          isAuth: true,
+          isAuth: false,
         },
       },
-      { path: 'about', name: 'About', component: () => import('@/pages/about/index.vue') },
     ],
   },
 ];

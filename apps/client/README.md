@@ -1,5 +1,29 @@
-# Vue 3 + TypeScript + Vite
+# AI PPTX 项目-前端
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## 技术栈
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+- Vue3
+- TypeScript
+- TSX
+- PrimeVue
+- Vite
+- Pinia
+- Vue Router
+- Tailwind CSS
+
+## Vue3 + TSX 基本语法
+
+- 使用 `defineComponent` 定义组件
+
+## vue 指令
+
+### 被替代的指令
+
+- `v-if` 等价于`<div>{ok.value ? <div>yes</div> : <span>no</span>}</div>`
+- `v-for` 等价于 `<div>{list.map((item) => <div>{item}</div>)}</div>`
+- `v-on` 等价于 `onClick={() => {}}`
+
+### 继续使用的指令
+
+- `v-show` 等价于 `<div v-show={ok.value}>show</div>`
+- `v-model` 等价于 `<Input v-model={value} />`

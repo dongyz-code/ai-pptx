@@ -1,2 +1,3 @@
 @import './normalize.css';
-@import './tailwindcss.css'
+@import './tailwindcss.css';
+@import './var.css';

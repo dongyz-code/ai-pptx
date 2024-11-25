@@ -4,7 +4,13 @@ import { Button } from 'primevue';
 const Home = defineComponent({
   name: 'Home',
   setup() {
-    return () => <Button>Home</Button>;
+    return () => (
+      <div class="bg-primary m-4">
+        <Button class="bg-red-100" onClick={() => alert('Home')}>
+          Home
+        </Button>
+      </div>
+    );
   },
 });
 

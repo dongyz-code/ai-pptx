@@ -16,7 +16,7 @@ const VHeader = defineComponent({
           </div>
 
           <div class="flex items-center">
-            <Button>登录</Button>
+            <Button icon="pi pi-user" text />
           </div>
         </div>
       </header>

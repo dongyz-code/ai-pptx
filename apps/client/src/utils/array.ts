@@ -32,3 +32,17 @@ export function arrObject<T extends Record<string, any>, F extends keyof T, V ex
   }
   return map;
 }
+
+export function helperMap<T extends string>(arr?: T[]) {
+  const map = {} as Record<T, T>;
+
+  if (!arr?.length) {
+    return map;
+  }
+
+  for (const item of arr) {
+    map[item] = item;
+  }
+
+  return map;
+}

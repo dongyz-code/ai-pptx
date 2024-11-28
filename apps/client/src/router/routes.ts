@@ -1,6 +1,6 @@
-import { RouteRecordRaw } from 'vue-router';
+import { RouteItem, getRoute } from './utils';
 
-export const routes: RouteRecordRaw[] = [
+const _routes: RouteItem[] = [
   {
     path: '/',
     name: 'BasicLayout',
@@ -15,6 +15,13 @@ export const routes: RouteRecordRaw[] = [
           isAuth: false,
         },
       },
+      {
+        path: 'editor',
+        name: 'Editor',
+        component: () => import('@/pages/Editor/index.tsx'),
+      },
     ],
   },
 ];
+
+export const routes = getRoute(_routes);

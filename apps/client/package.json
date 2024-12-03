@@ -10,12 +10,14 @@
   },
   "dependencies": {
     "@primevue/themes": "^4.2.3",
+    "classnames": "^2.5.1",
     "dayjs": "^1.11.12",
-    "konva": "^9.3.16",
+    "html-to-image": "^1.11.11",
     "lodash-es": "^4.17.21",
     "pinia": "^2.2.2",
     "primeicons": "^7.0.0",
     "primevue": "^4.2.3",
+    "uuid": "^11.0.3",
     "vue": "^3.4.38",
     "vue-router": "^4.4.3"
   },

@@ -57,6 +57,7 @@ export const usePrimeVue: Plugin<void> = (app) => {
     theme: {
       preset: NoirPreset,
       options: {
+        darkModeSelector: '.app-dark',
         cssLayer: {
           name: 'primevue',
           order: 'tailwind-base, primevue, tailwind-utilities',

@@ -1,16 +1,25 @@
-import { defineComponent } from 'vue';
+import { defineComponent, ref, toRef } from 'vue';
 import classNames from 'classnames';
 import { useSlides } from '../../models/slider';
+import { useDraggable } from 'vue-draggable-plus';
+
 import Icon from '@/components/ui/icon';
 
 const Slider = defineComponent({
   name: 'Slider',
   setup() {
-    const { state, addSlide, setSlideIndex } = useSlides();
+    const dragRef = ref<HTMLElement | null>(null);
+    const { state, addSlide, setSlideIndex, setSlides } = useSlides();
+    const slides = toRef(state.slides);
+    useDraggable(dragRef, slides, {
+      onEnd: () => {
+        setSlides(slides.value);
+      },
+    });
 
     return () => (
       <div class="scroll-bar w-full overflow-x-auto">
-        <div class="flex h-20 py-2">
+        <div ref={dragRef} class="flex h-20 py-2">
           {state.slides.map((slide, index) => (
             <div
               key={slide.id}
@@ -23,7 +32,7 @@ const Slider = defineComponent({
               )}
               onClick={() => setSlideIndex(index)}
             >
-              <span class="absolute bottom-2 left-2 text-xs text-gray-600">{index + 1}</span>
+              <span class="absolute bottom-2 left-2 text-xs text-gray-600">{slide.id}</span>
             </div>
           ))}
 

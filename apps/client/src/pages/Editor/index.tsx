@@ -1,9 +1,10 @@
 import { defineComponent } from 'vue';
 
 import VHeader from './components/Header';
-import MeterilArea from './components/MeterilArea';
+import MaterialArea from './components/MaterialArea';
 import EditorArea from './components/EditorArea';
 import Sliders from './components/Slides';
+import Footer from './components/Footer';
 
 const Editor = defineComponent({
   name: 'Editor',
@@ -13,11 +14,12 @@ const Editor = defineComponent({
         <VHeader />
         <div class="flex h-[var(--body-height)]">
           <div class="w-[var(--sidebar-width)] flex-shrink-0">
-            <MeterilArea />
+            <MaterialArea />
           </div>
           <div class="flex w-[calc(100%-var(--sidebar-width))] flex-shrink flex-grow flex-col bg-slate-100">
             <EditorArea class="flex-1" />
             <Sliders />
+            <Footer />
           </div>
         </div>
       </div>

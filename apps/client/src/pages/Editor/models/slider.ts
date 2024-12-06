@@ -1,6 +1,6 @@
-import { computed, reactive, toRefs } from 'vue';
+import { reactive } from 'vue';
 import { defineStore } from 'pinia';
-import { v4 as uuidv4 } from 'uuid';
+import { uuid } from '@/utils';
 import { theme as defaultTheme, layouts as defaultLayouts, slides as defaultSlides } from '../static';
 
 import type { PPTElement, Slide, SlideTheme } from '@/types';
@@ -51,7 +51,7 @@ export const useSlides = defineStore('component', () => {
   };
 
   const addSlide = (slide?: Slide) => {
-    const id = slide?.id || uuidv4();
+    const id = slide?.id || uuid();
     slide = slide || { id, elements: [] };
     state.slides.push(slide);
     state.sliderIndex = state.slides.length - 1;

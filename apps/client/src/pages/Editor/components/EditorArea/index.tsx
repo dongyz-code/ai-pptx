@@ -1,23 +1,28 @@
-import { defineComponent } from 'vue';
-import { useSlides } from '../../models/slider';
+import { defineComponent, computed, ref } from 'vue';
+import { useEditor, useSlides } from '../../models';
+import { useViewportSize } from '../../hooks';
+
+import EditorElement from './EditorElement';
 
 import type { Slide } from '@/types';
 
 const EditorArea = defineComponent({
   name: 'EditorArea',
   setup() {
+    const wrapperRef = ref<HTMLDivElement>();
+    const { editorState } = useEditor();
     const { state } = useSlides();
+    const { positionStyle } = useViewportSize(wrapperRef);
 
-    const formatJson = (slides: Slide[]) => {
-      const data = slides.map((slide) => ({
-        id: slide.id,
-      }));
+    const currentSlide = computed(() => state.slides[state.sliderIndex]);
 
-      return JSON.stringify(data, null, 2);
-    };
     return () => (
-      <div>
-        <pre>{formatJson(state.slides)}</pre>
+      <div class="editor-wrapper relative" ref={wrapperRef}>
+        <div class="canvas absolute transform-gpu shadow" style={positionStyle.value}>
+          {currentSlide.value.elements.map((element) => (
+            <EditorElement element={element} key={element.id} />
+          ))}
+        </div>
       </div>
     );
   },

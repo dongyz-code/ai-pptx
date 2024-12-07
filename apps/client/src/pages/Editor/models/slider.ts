@@ -14,10 +14,6 @@ export interface SlideState {
   slides: Slide[];
   /** 当前页面索引 */
   sliderIndex: number;
-  /** 视口尺寸 */
-  viewportSize: number;
-  /** 视口比例 */
-  viewportRatio: number;
 }
 
 export const useSlides = defineStore('component', () => {
@@ -26,8 +22,6 @@ export const useSlides = defineStore('component', () => {
     theme: defaultTheme,
     slides: defaultSlides,
     sliderIndex: 0,
-    viewportSize: 1000,
-    viewportRatio: 16 / 9,
   });
 
   const setTitle = (title: string) => {
@@ -36,14 +30,6 @@ export const useSlides = defineStore('component', () => {
 
   const setTheme = (theme: SlideTheme) => {
     state.theme = { ...state.theme, ...theme };
-  };
-
-  const setViewportSize = (size: number) => {
-    state.viewportSize = size;
-  };
-
-  const setViewportRatio = (ratio: number) => {
-    state.viewportRatio = ratio;
   };
 
   const setSlides = (slides: Slide[]) => {
@@ -82,8 +68,6 @@ export const useSlides = defineStore('component', () => {
 
     setTitle,
     setTheme,
-    setViewportSize,
-    setViewportRatio,
     setSlides,
     addSlide,
     removeSlide,

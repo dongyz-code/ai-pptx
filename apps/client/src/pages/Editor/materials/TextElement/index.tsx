@@ -1,9 +1,15 @@
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
+import LexicalPlainTextElement from './LexicalPlainText';
+
+import { PPTTextElement } from '@/types';
 
 const TextElement = defineComponent({
   name: 'TextElement',
-  render() {
-    return <div>TextElement</div>;
+  props: {
+    element: Object as PropType<PPTTextElement>,
+  },
+  setup(props) {
+    return () => <LexicalPlainTextElement modelValue={props.element?.content} />;
   },
 });
 

@@ -2,7 +2,7 @@ import { defineComponent } from 'vue';
 
 const ShapeElement = defineComponent({
   name: 'ShapeElement',
-  render() {
+  setup() {
     return <div>ShapeElement</div>;
   },
 });

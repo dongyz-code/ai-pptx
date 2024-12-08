@@ -10,10 +10,13 @@ const elementMap = {
 const EditorElement = defineComponent({
   name: 'EditorElement',
   props: {
-    element: Object as PropType<PPTElement>,
+    element: {
+      type: Object as PropType<PPTElement>,
+      required: true,
+    },
   },
   setup(props) {
-    // @ts-ignore
+    // @ts-expect-error element type is dynamically mapped to component
     const Component = elementMap[props.element.type];
     return () => <div class="element-wrapper">{Component && <Component element={props.element} />}</div>;
   },

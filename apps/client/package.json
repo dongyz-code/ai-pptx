@@ -9,7 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@lexical/history": "^0.21.0",
     "@lexical/html": "^0.21.0",
+    "@lexical/rich-text": "^0.21.0",
     "@primevue/themes": "^4.2.3",
     "classnames": "^2.5.1",
     "dayjs": "^1.11.12",

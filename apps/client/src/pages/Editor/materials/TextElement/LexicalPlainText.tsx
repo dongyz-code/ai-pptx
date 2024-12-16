@@ -1,5 +1,6 @@
 import { defineComponent, onMounted, PropType, ref } from 'vue';
-import { $insertNodes, createEditor } from 'lexical';
+import { $getRoot, $insertNodes, createEditor } from 'lexical';
+import { registerRichText } from '@lexical/rich-text';
 import { $generateNodesFromDOM, $generateHtmlFromNodes } from '@lexical/html';
 
 const LexicalPlainTextElement = defineComponent({
@@ -10,23 +11,30 @@ const LexicalPlainTextElement = defineComponent({
   emits: ['update:modelValue'],
   setup(props) {
     const editorRef = ref<HTMLDivElement>();
-    const editor = createEditor();
+    const editor = createEditor({
+      namespace: 'RichTextEditor',
+    });
 
     onMounted(() => {
       const html = props.modelValue;
+
+      console.log(editorRef.value);
+      editor.setRootElement(editorRef.value!);
+      registerRichText(editor);
+
       if (html) {
-        const parser = new DOMParser();
-        const dom = parser.parseFromString(html, 'text/html');
-        const nodes = $generateNodesFromDOM(editor, dom);
+        editorRef.value!.innerHTML = html;
+        const document = new DOMParser().parseFromString(html, 'text/html');
 
         editor.update(() => {
-          $insertNodes(nodes);
+          const nodes = $generateNodesFromDOM(editor, document);
+          const root = $getRoot();
+          root.append(...nodes);
         });
       }
-      editor.setRootElement(editorRef.value!);
     });
 
-    return () => <div ref={editorRef}></div>;
+    return () => <div id="editor" ref={editorRef} contenteditable></div>;
   },
 });
 

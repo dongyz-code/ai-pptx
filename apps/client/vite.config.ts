@@ -12,9 +12,7 @@ export default defineConfig({
   },
   css: {
     preprocessorOptions: {
-      scss: {
-        additionalData: '@use "./src/styles/element-theme.scss" as *;',
-      },
+      scss: {},
     },
   },
   server: {

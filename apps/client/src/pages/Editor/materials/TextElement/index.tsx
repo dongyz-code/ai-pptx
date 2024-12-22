@@ -1,4 +1,5 @@
 import { defineComponent, PropType } from 'vue';
+import { useSlides } from '../../models';
 import TiptapEditor from '@/components/ui/Tiptap';
 
 import { PPTTextElement } from '@/types';
@@ -9,7 +10,19 @@ const TextElement = defineComponent({
     element: Object as PropType<PPTTextElement>,
   },
   setup(props) {
+    const { updateElement } = useSlides();
     // console.log(props.element);
+
+    const onEditorChange = (html: string) => {
+      if (!props.element) return;
+      updateElement({
+        id: props.element.id,
+        props: {
+          content: html,
+        },
+      });
+    };
+
     return () => (
       <div
         id={props.element?.id}
@@ -25,10 +38,10 @@ const TextElement = defineComponent({
           backgroundColor: props.element?.fill,
           opacity: props.element?.opacity,
           wordSpacing: `${props.element?.wordSpace}px`,
-          // writingMode: props.element?.vertical ? 'vertical-rl' : 'horizontal-tb',
+          writingMode: props.element?.vertical ? 'vertical-rl' : 'horizontal-tb',
         }}
       >
-        <TiptapEditor value={props.element?.content} onChange={(val) => console.log(val)} />
+        <TiptapEditor value={props.element?.content} onChange={onEditorChange} />
       </div>
     );
   },

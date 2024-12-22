@@ -18,10 +18,15 @@ const EditorArea = defineComponent({
 
     return () => (
       <div class="editor-wrapper relative" ref={wrapperRef}>
-        <div class="canvas absolute transform-gpu shadow" style={positionStyle.value}>
-          {currentSlide.value.elements.map((element) => (
-            <EditorElement element={element} key={element.id} />
-          ))}
+        <div class="canvas absolute transform-gpu shadow-lg" style={positionStyle.value}>
+          <div
+            class="viewport absolute left-0 top-0 origin-top-left"
+            style={{ transform: `scale(${editorState.viewportScale})` }}
+          >
+            {currentSlide.value.elements.map((element) => (
+              <EditorElement element={element} key={element.id} />
+            ))}
+          </div>
         </div>
       </div>
     );

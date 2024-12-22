@@ -16,7 +16,7 @@ export interface SlideState {
   sliderIndex: number;
 }
 
-export const useSlides = defineStore('component', () => {
+export const useSlides = defineStore('slider', () => {
   const state = reactive<SlideState>({
     title: '未命名演示文稿',
     theme: defaultTheme,
@@ -53,6 +53,15 @@ export const useSlides = defineStore('component', () => {
     slide.elements.push(...elements);
   };
 
+  const updateElement = (info: { id: string; props: Partial<PPTElement> }) => {
+    const { id, props } = info;
+    const slide = state.slides[state.sliderIndex];
+    const element = slide.elements.find((element) => element.id === id);
+    if (element) {
+      Object.assign(element, props);
+    }
+  };
+
   const deleteElement = (element_id: string | string[]) => {
     const elementIds = Array.isArray(element_id) ? element_id : [element_id];
     const slide = state.slides[state.sliderIndex];
@@ -68,11 +77,13 @@ export const useSlides = defineStore('component', () => {
 
     setTitle,
     setTheme,
+    setSlideIndex,
     setSlides,
     addSlide,
     removeSlide,
+
     addElement,
+    updateElement,
     deleteElement,
-    setSlideIndex,
   };
 });

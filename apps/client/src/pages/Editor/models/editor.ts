@@ -8,6 +8,9 @@ interface EditorState {
   /** 当前选中的元素ID列表 */
   selectedElementIds: string[];
 
+  /** 当前hover的元素ID */
+  hoverElementId: string | null;
+
   /** 视口占编辑区域的百分比 */
   viewportPercent: number;
 
@@ -25,6 +28,7 @@ export const useEditor = defineStore('editor', () => {
   const editorState = reactive<EditorState>({
     isFullscreen: false,
     selectedElementIds: [],
+    hoverElementId: null,
     viewportPercent: 0.9,
     viewportScale: 1,
     viewportSize: 1000,
@@ -39,7 +43,13 @@ export const useEditor = defineStore('editor', () => {
     editorState.viewportScale = scale;
   };
 
-  return { editorState, setViewportSize, setViewportScale };
-});
+  const setSelectedElementIds = (ids: string[]) => {
+    editorState.selectedElementIds = ids;
+  };
 
-export default useEditor;
+  const setHoverElementId = (id: string | null) => {
+    editorState.hoverElementId = id;
+  };
+
+  return { editorState, setViewportSize, setViewportScale, setSelectedElementIds, setHoverElementId };
+});

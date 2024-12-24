@@ -5,6 +5,7 @@ import { useViewportSize } from '../../hooks';
 import EditorElement from './EditorElement';
 
 import type { Slide } from '@/types';
+import HoverOperator from './Operator/HoverOperator';
 
 const EditorArea = defineComponent({
   name: 'EditorArea',
@@ -26,6 +27,15 @@ const EditorArea = defineComponent({
             {currentSlide.value.elements.map((element) => (
               <EditorElement element={element} key={element.id} />
             ))}
+          </div>
+        </div>
+
+        <div class="pointer-events-none absolute transform-gpu" style={positionStyle.value}>
+          <div
+            class="absolute left-0 top-0 origin-top-left"
+            style={{ transform: `scale(${editorState.viewportScale})` }}
+          >
+            <HoverOperator />
           </div>
         </div>
       </div>

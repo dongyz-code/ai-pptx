@@ -20,6 +20,7 @@
     "@tiptap/pm": "^2.10.4",
     "@tiptap/starter-kit": "^2.10.4",
     "@tiptap/vue-3": "^2.10.4",
+    "@vueuse/core": "^12.2.0",
     "classnames": "^2.5.1",
     "dayjs": "^1.11.12",
     "html-to-image": "^1.11.11",

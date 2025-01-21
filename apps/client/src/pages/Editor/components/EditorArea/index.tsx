@@ -3,9 +3,9 @@ import { useEditor, useSlides } from '../../models';
 import { useViewportSize } from '../../hooks';
 
 import EditorElement from './EditorElement';
+import CommonOperator from './Operator/CommonOperator';
 
 import type { Slide } from '@/types';
-import HoverOperator from './Operator/HoverOperator';
 
 const EditorArea = defineComponent({
   name: 'EditorArea',
@@ -24,8 +24,8 @@ const EditorArea = defineComponent({
             class="viewport absolute left-0 top-0 origin-top-left"
             style={{ transform: `scale(${editorState.viewportScale})` }}
           >
-            {currentSlide.value.elements.map((element) => (
-              <EditorElement element={element} key={element.id} />
+            {currentSlide.value.elements.map((element, index) => (
+              <EditorElement element={element} zIndex={index + 1} key={element.id} />
             ))}
           </div>
         </div>
@@ -35,7 +35,7 @@ const EditorArea = defineComponent({
             class="absolute left-0 top-0 origin-top-left"
             style={{ transform: `scale(${editorState.viewportScale})` }}
           >
-            <HoverOperator />
+            <CommonOperator />
           </div>
         </div>
       </div>

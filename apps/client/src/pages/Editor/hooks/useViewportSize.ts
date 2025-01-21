@@ -1,6 +1,11 @@
 import { computed, onMounted, onUnmounted, ref, watch, type Ref } from 'vue';
 import { useEditor } from '../models';
 
+/**
+ * 计算画布的尺寸
+ * @param wrapperRef 画布的容器
+ * @returns 画布的尺寸
+ */
 export function useViewportSize(wrapperRef: Ref<HTMLDivElement | undefined>) {
   const { editorState, setViewportScale } = useEditor();
   const canvasLeft = ref(0);

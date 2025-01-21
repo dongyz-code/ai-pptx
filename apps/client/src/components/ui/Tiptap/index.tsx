@@ -1,4 +1,4 @@
-import { defineComponent, SetupContext, watch } from 'vue';
+import { defineComponent, SetupContext, toRef, watch } from 'vue';
 import { EditorContent, useEditor } from '@tiptap/vue-3';
 import { Color } from '@tiptap/extension-color';
 import StarterKit from '@tiptap/starter-kit';
@@ -34,15 +34,12 @@ const TiptapEditor = defineComponent({
       },
     });
 
-    watch(
-      () => props.value,
-      (val) => {
-        const isSame = editor.value?.getHTML() === val;
-        if (!isSame) {
-          editor.value?.commands.setContent(val || '', false);
-        }
+    watch(toRef(props, 'value'), (val) => {
+      const isSame = editor.value?.getHTML() === val;
+      if (!isSame) {
+        editor.value?.commands.setContent(val || '', false);
       }
-    );
+    });
 
     return () => <EditorContent editor={editor.value} />;
   },

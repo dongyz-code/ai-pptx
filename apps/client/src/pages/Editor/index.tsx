@@ -1,5 +1,7 @@
 import { defineComponent } from 'vue';
 
+import { useGlobalHotkey } from './hooks';
+
 import VHeader from './components/Header';
 import MaterialArea from './components/MaterialArea';
 import EditorArea from './components/EditorArea';
@@ -9,6 +11,8 @@ import Footer from './components/Footer';
 const Editor = defineComponent({
   name: 'Editor',
   setup() {
+    useGlobalHotkey();
+
     return () => (
       <div>
         <VHeader />

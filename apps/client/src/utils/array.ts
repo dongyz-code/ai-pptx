@@ -46,3 +46,7 @@ export function helperMap<T extends string>(arr?: T[]) {
 
   return map;
 }
+
+export function unique<T>(arr: T[]) {
+  return Array.from(new Set(arr));
+}

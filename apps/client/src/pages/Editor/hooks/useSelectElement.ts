@@ -4,14 +4,14 @@ import { useSlides, useEditor, useKeyboard } from '@/pages/Editor/models';
 
 import type { PPTElement } from '@/types';
 
-export function useSelectElement(dragElement: (e: MouseEvent | TouchEvent, element: PPTElement) => void) {
+export function useSelectElement(dragElement: (e: MouseEvent, element: PPTElement) => void) {
   const editorStore = useEditor();
   const slidesStore = useSlides();
   const { keyboardState } = useKeyboard();
 
   const selectedIdMap = computed(() => arrObject(editorStore.editorState.selectedElementIds));
 
-  const ondSelectElement = (e: MouseEvent | TouchEvent, element: PPTElement, startMove = true) => {
+  const ondSelectElement = (e: MouseEvent, element: PPTElement, startMove = true) => {
     const currentSlide = slidesStore.state.slides[slidesStore.state.sliderIndex];
     const isCtrlOrShift = keyboardState.isShiftKey || keyboardState.isCtrlKey;
 

@@ -1,3 +1,10 @@
+/**
+ * 将数组转换为对象
+ * @param arr 数组
+ * @param key 键
+ * @param value 值
+ * @returns 对象
+ */
 export function arrObject<T extends string | number>(arr?: T[]): Record<T, true>;
 export function arrObject<T, F extends keyof T>(arr: T[], key: F, value: true): Record<F, true>;
 export function arrObject<T, F extends keyof T>(arr: T[], key: F): Record<F, T>;

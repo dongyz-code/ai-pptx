@@ -8,3 +8,8 @@ export type AlignmentLineProps = {
   axis: AlignmentLineAxis;
   length: number;
 };
+
+export type AlignLine = {
+  value: number;
+  range: [number, number];
+};

@@ -1,11 +1,11 @@
 import { defineComponent, computed, ref } from 'vue';
 import { useEditor, useSlides } from '../../models';
-import { useViewportSize } from '../../hooks';
+import { useViewportSize, useDragElement, useSelectElement } from '../../hooks';
 
 import EditorElement from './EditorElement';
 import CommonOperator from './Operator/CommonOperator';
 
-import type { Slide } from '@/types';
+import type { AlignmentLineProps, Slide } from '@/types';
 
 const EditorArea = defineComponent({
   name: 'EditorArea',
@@ -13,7 +13,10 @@ const EditorArea = defineComponent({
     const wrapperRef = ref<HTMLDivElement>();
     const { editorState } = useEditor();
     const { state } = useSlides();
+    const alignmentLineList = ref<AlignmentLineProps[]>([]);
     const { positionStyle } = useViewportSize(wrapperRef);
+    const { onInitDragElement } = useDragElement(alignmentLineList);
+    const { ondSelectElement } = useSelectElement(onInitDragElement);
 
     const currentSlide = computed(() => state.slides[state.sliderIndex]);
 
@@ -25,7 +28,7 @@ const EditorArea = defineComponent({
             style={{ transform: `scale(${editorState.viewportScale})` }}
           >
             {currentSlide.value.elements.map((element, index) => (
-              <EditorElement element={element} zIndex={index + 1} key={element.id} />
+              <EditorElement key={element.id} element={element} zIndex={index + 1} selectElement={ondSelectElement} />
             ))}
           </div>
         </div>

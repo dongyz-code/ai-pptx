@@ -62,6 +62,11 @@ export const useSlides = defineStore('slider', () => {
     }
   };
 
+  const setElements = (elements: PPTElement[]) => {
+    const slide = state.slides[state.sliderIndex];
+    slide.elements = elements;
+  };
+
   const deleteElement = (element_id: string | string[]) => {
     const elementIds = Array.isArray(element_id) ? element_id : [element_id];
     const slide = state.slides[state.sliderIndex];
@@ -82,6 +87,7 @@ export const useSlides = defineStore('slider', () => {
     addSlide,
     removeSlide,
 
+    setElements,
     addElement,
     updateElement,
     deleteElement,

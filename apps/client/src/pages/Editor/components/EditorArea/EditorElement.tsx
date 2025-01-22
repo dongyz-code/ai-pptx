@@ -24,6 +24,10 @@ const EditorElement = defineComponent({
       type: Number,
       required: true,
     },
+    selectElement: {
+      type: Function as PropType<(e: MouseEvent, element: PPTElement) => void>,
+      required: true,
+    },
   },
   setup(props) {
     const editor = useEditor();
@@ -39,17 +43,13 @@ const EditorElement = defineComponent({
     const Component = elementMap[props.element.type];
 
     const componentProps = computed(() => {
-      return {};
+      return {
+        selectElement: (e: MouseEvent) => props.selectElement(e, props.element),
+      };
     });
 
     return () => (
-      <div
-        ref={wrapperRef}
-        data-id={props.element.id}
-        class="element-wrapper"
-        onClick={() => editor.setSelectedElementIds([props.element.id])}
-        style={{ zIndex: props.zIndex }}
-      >
+      <div ref={wrapperRef} data-id={props.element.id} class="element-wrapper" style={{ zIndex: props.zIndex }}>
         {Component && <Component element={props.element} {...componentProps.value} />}
       </div>
     );

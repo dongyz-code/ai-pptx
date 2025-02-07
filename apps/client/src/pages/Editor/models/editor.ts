@@ -8,6 +8,9 @@ interface EditorState {
   /** 当前选中的元素ID列表 */
   selectedElementIds: string[];
 
+  /** 画布是否聚焦 */
+  isCanvasFocus: boolean;
+
   /** 当前hover的元素ID */
   hoverElementId: string | null;
 
@@ -28,6 +31,7 @@ export const useEditor = defineStore('editor', () => {
   const editorState = reactive<EditorState>({
     isFullscreen: false,
     selectedElementIds: [],
+    isCanvasFocus: false,
     hoverElementId: null,
     viewportPercent: 0.9,
     viewportScale: 1,
@@ -51,5 +55,9 @@ export const useEditor = defineStore('editor', () => {
     editorState.hoverElementId = id;
   };
 
-  return { editorState, setViewportSize, setViewportScale, setSelectedElementIds, setHoverElementId };
+  const setIsCanvasFocus = (focus: boolean) => {
+    editorState.isCanvasFocus = focus;
+  };
+
+  return { editorState, setViewportSize, setViewportScale, setSelectedElementIds, setHoverElementId, setIsCanvasFocus };
 });

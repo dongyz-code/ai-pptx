@@ -13,24 +13,48 @@ const EditorArea = defineComponent({
   name: 'EditorArea',
   setup() {
     const wrapperRef = ref<HTMLDivElement>();
-    const { editorState } = useEditor();
+    const { editorState, setHoverElementId, setIsCanvasFocus, setSelectedElementIds } = useEditor();
     const { state } = useSlides();
     const alignmentLineList = ref<AlignmentLineProps[]>([]);
     const { positionStyle } = useViewportSize(wrapperRef);
     const { onInitDragElement } = useDragElement(alignmentLineList);
-    const { ondSelectElement } = useSelectElement(onInitDragElement);
+    const { onSelectElement } = useSelectElement(onInitDragElement);
 
     const currentSlide = computed(() => state.slides[state.sliderIndex]);
 
+    /** 点击空白区域: 清空选中元素，设置画布焦点 */
+    const onClickBlankArea = (e: MouseEvent) => {
+      if (e.target === e.currentTarget) {
+        setSelectedElementIds([]);
+        setIsCanvasFocus(true);
+        setHoverElementId(null);
+      }
+    };
+
+    /** 双击空白区域 */
+    const onDoubleClickBlankArea = (e: MouseEvent) => {
+      if (e.target === e.currentTarget) {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsCanvasFocus(false);
+      }
+    };
+
     return () => (
       <div class="editor-wrapper relative" ref={wrapperRef}>
-        <div class="canvas absolute transform-gpu shadow-lg" style={positionStyle.value}>
+        <div
+          id="editor-canvas"
+          class="canvas absolute transform-gpu shadow-lg"
+          style={positionStyle.value}
+          onMousedown={onClickBlankArea}
+          onDblclick={onDoubleClickBlankArea}
+        >
           <div
             class="viewport absolute left-0 top-0 origin-top-left"
             style={{ transform: `scale(${editorState.viewportScale})` }}
           >
             {currentSlide.value.elements.map((element, index) => (
-              <EditorElement key={element.id} element={element} zIndex={index + 1} selectElement={ondSelectElement} />
+              <EditorElement key={element.id} element={element} zIndex={index + 1} selectElement={onSelectElement} />
             ))}
           </div>
         </div>

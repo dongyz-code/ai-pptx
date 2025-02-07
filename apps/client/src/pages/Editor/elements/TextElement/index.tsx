@@ -24,6 +24,11 @@ const TextElement = defineComponent({
       });
     };
 
+    const onMouseDown = (e: MouseEvent) => {
+      if (editable.value) return;
+      props.selectElement?.(e);
+    };
+
     return () => (
       <div
         id={props.element?.id}
@@ -41,7 +46,7 @@ const TextElement = defineComponent({
           wordSpacing: `${props.element?.wordSpace}px`,
           writingMode: props.element?.vertical ? 'vertical-rl' : 'horizontal-tb',
         }}
-        onMousedown={props.selectElement}
+        onMousedown={onMouseDown}
         onDblclick={() => {
           editable.value = true;
         }}

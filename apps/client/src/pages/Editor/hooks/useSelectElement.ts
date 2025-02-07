@@ -11,7 +11,7 @@ export function useSelectElement(dragElement: (e: MouseEvent, element: PPTElemen
 
   const selectedIdMap = computed(() => arrObject(editorStore.editorState.selectedElementIds));
 
-  const ondSelectElement = (e: MouseEvent, element: PPTElement, startMove = true) => {
+  const onSelectElement = (e: MouseEvent, element: PPTElement, startMove = true) => {
     const currentSlide = slidesStore.state.slides[slidesStore.state.sliderIndex];
     const isCtrlOrShift = keyboardState.isShiftKey || keyboardState.isCtrlKey;
 
@@ -62,6 +62,6 @@ export function useSelectElement(dragElement: (e: MouseEvent, element: PPTElemen
   };
 
   return {
-    ondSelectElement,
+    onSelectElement,
   };
 }

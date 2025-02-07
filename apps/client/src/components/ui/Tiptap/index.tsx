@@ -8,8 +8,6 @@ import { FontSize } from './extensions';
 
 import './tiptap-pre.css';
 
-import type { TiptapProps, TiptapEmits } from './props';
-
 const TiptapEditor = defineComponent({
   name: 'Tiptap',
 
@@ -18,20 +16,24 @@ const TiptapEditor = defineComponent({
       type: String,
       default: '',
     },
+    editable: {
+      type: Boolean,
+      default: true,
+    },
   },
 
   emits: {
-    change: (value: string) => value,
+    change: (value: string) => {},
+    blur: () => {},
   },
 
-  setup(props: TiptapProps, { emit }: SetupContext<TiptapEmits>) {
+  setup(props, { emit }) {
     const editor = useEditor({
       content: props.value,
       extensions: [TextStyle, FontSize, Color.configure({ types: [TextStyle.name, ListItem.name] }), StarterKit],
-      editable: true,
-      onUpdate: ({ editor }) => {
-        emit('change', editor.getHTML());
-      },
+      editable: props.editable,
+      onUpdate: ({ editor }) => emit('change', editor.getHTML()),
+      onBlur: () => emit('blur'),
     });
 
     watch(toRef(props, 'value'), (val) => {
@@ -39,6 +41,10 @@ const TiptapEditor = defineComponent({
       if (!isSame) {
         editor.value?.commands.setContent(val || '', false);
       }
+    });
+
+    watch(toRef(props, 'editable'), (val) => {
+      editor.value?.setOptions({ editable: val });
     });
 
     return () => <EditorContent editor={editor.value} />;

@@ -41,7 +41,7 @@ export const slides: Slide[] = [
         height: 188,
         lineHeight: 1.2,
         content: '<p><strong><span style="font-size: 112px; color: red;">PPTist</span></strong></p>',
-        rotate: 0,
+        rotate: -30,
         defaultFontName: 'Microsoft Yahei',
         defaultColor: '#333',
       },

@@ -15,7 +15,7 @@ export function useSelectElement(dragElement: (e: MouseEvent, element: PPTElemen
     const currentSlide = slidesStore.state.slides[slidesStore.state.sliderIndex];
     const isCtrlOrShift = keyboardState.isShiftKey || keyboardState.isCtrlKey;
 
-    if (selectedIdMap.value[element.id]) {
+    if (!selectedIdMap.value[element.id]) {
       /**
        * 如果元素未被选中，则将元素设置为选中状态
        * 1. 如果按下 shift 或 ctrl 键, 进入多选状态 则将元素添加到选中状态

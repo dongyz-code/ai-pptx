@@ -1,10 +1,9 @@
 import { defineComponent, ref, watch, PropType, computed } from 'vue';
 import { useElementHover } from '@vueuse/core';
 import { useEditor } from '../../models';
-import { usePrimeVue } from 'primevue/config';
 
-import TextElement from '../../materials/TextElement';
-import ShapeElement from '../../materials/ShapeElement';
+import TextElement from '../../elements/TextElement';
+import ShapeElement from '../../elements/ShapeElement';
 
 import type { PPTElement } from '@/types';
 

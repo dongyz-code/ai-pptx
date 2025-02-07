@@ -32,4 +32,7 @@ export const enum HOTKEY {
   PAGEUP = 'PAGEUP',
   PAGEDOWN = 'PAGEDOWN',
   F5 = 'F5',
+  CONTROL = 'CONTROL',
+  SHIFT = 'SHIFT',
+  ALT = 'ALT',
 }

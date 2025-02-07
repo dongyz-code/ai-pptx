@@ -1,4 +1,4 @@
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, PropType, ref } from 'vue';
 import { useSlides } from '../../models';
 import TiptapEditor from '@/components/ui/Tiptap';
 
@@ -8,10 +8,11 @@ const TextElement = defineComponent({
   name: 'TextElement',
   props: {
     element: Object as PropType<PPTTextElement>,
+    selectElement: Function as PropType<(e: MouseEvent) => void>,
   },
   setup(props) {
     const { updateElement } = useSlides();
-    // console.log(props.element);
+    const editable = ref(false);
 
     const onEditorChange = (html: string) => {
       if (!props.element) return;
@@ -40,8 +41,21 @@ const TextElement = defineComponent({
           wordSpacing: `${props.element?.wordSpace}px`,
           writingMode: props.element?.vertical ? 'vertical-rl' : 'horizontal-tb',
         }}
+        onMousedown={props.selectElement}
+        onDblclick={() => {
+          editable.value = true;
+        }}
       >
-        <TiptapEditor value={props.element?.content} onChange={onEditorChange} />
+        <TiptapEditor
+          value={props.element?.content}
+          onChange={onEditorChange}
+          editable={editable.value}
+          onBlur={() => {
+            editable.value = false;
+          }}
+        />
+
+        {!editable.value && <div class="absolute left-0 top-0 h-full w-full cursor-move"></div>}
       </div>
     );
   },

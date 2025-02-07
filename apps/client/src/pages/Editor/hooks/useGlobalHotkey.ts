@@ -3,38 +3,47 @@ import { useKeyboard } from '../models';
 import { HOTKEY } from '../static/constant';
 
 export function useGlobalHotkey() {
-  const keyboardStore = useKeyboard();
+  const { setActiveKey, keyboardState } = useKeyboard();
 
   /**
    * 全局按键监听
    */
-  const keyboardListener = (e: KeyboardEvent) => {
-    const { ctrlKey, metaKey, shiftKey, altKey } = e;
-    const key = e.key.toLowerCase();
+  const keyboardListener = (isDown: boolean) => {
+    return (e: KeyboardEvent) => {
+      const { ctrlKey, metaKey, shiftKey, altKey } = e;
+      const key = e.key.toUpperCase();
 
-    const isCtrlOrMetaKey = ctrlKey || metaKey;
-    if (isCtrlOrMetaKey && !keyboardStore.keyboardState.isCtrlKey) {
-      keyboardStore.setActiveKey('isCtrlKey', true);
-    }
+      const isCtrlOrMetaKey = ctrlKey || metaKey || key === HOTKEY.CONTROL;
+      if (isCtrlOrMetaKey && keyboardState.isCtrlKey !== isDown) {
+        setActiveKey('isCtrlKey', isDown);
+      }
 
-    if (shiftKey && !keyboardStore.keyboardState.isShiftKey) {
-      keyboardStore.setActiveKey('isShiftKey', true);
-    }
+      const isShiftKey = shiftKey || key === HOTKEY.SHIFT;
+      if (isShiftKey && keyboardState.isShiftKey !== isDown) {
+        setActiveKey('isShiftKey', isDown);
+      }
 
-    if (altKey && !keyboardStore.keyboardState.isAltKey) {
-      keyboardStore.setActiveKey('isAltKey', true);
-    }
+      const isAltKey = altKey || key === HOTKEY.ALT;
+      if (isAltKey && keyboardState.isAltKey !== isDown) {
+        setActiveKey('isAltKey', isDown);
+      }
 
-    if (key === HOTKEY.SPACE && !keyboardStore.keyboardState.isSpaceKey) {
-      keyboardStore.setActiveKey('isSpaceKey', true);
-    }
+      if (key === HOTKEY.SPACE && keyboardState.isSpaceKey !== isDown) {
+        setActiveKey('isSpaceKey', isDown);
+      }
+    };
   };
 
+  const onKeyDown = keyboardListener(true);
+  const onKeyUp = keyboardListener(false);
+
   onMounted(() => {
-    window.addEventListener('keydown', keyboardListener);
+    window.addEventListener('keydown', onKeyDown);
+    window.addEventListener('keyup', onKeyUp);
   });
 
   onUnmounted(() => {
-    window.removeEventListener('keydown', keyboardListener);
+    window.removeEventListener('keydown', onKeyDown);
+    window.removeEventListener('keyup', onKeyUp);
   });
 }

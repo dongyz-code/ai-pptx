@@ -5,7 +5,9 @@
   "private": true,
   "scripts": {
     "dev": "turbo dev",
-    "build": "turbo build"
+    "build": "turbo build",
+    "dev:web": "turbo dev --filter=./apps/client",
+    "dev:server": "turbo dev --filter=./apps/server"
   },
   "keywords": [
     "AI",

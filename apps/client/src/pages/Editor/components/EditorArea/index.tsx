@@ -3,9 +3,11 @@ import { useEditor, useSlides } from '../../models';
 import { useViewportSize, useDragElement, useSelectElement } from '../../hooks';
 
 import EditorElement from './EditorElement';
-import CommonOperator from './Operator/CommonOperator';
+import HoverOperator from './Operator/HoverOperator';
+import SelectedOperator from './Operator/SelectedOperator';
+import MultipleSelectedOperator from './Operator/MultipleSelectedOperator';
 
-import type { AlignmentLineProps, Slide } from '@/types';
+import type { AlignmentLineProps } from '@/types';
 
 const EditorArea = defineComponent({
   name: 'EditorArea',
@@ -38,7 +40,9 @@ const EditorArea = defineComponent({
             class="absolute left-0 top-0 origin-top-left"
             style={{ transform: `scale(${editorState.viewportScale})` }}
           >
-            <CommonOperator />
+            <HoverOperator />
+            <SelectedOperator />
+            <MultipleSelectedOperator />
           </div>
         </div>
       </div>

@@ -1,12 +1,21 @@
 import { defineComponent, ref } from 'vue';
 import { Button, Dialog } from 'primevue';
+import { routerPush } from '@/utils/route';
 
 const Home = defineComponent({
   name: 'Home',
   setup() {
     const open = ref(false);
+
+    const goEditor = () => {
+      routerPush({ name: 'Editor' });
+    };
+
     return () => (
       <div class="flex w-full flex-col items-center justify-center">
+        <div class="flex w-full p-2">
+          <Button onClick={goEditor}>Go Editor</Button>
+        </div>
         <div class="m-4">
           <Button onClick={() => (open.value = true)}>Open</Button>
         </div>

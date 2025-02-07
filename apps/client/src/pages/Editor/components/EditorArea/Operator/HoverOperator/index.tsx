@@ -9,7 +9,12 @@ export default defineComponent({
     const { state: slidesState } = useSlides();
 
     const elementInfo = computed(() => {
+      const selectIds = editorState.selectedElementIds;
       const hoverId = editorState.hoverElementId;
+
+      if (!hoverId || selectIds.includes(hoverId)) {
+        return null;
+      }
       const slide = slidesState.slides[slidesState.sliderIndex];
       const element = slide.elements.find((element) => element.id === hoverId);
       if (!element) return null;

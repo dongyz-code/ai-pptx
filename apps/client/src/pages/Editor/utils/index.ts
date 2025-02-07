@@ -1,5 +1,7 @@
 import { Ref } from 'vue';
 
+export * from './element';
+
 export function getContainer(container: string | Element | HTMLElement) {
   if (typeof container === 'string') {
     const dom = document.querySelector(container);

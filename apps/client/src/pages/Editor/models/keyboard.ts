@@ -20,8 +20,8 @@ export const useKeyboard = defineStore('keyboard', () => {
     isSpaceKey: false,
   });
 
-  const setActiveKey = (key: keyof KeyboardState, isShiftKey: boolean) => {
-    keyboardState[key] = isShiftKey;
+  const setActiveKey = (key: keyof KeyboardState, isActive: boolean) => {
+    keyboardState[key] = isActive;
   };
 
   return {

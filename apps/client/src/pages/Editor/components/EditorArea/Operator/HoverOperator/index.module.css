@@ -1,0 +1,5 @@
+.hover-operator {
+  z-index: 1000;
+  background-color: transparent;
+  border: 2px dashed var(--p-primary-color);
+}

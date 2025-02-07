@@ -10,6 +10,7 @@ const ShapeElement = defineComponent({
       type: Object as PropType<PPTShapeElement>,
       required: true,
     },
+    selectElement: Function as PropType<(e: MouseEvent) => void>,
   },
   setup(props) {
     const flipH = computed(() => props.element.flipH);
@@ -27,6 +28,7 @@ const ShapeElement = defineComponent({
           top: `${props.element.top}px`,
           transform: `rotate(${props.element.rotate}deg)`,
         }}
+        onMousedown={props.selectElement}
       >
         <div class="shape-element" style={{ opacity: props.element.opacity, filter: '', transform: flipStyle.value }}>
           <svg overflow="visible" width={props.element.width} height={props.element.height}>

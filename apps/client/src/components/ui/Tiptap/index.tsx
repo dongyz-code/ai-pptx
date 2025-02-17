@@ -23,8 +23,8 @@ const TiptapEditor = defineComponent({
   },
 
   emits: {
-    change: (value: string) => {},
-    blur: () => {},
+    change: (value: string) => true,
+    blur: () => true,
   },
 
   setup(props, { emit }) {
@@ -32,6 +32,7 @@ const TiptapEditor = defineComponent({
       content: props.value,
       extensions: [TextStyle, FontSize, Color.configure({ types: [TextStyle.name, ListItem.name] }), StarterKit],
       editable: props.editable,
+      autofocus: 'all',
       onUpdate: ({ editor }) => emit('change', editor.getHTML()),
       onBlur: () => emit('blur'),
     });
@@ -45,9 +46,10 @@ const TiptapEditor = defineComponent({
 
     watch(toRef(props, 'editable'), (val) => {
       editor.value?.setOptions({ editable: val });
+      editor.value?.commands.focus();
     });
 
-    return () => <EditorContent editor={editor.value} />;
+    return () => <EditorContent class="select-none" editor={editor.value} />;
   },
 });
 

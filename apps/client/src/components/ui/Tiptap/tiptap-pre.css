@@ -1,3 +1,11 @@
+/** Custom styles */
+
+/* .tiptap-editor {
+  [contenteditable='false'] {
+    user-select: none;
+  }
+} */
+
 /* Basic editor styles */
 .tiptap {
   border: none;

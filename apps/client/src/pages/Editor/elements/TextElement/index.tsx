@@ -1,4 +1,4 @@
-import { defineComponent, PropType, ref } from 'vue';
+import { defineComponent, onMounted, PropType, ref } from 'vue';
 import { useSlides } from '../../models';
 import TiptapEditor from '@/components/ui/Tiptap';
 
@@ -13,13 +13,18 @@ const TextElement = defineComponent({
   setup(props) {
     const { updateElement } = useSlides();
     const editable = ref(false);
+    const editorRef = ref<InstanceType<typeof TiptapEditor>>();
 
     const onEditorChange = (html: string) => {
       if (!props.element) return;
+
+      const height = editorRef.value?.$el?.clientHeight;
+
       updateElement({
         id: props.element.id,
         props: {
           content: html,
+          height: height || undefined,
         },
       });
     };
@@ -27,6 +32,10 @@ const TextElement = defineComponent({
     const onMouseDown = (e: MouseEvent) => {
       if (editable.value) return;
       props.selectElement?.(e);
+    };
+
+    const onActive = () => {
+      editable.value = true;
     };
 
     return () => (
@@ -47,14 +56,13 @@ const TextElement = defineComponent({
           writingMode: props.element?.vertical ? 'vertical-rl' : 'horizontal-tb',
         }}
         onMousedown={onMouseDown}
-        onDblclick={() => {
-          editable.value = true;
-        }}
+        onDblclick={onActive}
       >
         <TiptapEditor
+          ref={editorRef}
           value={props.element?.content}
-          onChange={onEditorChange}
           editable={editable.value}
+          onChange={onEditorChange}
           onBlur={() => {
             editable.value = false;
           }}

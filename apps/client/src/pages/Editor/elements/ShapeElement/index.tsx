@@ -35,7 +35,7 @@ const ShapeElement = defineComponent({
             {props.element?.gradient && (
               <defs>
                 <GradientDefs
-                  id={`editabel-gradient-${props.element?.id}`}
+                  id={`editable-gradient-${props.element?.id}`}
                   type={props.element?.gradient.type}
                   colors={props.element?.gradient.colors}
                   rotate={props.element?.gradient.rotate}
@@ -52,7 +52,7 @@ const ShapeElement = defineComponent({
                 stroke-linecap="butt"
                 stroke-miterlimit={8}
                 d={props.element?.path}
-                fill={props.element.gradient ? `url(#editabel-gradient-${props.element?.id})` : props.element?.fill}
+                fill={props.element.gradient ? `url(#editable-gradient-${props.element?.id})` : props.element?.fill}
               />
             </g>
           </svg>

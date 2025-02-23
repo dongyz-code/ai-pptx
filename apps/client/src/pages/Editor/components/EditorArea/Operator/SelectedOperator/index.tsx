@@ -1,7 +1,7 @@
 import { defineComponent, computed } from 'vue';
 import { useEditor, useSlides } from '@/pages/Editor/models';
-import css from './index.module.css';
 import { arrObject } from '@/utils';
+import css from './index.module.css';
 
 export default defineComponent({
   name: 'SelectedOperator',

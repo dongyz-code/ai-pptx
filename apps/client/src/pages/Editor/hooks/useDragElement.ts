@@ -6,6 +6,7 @@ import { arrObject } from '@/utils';
 import { useSlides, useEditor, useKeyboard } from '@/pages/Editor/models';
 
 import type { AlignmentLineProps, PPTElement, AlignLine } from '@/types';
+import { getRectRotateRange, uniqueAlignLines } from '../utils';
 
 /**
  * 拖拽元素
@@ -40,8 +41,6 @@ export function useDragElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
     const originElementList = cloneDeep(elementList.value);
     const selectedElementList = originElementList.filter((item) => selectedIdMap[item.id]);
 
-    const originLeft = element.left;
-    const originTop = element.top;
     const originWidth = element.width;
     const originHeight = 'height' in element && element.height ? element.height : 0;
     const originRotate = 'rotate' in element && element.rotate ? element.rotate : 0;
@@ -49,22 +48,72 @@ export function useDragElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
     const startPageY = e.pageY;
 
     /**
-     * @TODO
-     * 收集吸附线
+     * 收集各元素吸附线
      */
     let horizontalLines: AlignLine[] = [];
     let verticalLines: AlignLine[] = [];
-
-    for (const item of selectedElementList) {
+    for (const item of elementList.value) {
       // 线条元素不参与
       if (item.type === 'line') continue;
       if (item.id === element.id) continue;
 
-      horizontalLines = [];
-      verticalLines = [];
-      console.log(horizontalLines);
-      console.log(verticalLines);
+      let left, top, width, height;
+      if ('route' in item && item.rotate) {
+        const { x1, x2, y1, y2 } = getRectRotateRange(item);
+        left = x1;
+        top = y1;
+        width = x2 - x1;
+        height = y2 - y1;
+      } else {
+        left = item.left;
+        top = item.top;
+        width = item.width;
+        height = item.height;
+      }
+
+      const right = left + width;
+      const bottom = top + height;
+      const centerX = left + width / 2;
+      const centerY = top + height / 2;
+
+      const topLine: AlignLine = { value: top, range: [left, right] };
+      const bottomLine: AlignLine = { value: bottom, range: [left, right] };
+      const horizontalCenterLine: AlignLine = { value: centerY, range: [left, right] };
+      const leftLine: AlignLine = { value: left, range: [top, bottom] };
+      const rightLine: AlignLine = { value: right, range: [top, bottom] };
+      const verticalCenterLine: AlignLine = { value: centerX, range: [top, bottom] };
+
+      horizontalLines.push(topLine, bottomLine, horizontalCenterLine);
+      verticalLines.push(leftLine, rightLine, verticalCenterLine);
     }
+
+    /**
+     * 画布区域吸附线(四个边界，水平中心，垂直中线)
+     */
+    const edgeTopLine: AlignLine = { value: 0, range: [0, edgeWidth] };
+    const edgeBottomLine: AlignLine = { value: edgeHeight, range: [0, edgeWidth] };
+    const edgeHorizontalCenterLine: AlignLine = { value: edgeHeight / 2, range: [0, edgeWidth] };
+    const edgeLeftLine: AlignLine = { value: 0, range: [0, edgeHeight] };
+    const edgeRightLine: AlignLine = { value: edgeWidth, range: [0, edgeHeight] };
+    const edgeVerticalCenterLine: AlignLine = { value: edgeWidth / 2, range: [0, edgeHeight] };
+
+    horizontalLines.push(edgeTopLine, edgeBottomLine, edgeHorizontalCenterLine);
+    verticalLines.push(edgeLeftLine, edgeRightLine, edgeVerticalCenterLine);
+
+    /**
+     * 画布区域吸附线(四个角)
+     */
+    const edgeTopLeftLine: AlignLine = { value: 0, range: [0, edgeWidth] };
+    const edgeTopRightLine: AlignLine = { value: 0, range: [0, edgeHeight] };
+    const edgeBottomLeftLine: AlignLine = { value: edgeHeight, range: [0, edgeWidth] };
+    const edgeBottomRightLine: AlignLine = { value: edgeHeight, range: [0, edgeHeight] };
+
+    horizontalLines.push(edgeTopLeftLine, edgeTopRightLine);
+    verticalLines.push(edgeBottomLeftLine, edgeBottomRightLine);
+
+    /**吸附线去重 */
+    horizontalLines = uniqueAlignLines(horizontalLines);
+    verticalLines = uniqueAlignLines(verticalLines);
 
     const onMouseMove = (e: MouseEvent) => {
       const currentPageX = e.pageX;
@@ -81,6 +130,7 @@ export function useDragElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
       let moveX = currentPageX - startPageX;
       let moveY = currentPageY - startPageY;
 
+      /** 按住shift，水平/垂直移动 */
       if (keyboardStore.keyboardState.isShiftKey) {
         if (Math.abs(moveX) < Math.abs(moveY)) {
           moveX = 0;
@@ -90,20 +140,17 @@ export function useDragElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
         }
       }
 
-      const newLeft = originLeft + moveX;
-      const newTop = originTop + moveY;
-
       /**
        * @TODO
        * 处理吸附情况
        */
 
-      const newElementList = elementList.value.map((item) => {
+      const newElementList = originElementList.map((item) => {
         if (selectedIdMap[item.id]) {
           return {
             ...item,
-            left: newLeft,
-            top: newTop,
+            left: item.left + moveX,
+            top: item.top + moveY,
           };
         } else {
           return item;

@@ -1,4 +1,4 @@
-import { PPTElement } from '@/types';
+import { AlignLine, PPTElement } from '@/types';
 
 type RectPosition = {
   left: number;
@@ -93,4 +93,24 @@ export function getElementsRange(elements: PPTElement[]) {
     y1: Math.min(...y1List),
     y2: Math.max(...y2List),
   };
+}
+
+/**
+ * 吸附线去重
+ */
+export function uniqueAlignLines(lines: AlignLine[]): AlignLine[] {
+  const map: Map<number, AlignLine['range']> = new Map();
+  for (const line of lines) {
+    const { value, range } = line;
+    if (!map.has(value)) {
+      map.set(value, range);
+      continue;
+    }
+
+    const old = map.get(value)!;
+    old[0] = Math.min(old[0], range[0]);
+    old[1] = Math.max(old[1], range[1]);
+  }
+
+  return Array.from(map.entries()).map(([value, range]) => ({ value, range }));
 }

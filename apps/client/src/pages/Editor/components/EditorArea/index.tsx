@@ -8,6 +8,7 @@ import SelectedOperator from './Operator/SelectedOperator';
 import MultipleSelectedOperator from './Operator/MultipleSelectedOperator';
 
 import type { AlignmentLineProps } from '@/types';
+import AlignmentLine from './AlignmentLine';
 
 const EditorArea = defineComponent({
   name: 'EditorArea',
@@ -67,6 +68,12 @@ const EditorArea = defineComponent({
             <HoverOperator />
             <SelectedOperator />
             <MultipleSelectedOperator />
+
+            {alignmentLineList.value.map((line, index) => (
+              <AlignmentLine key={index} {...line} canvasScale={editorState.viewportScale} />
+            ))}
+
+            <pre class="absolute left-0 top-0">{alignmentLineList.value}</pre>
           </div>
         </div>
       </div>

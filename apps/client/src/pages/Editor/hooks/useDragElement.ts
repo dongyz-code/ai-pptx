@@ -16,7 +16,7 @@ export function useDragElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
   const editorStore = useEditor();
   const slidesStore = useSlides();
   const keyboardStore = useKeyboard();
-  const { selectedElementIds, viewportSize, viewportRatio, viewportScale } = toRefs(editorStore.editorState);
+  const { selectedElementIds, viewportSize, viewportScale } = toRefs(editorStore.editorState);
 
   const elementList = computed(() => slidesStore.state.slides[slidesStore.state.sliderIndex]?.elements || []);
 
@@ -29,7 +29,7 @@ export function useDragElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
     /** 视口宽度 */
     const edgeWidth = viewportSize.value;
     /** 视口高度 */
-    const edgeHeight = viewportSize.value * viewportRatio.value;
+    const edgeHeight = viewportSize.value;
     /** 误操作范围 */
     const sorptionRange = 5;
     /** 是否是误操作 */
@@ -115,13 +115,9 @@ export function useDragElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
     horizontalLines = uniqueAlignLines(horizontalLines);
     verticalLines = uniqueAlignLines(verticalLines);
 
-    console.log('horizontalLines:', horizontalLines);
-    console.log('verticalLines:', verticalLines);
-
     const onMouseMove = (e: MouseEvent) => {
       const currentPageX = e.pageX;
       const currentPageY = e.pageY;
-      console.log('currentPageX:', currentPageX, 'currentPageY:', currentPageY);
 
       /** 鼠标滑动距离较小，判定为误操作 */
       if (isMisoperation !== false) {
@@ -221,8 +217,7 @@ export function useDragElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
         const max = Math.max(...range, minX, maxX);
 
         if (Math.abs(minY - value) < sorptionRange) {
-          moveY = moveY + (minY - value);
-          console.log('minY:', minY.toFixed(2), 'value:', value.toFixed(2), Math.abs(minY - value).toFixed(2));
+          moveY = moveY - (minY - value);
           _alignmentLineList.push({ type: 'horizontal', axis: { x: min - 50, y: value }, length: max - min + 100 });
           break;
         }
@@ -234,7 +229,7 @@ export function useDragElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
         }
 
         if (Math.abs(centerY - value) < sorptionRange) {
-          moveX = moveX - (centerY - value);
+          moveY = moveY - (centerY - value);
           _alignmentLineList.push({ type: 'horizontal', axis: { x: min - 50, y: value }, length: max - min + 100 });
           break;
         }
@@ -258,7 +253,7 @@ export function useDragElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
         }
 
         if (Math.abs(centerX - value) < sorptionRange) {
-          moveY = moveY - (centerX - value);
+          moveX = moveX - (centerX - value);
           _alignmentLineList.push({ type: 'vertical', axis: { x: value, y: min - 50 }, length: max - min + 100 });
           break;
         }

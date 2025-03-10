@@ -24,15 +24,15 @@ const AlignmentLine = defineComponent({
   },
   setup(props) {
     /** 吸附线的位置 */
-    const left = computed(() => props.axis.x * props.canvasScale + 'px');
-    const top = computed(() => props.axis.y * props.canvasScale + 'px');
+    const left = computed(() => props.axis.x + 'px');
+    const top = computed(() => props.axis.y + 'px');
 
     /** 线的长度 */
     const sizeStyle = computed(() => {
       if (props.type === 'horizontal') {
-        return { width: props.length * props.canvasScale + 'px' };
+        return { width: props.length + 'px' };
       } else {
-        return { height: props.length * props.canvasScale + 'px' };
+        return { height: props.length + 'px' };
       }
     });
 

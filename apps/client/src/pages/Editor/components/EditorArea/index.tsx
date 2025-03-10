@@ -70,10 +70,14 @@ const EditorArea = defineComponent({
             <MultipleSelectedOperator />
 
             {alignmentLineList.value.map((line, index) => (
-              <AlignmentLine key={index} {...line} canvasScale={editorState.viewportScale} />
+              <AlignmentLine
+                key={index}
+                type={line.type}
+                axis={line.axis}
+                length={line.length}
+                canvasScale={editorState.viewportScale}
+              />
             ))}
-
-            <pre class="absolute left-0 top-0">{alignmentLineList.value}</pre>
           </div>
         </div>
       </div>

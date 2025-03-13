@@ -1,4 +1,4 @@
-import { AlignLine, PPTElement } from '@/types';
+import { AlignLine, PPTElement, PPTLineElement } from '@/types';
 
 type RectPosition = {
   left: number;
@@ -9,7 +9,6 @@ type RectPosition = {
 };
 /**
  * 计算旋转矩形的范围
- * @param rect
  */
 export function getRectRotateRange(rect: RectPosition) {
   const { left, top, width, height, rotate = 0 } = rect;
@@ -42,7 +41,6 @@ export function getRectRotateRange(rect: RectPosition) {
 
 /**
  * 计算元素在画布中的位置范围
- * @param element
  */
 export function getElementRange(element: PPTElement) {
   let x1: number, x2: number, y1: number, y2: number;
@@ -71,7 +69,6 @@ export function getElementRange(element: PPTElement) {
 
 /**
  * 计算多个元素的包围盒
- * @param elements
  */
 export function getElementsRange(elements: PPTElement[]) {
   const x1List: number[] = [];
@@ -113,4 +110,38 @@ export function uniqueAlignLines(lines: AlignLine[]): AlignLine[] {
   }
 
   return Array.from(map.entries()).map(([value, range]) => ({ value, range }));
+}
+
+/**
+ * 获取svg线条元素路径字符串
+ */
+export function getLineElementPath(element: PPTLineElement) {
+  const start = element.start.join();
+  const end = element.end.join();
+
+  if (element.broken) {
+    const mid = element.broken.join();
+    return `M${start} L${mid} L${end}`;
+  }
+
+  if (element.broken2) {
+    const { x1, x2, y1, y2 } = getElementRange(element);
+    if (x2 - x1 >= y2 - y1) {
+      return `M${start} L${element.broken2[0]},${element.start[1]} L${element.broken2[0]},${element.end[1]} ${end}`;
+    } else {
+      return `M${start} L${element.start[0]},${element.broken2[1]} L${element.end[0]},${element.broken2[1]} ${end}`;
+    }
+  }
+
+  if (element.curve) {
+    const mid = element.curve.join();
+    return `M${start} Q${mid} ${end}`;
+  }
+
+  if (element.cubic) {
+    const [c1, c2] = element.cubic;
+    return `M${start} c${c1} c${c2} ${end}`;
+  }
+
+  return `M${start} L${end}`;
 }

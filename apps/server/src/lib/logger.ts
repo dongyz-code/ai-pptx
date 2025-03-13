@@ -27,15 +27,15 @@ class MLogger implements LoggerService {
               const app = chalk.green(`[${application}]`);
               const contextStr = context ? chalk.yellow(`[${context}]`) : '';
               return `${app} ${time} ${level} ${contextStr} ${message} `;
-            }),
+            })
           ),
-        }),
+        })
       );
     } else {
       _transports.push(
         new transports.Console({
           format: format.combine(format.timestamp(), format.timestamp()),
-        }),
+        })
       );
     }
 

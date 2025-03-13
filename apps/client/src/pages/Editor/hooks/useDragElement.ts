@@ -16,7 +16,7 @@ export function useDragElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
   const editorStore = useEditor();
   const slidesStore = useSlides();
   const keyboardStore = useKeyboard();
-  const { selectedElementIds, viewportSize, viewportScale } = toRefs(editorStore.editorState);
+  const { selectedElementIds, viewportSize, viewportScale, viewportRatio } = toRefs(editorStore.editorState);
 
   const elementList = computed(() => slidesStore.state.slides[slidesStore.state.sliderIndex]?.elements || []);
 
@@ -29,7 +29,7 @@ export function useDragElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
     /** 视口宽度 */
     const edgeWidth = viewportSize.value;
     /** 视口高度 */
-    const edgeHeight = viewportSize.value;
+    const edgeHeight = viewportSize.value / viewportRatio.value;
     /** 误操作范围 */
     const sorptionRange = 5;
     /** 是否是误操作 */
@@ -99,17 +99,6 @@ export function useDragElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
 
     horizontalLines.push(edgeTopLine, edgeBottomLine, edgeHorizontalCenterLine);
     verticalLines.push(edgeLeftLine, edgeRightLine, edgeVerticalCenterLine);
-
-    /**
-     * 画布区域吸附线(四个角)
-     */
-    const edgeTopLeftLine: AlignLine = { value: 0, range: [0, edgeWidth] };
-    const edgeTopRightLine: AlignLine = { value: 0, range: [0, edgeHeight] };
-    const edgeBottomLeftLine: AlignLine = { value: edgeHeight, range: [0, edgeWidth] };
-    const edgeBottomRightLine: AlignLine = { value: edgeHeight, range: [0, edgeHeight] };
-
-    horizontalLines.push(edgeTopLeftLine, edgeTopRightLine);
-    verticalLines.push(edgeBottomLeftLine, edgeBottomRightLine);
 
     /**吸附线去重 */
     horizontalLines = uniqueAlignLines(horizontalLines);

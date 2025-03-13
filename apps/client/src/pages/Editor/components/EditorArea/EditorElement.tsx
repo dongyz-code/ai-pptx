@@ -4,12 +4,14 @@ import { useEditor } from '../../models';
 
 import TextElement from '../../elements/TextElement';
 import ShapeElement from '../../elements/ShapeElement';
+import LineElement from '../../elements/LineElement';
 
 import type { PPTElement } from '@/types';
 
 const elementMap = {
   text: TextElement,
   shape: ShapeElement,
+  line: LineElement,
 };
 
 const EditorElement = defineComponent({

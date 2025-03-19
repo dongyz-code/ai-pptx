@@ -1,5 +1,5 @@
 import { reactive } from 'vue';
-import { defineStore } from 'pinia';
+import { defineStore, acceptHMRUpdate } from 'pinia';
 
 interface EditorState {
   /** 是否全屏 */
@@ -17,7 +17,7 @@ interface EditorState {
   /** 视口占编辑区域的百分比 */
   viewportPercent: number;
 
-  /** 缩放比例 0 - 1 */
+  /** 缩放比例 */
   viewportScale: number;
 
   /** 视口尺寸 */
@@ -61,3 +61,7 @@ export const useEditor = defineStore('editor', () => {
 
   return { editorState, setViewportSize, setViewportScale, setSelectedElementIds, setHoverElementId, setIsCanvasFocus };
 });
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useEditor, import.meta.hot));
+}

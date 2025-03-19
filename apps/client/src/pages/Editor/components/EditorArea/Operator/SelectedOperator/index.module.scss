@@ -1,0 +1,17 @@
+.common-operator {
+}
+
+.border-line {
+  &.top {
+    border-top-width: 1px;
+  }
+  &.bottom {
+    border-bottom-width: 1px;
+  }
+  &.left {
+    border-left-width: 1px;
+  }
+  &.right {
+    border-right-width: 1px;
+  }
+}

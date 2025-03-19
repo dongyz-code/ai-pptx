@@ -1,5 +1,5 @@
 import { reactive } from 'vue';
-import { defineStore } from 'pinia';
+import { defineStore, acceptHMRUpdate } from 'pinia';
 import { uuid } from '@/utils';
 import { theme as defaultTheme, layouts as defaultLayouts, slides as defaultSlides } from '../static';
 
@@ -93,3 +93,7 @@ export const useSlides = defineStore('slider', () => {
     deleteElement,
   };
 });
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useSlides, import.meta.hot));
+}

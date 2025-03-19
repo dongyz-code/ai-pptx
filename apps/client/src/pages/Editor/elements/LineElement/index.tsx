@@ -1,7 +1,8 @@
-import { PPTLineElement } from '@/types';
-import { computed, defineComponent, PropType } from 'vue';
+import { computed, defineComponent, PropType, toRefs } from 'vue';
+import classNames from 'classnames';
 import { getLineElementPath } from '../../utils';
 import PointMarker from './PointMarker';
+import { PPTLineElement } from '@/types';
 
 /**
  *
@@ -51,7 +52,6 @@ const LineElement = defineComponent({
         id={props.element?.id}
         class="line-element absolute"
         style={{ top: props.element?.top + 'px', left: props.element?.left + 'px' }}
-        onMousedown={props.selectElement}
       >
         <svg overflow="visible" width={svgSize.value.width} height={svgSize.value.height}>
           <defs>
@@ -82,7 +82,17 @@ const LineElement = defineComponent({
             stroke={props.element.color}
             stroke-width={props.element.width}
             stroke-dasharray={storkeDasharray.value}
+            marker-start={props.element.points[0] && `url(#${props.element.id}-${props.element.points[0]}-start)`}
+            marker-end={props.element.points[1] && `url(#${props.element.id}-${props.element.points[1]}-end)`}
             fill="null"
+          ></path>
+          <path
+            class={classNames('pointer-events-auto, cursor-move')}
+            d={path.value}
+            stroke="transparent"
+            stroke-width="20"
+            fill="null"
+            onMousedown={props.selectElement}
           ></path>
         </svg>
       </div>

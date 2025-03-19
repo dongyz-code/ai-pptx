@@ -1,6 +1,7 @@
 export const DEFAULT_EDITOR_WIDTH = 1000;
 export const DEFAULT_EDITOR_HEIGHT = (1000 / 16) * 9;
 
+/** 热键 */
 export const enum HOTKEY {
   C = 'C',
   X = 'X',
@@ -35,4 +36,24 @@ export const enum HOTKEY {
   CONTROL = 'CONTROL',
   SHIFT = 'SHIFT',
   ALT = 'ALT',
+}
+
+/** 元素缩放点 */
+export const enum OPERATE_RESIZE_HANDLERS {
+  LEFT_TOP = 'left-top',
+  TOP = 'top',
+  RIGHT_TOP = 'right-top',
+  LEFT = 'left',
+  RIGHT = 'right',
+  LEFT_BOTTOM = 'left-bottom',
+  BOTTOM = 'bottom',
+  RIGHT_BOTTOM = 'right-bottom',
+}
+
+/** 元素选中边框线 4个边 */
+export const enum OPERATE_LINE {
+  T = 'top',
+  R = 'right',
+  B = 'bottom',
+  L = 'left',
 }

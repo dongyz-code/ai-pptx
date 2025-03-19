@@ -1,6 +1,6 @@
 import { onMounted, onUnmounted } from 'vue';
 import { useKeyboard } from '../models';
-import { HOTKEY } from '../static/constant';
+import { HOTKEY } from '@/constants';
 
 export function useGlobalHotkey() {
   const { setActiveKey, keyboardState } = useKeyboard();

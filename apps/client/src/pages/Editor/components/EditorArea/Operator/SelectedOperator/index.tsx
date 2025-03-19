@@ -1,58 +1,45 @@
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed, Component, DefineComponent } from 'vue';
 import { useEditor, useSlides } from '@/pages/Editor/models';
 import { arrObject } from '@/utils';
-import css from './index.module.css';
+import css from './index.module.scss';
+
+import CommonOperator from './CommonOperator';
+
+import { PPTElement } from '@/types';
+
+const map: { [k in PPTElement['type']]?: Component } = {
+  line: CommonOperator,
+};
 
 export default defineComponent({
   name: 'SelectedOperator',
   setup() {
+    const { state: sliderState } = useSlides();
     const { editorState } = useEditor();
-    const { state: slidesState } = useSlides();
-
-    const elementsInfo = computed(() => {
-      if (!editorState.selectedElementIds.length) return [];
-
-      const selectIdMap = arrObject(editorState.selectedElementIds);
-      const slide = slidesState.slides[slidesState.sliderIndex];
-      const elements = slide.elements.filter((element) => selectIdMap[element.id]);
-      if (!elements?.length) return [];
-
-      return elements.map((element) => {
-        const { width, left, top } = element;
-        let height = 0;
-        let rotate = 0;
-
-        if ('height' in element) {
-          height = element.height;
-        }
-
-        if ('rotate' in element) {
-          rotate = element.rotate;
-        }
-
-        return {
-          width,
-          height,
-          left,
-          top,
-          rotate,
-        };
-      });
+    const canOperate = computed(() => editorState.selectedElementIds.length === 1);
+    const elements = computed(() => {
+      const selectedIdMap = arrObject(editorState.selectedElementIds);
+      return sliderState.slides[sliderState.sliderIndex].elements.filter((item) => selectedIdMap[item.id]);
     });
 
     return () =>
-      elementsInfo.value.map((e) => (
-        <div
-          class={css['hover-operator']}
-          style={{
-            position: 'absolute',
-            width: `${e.width}px`,
-            height: `${e.height || 0}px`,
-            left: `${e.left}px`,
-            top: `${e.top}px`,
-            transform: `rotate(${e.rotate}deg)`,
-          }}
-        ></div>
-      ));
+      elements.value.map((element) => {
+        const _Comp = map[element.type] || CommonOperator;
+        const Comp = _Comp as DefineComponent<any>;
+        return (
+          <Comp
+            key={element.id}
+            element={element}
+            style={{
+              width: `${element.width}px`,
+              height: `${element.height || 0}px`,
+              left: `${element.left}px`,
+              top: `${element.top}px`,
+              rotate: `${element.rotate}deg`,
+            }}
+            class="absolute"
+          />
+        );
+      });
   },
 });

@@ -1,4 +1,5 @@
-import { AlignLine, PPTElement, PPTLineElement } from '@/types';
+import { OPERATE_RESIZE_HANDLERS, OPERATE_LINE } from '@/constants';
+import type { AlignLine, PPTElement, PPTLineElement } from '@/types';
 
 type RectPosition = {
   left: number;
@@ -144,4 +145,34 @@ export function getLineElementPath(element: PPTLineElement) {
   }
 
   return `M${start} L${end}`;
+}
+
+export function getCommonOperate(width: number, height: number) {
+  const halfWidth = width / 2;
+  const halfHeight = height / 2;
+
+  /** 元素缩放点 */
+  const resizeHandlers = [
+    { direction: OPERATE_RESIZE_HANDLERS.LEFT_TOP, style: {} },
+    { direction: OPERATE_RESIZE_HANDLERS.TOP, style: { left: halfWidth + 'px' } },
+    { direction: OPERATE_RESIZE_HANDLERS.RIGHT_TOP, style: { left: width + 'px' } },
+    { direction: OPERATE_RESIZE_HANDLERS.LEFT, style: { top: halfHeight + 'px' } },
+    { direction: OPERATE_RESIZE_HANDLERS.RIGHT, style: { top: halfHeight + 'px', left: width + 'px' } },
+    { direction: OPERATE_RESIZE_HANDLERS.LEFT_BOTTOM, style: { top: height + 'px' } },
+    { direction: OPERATE_RESIZE_HANDLERS.BOTTOM, style: { top: height + 'px', left: halfWidth + 'px' } },
+    { direction: OPERATE_RESIZE_HANDLERS.RIGHT_BOTTOM, style: { top: height + 'px', left: width + 'px' } },
+  ];
+
+  /** 元素选中边框线 */
+  const borderLines = [
+    { type: OPERATE_LINE.T, style: { left: '0px', width: width + 'px' } },
+    { type: OPERATE_LINE.L, style: { left: '0px', height: height + 'px' } },
+    { type: OPERATE_LINE.B, style: { top: height + 'px', width: width + 'px' } },
+    { type: OPERATE_LINE.R, style: { left: width + 'px', height: height + 'px' } },
+  ];
+
+  return {
+    resizeHandlers,
+    borderLines,
+  };
 }

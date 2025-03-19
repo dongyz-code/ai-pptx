@@ -1,5 +1,5 @@
 import { reactive } from 'vue';
-import { defineStore } from 'pinia';
+import { acceptHMRUpdate, defineStore } from 'pinia';
 
 interface KeyboardState {
   /** 是否按下 shift 键 */
@@ -29,3 +29,7 @@ export const useKeyboard = defineStore('keyboard', () => {
     setActiveKey,
   };
 });
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useKeyboard, import.meta.hot));
+}

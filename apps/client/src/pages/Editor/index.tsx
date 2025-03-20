@@ -4,7 +4,7 @@ import { useGlobalHotkey } from './hooks';
 
 import VHeader from './components/Header';
 import MaterialArea from './components/MaterialArea';
-import EditorArea from './components/EditorArea';
+import EditorArea from './components/EditorArea/index.vue';
 import Sliders from './components/Slides';
 import Footer from './components/Footer';
 

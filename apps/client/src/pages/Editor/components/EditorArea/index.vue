@@ -5,7 +5,7 @@ import { useViewportSize, useDragElement, useSelectElement, useSelectedElements 
 
 import EditorElement from './EditorElement';
 import HoverOperator from './Operator/HoverOperator/index.vue';
-import SelectedOperator from './Operator/SelectedOperator/index.vue';
+import SelectedOperator from './Operator/SelectedOperate/index.vue';
 import MultipleSelectedOperator from './Operator/MultipleSelectedOperator/index.vue';
 
 import type { AlignmentLineProps } from '@/types';

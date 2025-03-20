@@ -15,7 +15,6 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useEditor } from '@/pages/Editor/models';
 import CommonOperator from './CommonOperate.vue';
 
 import type { Component } from 'vue';

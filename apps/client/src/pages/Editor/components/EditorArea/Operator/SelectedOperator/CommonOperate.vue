@@ -5,8 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, toRefs } from 'vue';
-import { useEditor } from '@/pages/Editor/models';
+import { computed } from 'vue';
 import { getCommonOperate } from '@/pages/Editor/utils';
 import BorderLine from './BorderLine.vue';
 
@@ -19,10 +18,8 @@ interface Props {
 }
 
 const props = defineProps<Props>();
-const { editorState } = useEditor();
-const { viewportScale } = toRefs(editorState);
 
-const width = computed(() => props.element.width * viewportScale.value);
-const height = computed(() => props.element.height * viewportScale.value);
+const width = computed(() => props.element.width);
+const height = computed(() => props.element.height);
 const operate = computed(() => getCommonOperate(width.value, height.value));
 </script>

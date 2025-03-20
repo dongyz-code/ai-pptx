@@ -4,10 +4,9 @@
     :style="{
       left: element.left + 'px',
       top: element.top + 'px',
-      width: element.width + 'px',
-      height: height + 'px',
       transform: `rotate(${rotate}deg)`,
-      transformOrigin: 'center center',
+      height: height + 'px',
+      width: element.width + 'px',
     }"
   >
     <component :is="OperateComponent" :element="element" />
@@ -16,9 +15,11 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import { useEditor } from '@/pages/Editor/models';
 import CommonOperator from './CommonOperate.vue';
-import { PPTElement } from '@/types';
+
 import type { Component } from 'vue';
+import type { PPTElement } from '@/types';
 
 const props = defineProps<{
   element: PPTElement;

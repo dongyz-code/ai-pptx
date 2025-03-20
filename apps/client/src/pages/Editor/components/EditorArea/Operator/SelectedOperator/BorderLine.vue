@@ -13,16 +13,16 @@ defineProps<{
 <style lang="scss" scoped>
 .border-line {
   &.top {
-    border-top-width: 1px;
+    border-top-width: 1.5px;
   }
   &.bottom {
-    border-bottom-width: 1px;
+    border-bottom-width: 1.5px;
   }
   &.left {
-    border-left-width: 1px;
+    border-left-width: 1.5px;
   }
   &.right {
-    border-right-width: 1px;
+    border-right-width: 1.5px;
   }
 }
 </style>

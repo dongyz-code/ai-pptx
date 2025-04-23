@@ -16,6 +16,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import CommonOperator from './CommonOperate.vue';
+import LineOperate from './LineOperate.vue';
 
 import type { Component } from 'vue';
 import type { PPTElement } from '@/types';
@@ -25,7 +26,7 @@ const props = defineProps<{
 }>();
 
 const OperateComponentMap: Record<PPTElement['type'], Component> = {
-  line: CommonOperator,
+  line: LineOperate,
   text: CommonOperator,
   image: CommonOperator,
   shape: CommonOperator,

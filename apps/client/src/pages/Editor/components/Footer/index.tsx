@@ -1,11 +1,12 @@
 import { defineComponent, ref } from 'vue';
 import { Button, Slider } from 'primevue';
-import { useSlides } from '../../models/slider';
+import { useSlides, useEditor } from '../../models';
 
 const Footer = defineComponent({
   name: 'Footer',
   setup() {
     const { state } = useSlides();
+    const { editorState } = useEditor();
 
     const percent = ref(0);
 

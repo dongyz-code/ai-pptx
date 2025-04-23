@@ -14,7 +14,7 @@ const elementInfo = computed(() => {
   }
   const slide = slidesState.slides[slidesState.sliderIndex];
   const element = slide.elements.find((element) => element.id === hoverId);
-  if (!element) return null;
+  if (!element || element.type === 'line') return null;
 
   const { width, left, top } = element;
   let height = 'height' in element ? element.height : 0;

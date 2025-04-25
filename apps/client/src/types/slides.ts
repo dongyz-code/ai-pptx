@@ -33,6 +33,17 @@ export const enum ElementTypes {
 }
 
 /**
+ * Line 元素操作点类型
+ */
+export const enum OperateLineHandlers {
+  START = 'start',
+  END = 'end',
+  C = 'ctrl',
+  C1 = 'ctrl1',
+  C2 = 'ctrl2',
+}
+
+/**
  * 渐变
  *
  * type: 渐变类型（径向、线性）

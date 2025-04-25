@@ -1,3 +1,17 @@
+<template>
+  <div
+    v-if="wrapperRect"
+    class="border-primary z-[1000] border bg-transparent"
+    :style="{
+      position: 'absolute',
+      width: `${wrapperRect.width}px`,
+      height: `${wrapperRect.height}px`,
+      left: `${wrapperRect.left}px`,
+      top: `${wrapperRect.top}px`,
+    }"
+  ></div>
+</template>
+
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useEditor, useSlides } from '@/pages/Editor/models';
@@ -27,16 +41,4 @@ const wrapperRect = computed(() => {
 });
 </script>
 
-<template>
-  <div
-    v-if="wrapperRect"
-    class="border-primary z-[1000] border bg-transparent"
-    :style="{
-      position: 'absolute',
-      width: `${wrapperRect.width}px`,
-      height: `${wrapperRect.height}px`,
-      left: `${wrapperRect.left}px`,
-      top: `${wrapperRect.top}px`,
-    }"
-  ></div>
-</template>
+<style lang="scss" scoped></style>

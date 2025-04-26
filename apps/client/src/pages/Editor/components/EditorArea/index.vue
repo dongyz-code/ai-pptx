@@ -7,9 +7,9 @@ import EditorElement from './EditorElement';
 import HoverOperator from './Operator/HoverOperator/index.vue';
 import SelectedOperator from './Operator/SelectedOperate/index.vue';
 import MultipleSelectedOperator from './Operator/MultipleSelectedOperator/index.vue';
+import AlignmentLine from './AlignmentLine/index.vue';
 
 import type { AlignmentLineProps } from '@/types';
-import AlignmentLine from './AlignmentLine/index.vue';
 
 const wrapperRef = ref<HTMLDivElement>();
 const { editorState, setHoverElementId, setIsCanvasFocus, setSelectedElementIds } = useEditor();
@@ -51,7 +51,7 @@ const onDoubleClickBlankArea = (e: MouseEvent) => {
       @dblclick="onDoubleClickBlankArea"
     >
       <div
-        class="viewport absolute left-0 top-0 origin-top-left"
+        class="viewport absolute left-0 top-0 origin-center"
         :style="{ transform: `scale(${editorState.viewportScale})` }"
       >
         <EditorElement
@@ -65,7 +65,7 @@ const onDoubleClickBlankArea = (e: MouseEvent) => {
     </div>
 
     <div class="pointer-events-none absolute transform-gpu" :style="positionStyle">
-      <div class="absolute left-0 top-0 origin-top-left" :style="{ transform: `scale(${editorState.viewportScale})` }">
+      <div class="absolute left-0 top-0 origin-center" :style="{ transform: `scale(${editorState.viewportScale})` }">
         <HoverOperator />
         <MultipleSelectedOperator />
         <SelectedOperator v-for="element in selectedElements" :element="element" />

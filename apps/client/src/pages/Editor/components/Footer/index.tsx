@@ -8,8 +8,6 @@ const Footer = defineComponent({
     const { state } = useSlides();
     const { editorState } = useEditor();
 
-    const percent = ref(0);
-
     return () => (
       <div class="flex justify-between p-2">
         <div class="left">
@@ -25,8 +23,13 @@ const Footer = defineComponent({
             severity="contrast"
           />
 
-          <Slider v-model={percent.value} class="w-56" />
-          <Button size="small" label={`${percent.value}%`} variant="text" severity="contrast" />
+          <Slider v-model={editorState.viewportScale} class="w-56" min={0} max={2} step={0.01} />
+          <Button
+            size="small"
+            label={`${(editorState.viewportScale * 100).toFixed(0)}%`}
+            variant="text"
+            severity="contrast"
+          />
 
           <Button size="small" icon="pi pi-expand" variant="text" severity="contrast" />
         </div>

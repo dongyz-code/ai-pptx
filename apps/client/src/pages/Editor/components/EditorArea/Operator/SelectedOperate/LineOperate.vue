@@ -85,6 +85,18 @@ const handlers = computed(() => {
     },
   ];
 
+  if (props.element.broken || props.element.broken2 || props.element.curve) {
+    const p = props.element.broken || props.element.broken2 || (props.element.curve as [number, number]);
+    handlers.push({
+      type: OperateLineHandlers.C,
+      position: {
+        left: p[0] + 'px',
+        top: p[1] + 'px',
+      },
+    });
+  } else if (props.element.broken2) {
+  }
+
   return handlers;
 });
 </script>

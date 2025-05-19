@@ -66,10 +66,16 @@ const onDoubleClickBlankArea = (e: MouseEvent) => {
 
     <div class="pointer-events-none absolute transform-gpu" :style="positionStyle">
       <div class="absolute left-0 top-0 origin-center" :style="{ transform: `scale(${editorState.viewportScale})` }">
+        <!-- Hover 框 -->
         <HoverOperator />
-        <MultipleSelectedOperator />
-        <SelectedOperator v-for="element in selectedElements" :element="element" />
 
+        <!-- 多选选择框 -->
+        <MultipleSelectedOperator />
+
+        <!-- 选择选择框 -->
+        <SelectedOperator v-for="element in selectedElements" :key="element.id" :element="element" />
+
+        <!-- 吸附对齐线 -->
         <AlignmentLine
           v-for="(line, index) in alignmentLineList"
           :key="index"

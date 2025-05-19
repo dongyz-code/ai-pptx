@@ -25,6 +25,9 @@ interface EditorState {
 
   /** 视口比例 */
   viewportRatio: number;
+
+  /** 是否正在进行缩放 */
+  isScaling: boolean;
 }
 
 export const useEditor = defineStore('editor', () => {
@@ -37,6 +40,7 @@ export const useEditor = defineStore('editor', () => {
     viewportScale: 1,
     viewportSize: 1000,
     viewportRatio: 16 / 9,
+    isScaling: false,
   });
 
   const setViewportSize = (size: number) => {
@@ -59,7 +63,19 @@ export const useEditor = defineStore('editor', () => {
     editorState.isCanvasFocus = focus;
   };
 
-  return { editorState, setViewportSize, setViewportScale, setSelectedElementIds, setHoverElementId, setIsCanvasFocus };
+  const setIsScaling = (isScaling: boolean) => {
+    editorState.isScaling = isScaling;
+  };
+
+  return {
+    editorState,
+    setViewportSize,
+    setViewportScale,
+    setSelectedElementIds,
+    setHoverElementId,
+    setIsCanvasFocus,
+    setIsScaling,
+  };
 });
 
 if (import.meta.hot) {

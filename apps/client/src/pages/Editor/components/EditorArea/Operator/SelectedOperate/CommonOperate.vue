@@ -1,5 +1,6 @@
 <template>
   <div class="common-operator">
+    <resize-handler v-for="item in operate.resizeHandlers" :style="{ ...item.style }"></resize-handler>
     <BorderLine v-for="item in operate.borderLines" :key="item.type" :type="item.type" :style="item.style" />
   </div>
 </template>
@@ -8,6 +9,7 @@
 import { computed } from 'vue';
 import { getCommonOperate } from '@/pages/Editor/utils';
 import BorderLine from './BorderLine.vue';
+import ResizeHandler from './ResizeHandler.vue';
 
 import type { PPTVideoElement, PPTLatexElement, PPTAudioElement, PPTChartElement } from '@/types';
 

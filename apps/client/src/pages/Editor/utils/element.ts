@@ -150,7 +150,6 @@ export function getLineElementPath(element: PPTLineElement) {
 export function getCommonOperate(width: number, height: number) {
   const halfWidth = width / 2;
   const halfHeight = height / 2;
-  console.log(width, height);
 
   /** 元素缩放点 */
   const resizeHandlers = [

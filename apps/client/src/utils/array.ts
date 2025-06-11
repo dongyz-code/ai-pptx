@@ -57,3 +57,7 @@ export function helperMap<T extends string>(arr?: T[]) {
 export function unique<T>(arr: T[]) {
   return Array.from(new Set(arr));
 }
+
+export function getKeys<T extends object>(obj: T) {
+  return Object.keys(obj) as (keyof T)[];
+}

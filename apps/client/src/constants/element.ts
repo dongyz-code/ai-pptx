@@ -1,3 +1,5 @@
+import { PPTElement } from '@/types';
+
 export const DEFAULT_EDITOR_WIDTH = 1000;
 export const DEFAULT_EDITOR_HEIGHT = (1000 / 16) * 9;
 
@@ -57,3 +59,14 @@ export const enum OPERATE_LINE {
   B = 'bottom',
   L = 'left',
 }
+
+export const MIN_SIZE: { [k in PPTElement['type']]?: number } = {
+  text: 40,
+  image: 20,
+  shape: 20,
+  chart: 200,
+  table: 30,
+  video: 250,
+  audio: 20,
+  latex: 20,
+};

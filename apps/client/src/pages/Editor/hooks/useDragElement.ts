@@ -114,7 +114,9 @@ export function useDragElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
           Math.abs(currentPageX - startPageX) < sorptionRange && Math.abs(currentPageY - startPageY) < sorptionRange;
       }
 
-      if (!isMouseDown || isMisoperation) return;
+      if (!isMouseDown || isMisoperation) {
+        return;
+      }
 
       let moveX = (currentPageX - startPageX) / viewportScale.value;
       let moveY = (currentPageY - startPageY) / viewportScale.value;

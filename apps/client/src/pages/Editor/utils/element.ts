@@ -1,5 +1,6 @@
 import { OPERATE_RESIZE_HANDLERS, OPERATE_LINE } from '@/constants';
-import type { AlignLine, PPTElement, PPTLineElement } from '@/types';
+import { getKeys } from '@/utils';
+import type { AlignLine, OperateLineHandlers, PPTElement, PPTLineElement } from '@/types';
 
 type RectPosition = {
   left: number;
@@ -38,6 +39,71 @@ export function getRectRotateRange(rect: RectPosition) {
     y1: Math.min(...yList),
     y2: Math.max(...yList),
   };
+}
+
+/**
+ * 获取矩形旋转后的8个关键控制点 (4个传统顶点 + 4个边中点)
+ * 平面点旋转公式
+ *  x' = x * cos - y * sin
+ *  y' = x * sin + y * cos
+ * @param rect 旋转矩形的范围
+ */
+// 导出一个函数，用于获取矩形的控制点
+export function getRectElementPoint(rect: RectPosition) {
+  // 从rect中解构出left、top、width、height和rotate属性，默认rotate为0
+  const { left, top, width, height, rotate = 0 } = rect;
+  /** 弧度 */
+  // 将rotate转换为弧度
+  const theta = rotate * (Math.PI / 180);
+  // 计算旋转后的cos值和sin值
+  const cos = Math.cos(theta);
+  const sin = Math.sin(theta);
+
+  // 计算矩形的中心点坐标
+  const centerX = left + width / 2;
+  const centerY = top + height / 2;
+
+  /** 定义8个控制点的相对位置（相对于中心点的偏移量） */
+  // 定义8个控制点的相对位置
+  const points = {
+    leftTopPoint: { x: -width / 2, y: -height / 2 }, // 左上
+    topPoint: { x: 0, y: -height / 2 }, // 上中
+    rightTopPoint: { x: width / 2, y: -height / 2 }, // 右上,
+    rightPoint: { x: width / 2, y: 0 }, // 右中,
+    rightBottomPoint: { x: width / 2, y: height / 2 }, // 右下,
+    bottomPoint: { x: 0, y: height / 2 }, // 下中,
+    leftBottomPoint: { x: -width / 2, y: height / 2 }, // 左下,
+    leftPoint: { x: -width / 2, y: 0 }, // 左中,
+  };
+
+  getKeys(points).forEach((key) => {
+    const point = points[key];
+    const { x, y } = point;
+    const rotatedX = x * cos - y * sin;
+    const rotatedY = x * sin + y * cos;
+    point.x = centerX + rotatedX;
+    point.y = centerY + rotatedY;
+  });
+
+  return points;
+}
+
+/**
+ * 获取元素缩放点相对的另一个点的位置 如：【上】对应【下】、【左上】对应【右下】
+ */
+export function getOppositePoint(direction: OPERATE_RESIZE_HANDLERS, points: ReturnType<typeof getRectElementPoint>) {
+  const oppositeMap = {
+    [OPERATE_RESIZE_HANDLERS.TOP]: points.bottomPoint,
+    [OPERATE_RESIZE_HANDLERS.BOTTOM]: points.topPoint,
+    [OPERATE_RESIZE_HANDLERS.LEFT]: points.rightPoint,
+    [OPERATE_RESIZE_HANDLERS.RIGHT]: points.leftPoint,
+    [OPERATE_RESIZE_HANDLERS.LEFT_TOP]: points.rightBottomPoint,
+    [OPERATE_RESIZE_HANDLERS.RIGHT_TOP]: points.leftBottomPoint,
+    [OPERATE_RESIZE_HANDLERS.LEFT_BOTTOM]: points.rightTopPoint,
+    [OPERATE_RESIZE_HANDLERS.RIGHT_BOTTOM]: points.leftTopPoint,
+  };
+
+  return oppositeMap[direction];
 }
 
 /**

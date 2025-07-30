@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { useEditor, useSlides } from '../../models';
-import { useViewportSize, useDragElement, useSelectElement, useSelectedElements } from '../../hooks';
+import { useViewportSize, useDragElement, useSelectElement, useSelectedElements, useScaleElement } from '../../hooks';
 
 import EditorElement from './EditorElement';
 import HoverOperator from './Operator/HoverOperator/index.vue';

@@ -160,6 +160,79 @@ export function getElementsRange(elements: PPTElement[]) {
 }
 
 /**
+ * 收集吸附线, 注意要排除自身
+ * @param lines
+ * @returns
+ */
+export function collectAlignLines({
+  elementList,
+  edgeWidth,
+  edgeHeight,
+}: {
+  elementList: PPTElement[];
+  edgeWidth: number;
+  edgeHeight: number;
+}) {
+  /**
+   * 收集各元素吸附线
+   */
+  let horizontalLines: AlignLine[] = [];
+  let verticalLines: AlignLine[] = [];
+  for (const item of elementList) {
+    // 线条元素不参与
+    if (item.type === 'line') continue;
+
+    let left, top, width, height;
+    if ('rotate' in item && item.rotate) {
+      const { x1, x2, y1, y2 } = getRectRotateRange(item);
+      left = x1;
+      top = y1;
+      width = x2 - x1;
+      height = y2 - y1;
+    } else {
+      left = item.left;
+      top = item.top;
+      width = item.width;
+      height = item.height;
+    }
+
+    const right = left + width;
+    const bottom = top + height;
+    const centerX = left + width / 2;
+    const centerY = top + height / 2;
+
+    const topLine: AlignLine = { value: top, range: [left, right] };
+    const bottomLine: AlignLine = { value: bottom, range: [left, right] };
+    const horizontalCenterLine: AlignLine = { value: centerY, range: [left, right] };
+    const leftLine: AlignLine = { value: left, range: [top, bottom] };
+    const rightLine: AlignLine = { value: right, range: [top, bottom] };
+    const verticalCenterLine: AlignLine = { value: centerX, range: [top, bottom] };
+
+    horizontalLines.push(topLine, bottomLine, horizontalCenterLine);
+    verticalLines.push(leftLine, rightLine, verticalCenterLine);
+  }
+
+  /**
+   * 画布区域吸附线(四个边界，水平中心，垂直中线)
+   */
+  const edgeTopLine: AlignLine = { value: 0, range: [0, edgeWidth] };
+  const edgeBottomLine: AlignLine = { value: edgeHeight, range: [0, edgeWidth] };
+  const edgeHorizontalCenterLine: AlignLine = { value: edgeHeight / 2, range: [0, edgeWidth] };
+  const edgeLeftLine: AlignLine = { value: 0, range: [0, edgeHeight] };
+  const edgeRightLine: AlignLine = { value: edgeWidth, range: [0, edgeHeight] };
+  const edgeVerticalCenterLine: AlignLine = { value: edgeWidth / 2, range: [0, edgeHeight] };
+
+  horizontalLines.push(edgeTopLine, edgeBottomLine, edgeHorizontalCenterLine);
+  verticalLines.push(edgeLeftLine, edgeRightLine, edgeVerticalCenterLine);
+
+  /**吸附线去重 */
+  horizontalLines = uniqueAlignLines(horizontalLines);
+  verticalLines = uniqueAlignLines(verticalLines);
+
+  return { horizontalLines, verticalLines };
+}
+
+/**
  * 吸附线去重
  */
 export function uniqueAlignLines(lines: AlignLine[]): AlignLine[] {

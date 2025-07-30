@@ -5,3 +5,4 @@ export * from './useGlobalHotkey';
 export * from './useDragElement';
 export * from './useSelectElement';
 export * from './useSelectedElements';
+export * from './useScaleElement';

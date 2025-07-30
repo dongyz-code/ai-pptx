@@ -1,4 +1,4 @@
-import { reactive } from 'vue';
+import { computed, reactive } from 'vue';
 import { acceptHMRUpdate, defineStore } from 'pinia';
 
 interface KeyboardState {
@@ -20,6 +20,10 @@ export const useKeyboard = defineStore('keyboard', () => {
     isSpaceKey: false,
   });
 
+  const ctrlOrShiftKeyActive = computed(() => {
+    return keyboardState.isShiftKey || keyboardState.isCtrlKey;
+  });
+
   const setActiveKey = (key: keyof KeyboardState, isActive: boolean) => {
     keyboardState[key] = isActive;
   };
@@ -27,6 +31,7 @@ export const useKeyboard = defineStore('keyboard', () => {
   return {
     keyboardState,
     setActiveKey,
+    ctrlOrShiftKeyActive,
   };
 });
 

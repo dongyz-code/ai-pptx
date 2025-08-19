@@ -9,7 +9,7 @@
       width: element.width + 'px',
     }"
   >
-    <component :is="OperateComponent" :element="element" />
+    <component :is="OperateComponent" :element="element" :scale-element="scaleElement" />
   </div>
 </template>
 
@@ -17,12 +17,14 @@
 import { computed } from 'vue';
 import CommonOperator from './CommonOperate.vue';
 import LineOperate from './LineOperate.vue';
+import { OPERATE_RESIZE_HANDLERS } from '@/constants';
 
 import type { Component } from 'vue';
-import type { PPTElement } from '@/types';
+import type { PPTElement, PPTLineElement } from '@/types';
 
 const props = defineProps<{
   element: PPTElement;
+  scaleElement: (e: MouseEvent, element: Exclude<PPTElement, PPTLineElement>, command: OPERATE_RESIZE_HANDLERS) => void;
 }>();
 
 const OperateComponentMap: Record<PPTElement['type'], Component> = {

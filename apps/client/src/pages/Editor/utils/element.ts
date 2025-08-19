@@ -48,7 +48,6 @@ export function getRectRotateRange(rect: RectPosition) {
  *  y' = x * sin + y * cos
  * @param rect 旋转矩形的范围
  */
-// 导出一个函数，用于获取矩形的控制点
 export function getRectElementPoint(rect: RectPosition) {
   // 从rect中解构出left、top、width、height和rotate属性，默认rotate为0
   const { left, top, width, height, rotate = 0 } = rect;

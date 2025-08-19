@@ -7,7 +7,7 @@ import { MIN_SIZE, OPERATE_RESIZE_HANDLERS } from '@/constants';
 
 import type { AlignmentLineProps, PPTElement, AlignLine, PPTLineElement } from '@/types';
 
-export function useScaleElement(elements: Ref<PPTElement[]>, alignmentLineList: Ref<AlignmentLineProps[]>) {
+export function useScaleElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
   const slidesStore = useSlides();
   const editorStore = useEditor();
 
@@ -33,7 +33,7 @@ export function useScaleElement(elements: Ref<PPTElement[]>, alignmentLineList: 
     const edgeHeight = viewportSize.value / viewportRatio.value;
 
     const selectedIdMap = arrObject(selectedElementIds.value);
-    const originElementList = cloneDeep(elements.value);
+    const originElementList = cloneDeep(elementList.value);
     const selectedElementList = originElementList.filter((item) => selectedIdMap[item.id]);
 
     const originWidth = element.width;
@@ -64,11 +64,15 @@ export function useScaleElement(elements: Ref<PPTElement[]>, alignmentLineList: 
     const fixedRatio = ctrlOrShiftKeyActive || ('fixedRatio' in element && element.fixedRatio);
     const aspectRatio = originWidth / originHeight;
 
+    /**
+     * @TODO 吸附线逻辑
+     */
     const { horizontalLines, verticalLines } = collectAlignLines({
       elementList: elementList.value?.filter((item) => item.id !== element.id),
       edgeWidth,
       edgeHeight,
     });
+
     let basePoint = { x: 0, y: 0 };
 
     /** 以操作的缩放点相对的点为基点，计算旋转后的基点真实坐标 */
@@ -128,29 +132,29 @@ export function useScaleElement(elements: Ref<PPTElement[]>, alignmentLineList: 
           case OPERATE_RESIZE_HANDLERS.LEFT_TOP:
             width = getSizeWithinRange(originWidth - revisedX, 'width');
             height = getSizeWithinRange(originHeight - revisedY, 'height');
-            left = originLeft + revisedX;
-            top = originTop + revisedY;
+            // left = originLeft - revisedX;
+            // top = originTop - revisedY;
             break;
           case OPERATE_RESIZE_HANDLERS.LEFT_BOTTOM:
             width = getSizeWithinRange(originWidth - revisedX, 'width');
             height = getSizeWithinRange(originHeight + revisedY, 'height');
-            top = originTop + revisedY;
+            // top = originTop + revisedY;
             break;
           case OPERATE_RESIZE_HANDLERS.RIGHT_TOP:
             width = getSizeWithinRange(originWidth + revisedX, 'width');
             height = getSizeWithinRange(originHeight - revisedY, 'height');
-            top = originTop - (height - originHeight);
+            // top = originTop - (height - originHeight);
             break;
           case OPERATE_RESIZE_HANDLERS.RIGHT:
             width = getSizeWithinRange(originWidth + revisedX, 'width');
             break;
           case OPERATE_RESIZE_HANDLERS.LEFT:
             width = getSizeWithinRange(originWidth - revisedX, 'width');
-            left = originLeft + revisedX;
+            left = originLeft - revisedX;
             break;
           case OPERATE_RESIZE_HANDLERS.TOP:
             height = getSizeWithinRange(originHeight - revisedY, 'height');
-            top = originTop + revisedY;
+            // top = originTop - revisedY;
             break;
           case OPERATE_RESIZE_HANDLERS.BOTTOM:
             height = getSizeWithinRange(originHeight + revisedY, 'height');
@@ -170,6 +174,11 @@ export function useScaleElement(elements: Ref<PPTElement[]>, alignmentLineList: 
 
         left = originLeft - offsetX;
         top = originTop - offsetY;
+
+        console.log('moveX', moveX, 'revisedX', revisedX);
+        console.log('moveY', moveY, 'revisedY', revisedY);
+        console.log('width', width);
+        console.log('height', height);
       } else {
         /**
          * 元素未被旋转的情况下，直接根据操作点计算缩放后的大小和位置
@@ -187,11 +196,11 @@ export function useScaleElement(elements: Ref<PPTElement[]>, alignmentLineList: 
           case OPERATE_RESIZE_HANDLERS.RIGHT_BOTTOM:
             width = getSizeWithinRange(originWidth + moveX, 'width');
             height = getSizeWithinRange(originHeight + moveY, 'height');
-            left = originLeft - (width - originWidth);
             break;
           case OPERATE_RESIZE_HANDLERS.LEFT_BOTTOM:
-            width = getSizeWithinRange(originWidth + moveX, 'width');
+            width = getSizeWithinRange(originWidth - moveX, 'width');
             height = getSizeWithinRange(originHeight + moveY, 'height');
+            left = originLeft - (width - originWidth);
             break;
           case OPERATE_RESIZE_HANDLERS.LEFT_TOP:
             width = getSizeWithinRange(originWidth - moveX, 'width');

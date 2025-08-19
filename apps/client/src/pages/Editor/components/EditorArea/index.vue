@@ -19,6 +19,7 @@ const { positionStyle } = useViewportSize(wrapperRef);
 const { onInitDragElement } = useDragElement(alignmentLineList);
 const { onSelectElement } = useSelectElement(onInitDragElement);
 const { selectedElements } = useSelectedElements();
+const { scaleElement } = useScaleElement(alignmentLineList);
 
 const currentSlide = computed(() => state.slides[state.sliderIndex]);
 
@@ -73,7 +74,12 @@ const onDoubleClickBlankArea = (e: MouseEvent) => {
         <MultipleSelectedOperator />
 
         <!-- 选择选择框 -->
-        <SelectedOperator v-for="element in selectedElements" :key="element.id" :element="element" />
+        <SelectedOperator
+          v-for="element in selectedElements"
+          :key="element.id"
+          :element="element"
+          :scale-element="scaleElement"
+        />
 
         <!-- 吸附对齐线 -->
         <AlignmentLine

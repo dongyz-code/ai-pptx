@@ -49,21 +49,19 @@ export function getRectRotateRange(rect: RectPosition) {
  * @param rect 旋转矩形的范围
  */
 export function getRectElementPoint(rect: RectPosition) {
-  // 从rect中解构出left、top、width、height和rotate属性，默认rotate为0
+  /** 从rect中解构出left、top、width、height和rotate属性，默认rotate为0 */
   const { left, top, width, height, rotate = 0 } = rect;
-  /** 弧度 */
-  // 将rotate转换为弧度
+  /** 将rotate转换为弧度 */
   const theta = rotate * (Math.PI / 180);
-  // 计算旋转后的cos值和sin值
+  /** 计算旋转后的cos值和sin值 */
   const cos = Math.cos(theta);
   const sin = Math.sin(theta);
 
-  // 计算矩形的中心点坐标
+  /** 计算矩形的中心点坐标 */
   const centerX = left + width / 2;
   const centerY = top + height / 2;
 
   /** 定义8个控制点的相对位置（相对于中心点的偏移量） */
-  // 定义8个控制点的相对位置
   const points = {
     leftTopPoint: { x: -width / 2, y: -height / 2 }, // 左上
     topPoint: { x: 0, y: -height / 2 }, // 上中
@@ -100,6 +98,26 @@ export function getOppositePoint(direction: OPERATE_RESIZE_HANDLERS, points: Ret
     [OPERATE_RESIZE_HANDLERS.RIGHT_TOP]: points.leftBottomPoint,
     [OPERATE_RESIZE_HANDLERS.LEFT_BOTTOM]: points.rightTopPoint,
     [OPERATE_RESIZE_HANDLERS.RIGHT_BOTTOM]: points.leftTopPoint,
+  };
+
+  return oppositeMap[direction];
+}
+
+/**
+ * 获取元素当前缩放掉位置
+ * @param direction 方向
+ * @param points 8个控制点
+ */
+export function getCurrentPoint(direction: OPERATE_RESIZE_HANDLERS, points: ReturnType<typeof getRectElementPoint>) {
+  const oppositeMap = {
+    [OPERATE_RESIZE_HANDLERS.TOP]: points.topPoint,
+    [OPERATE_RESIZE_HANDLERS.BOTTOM]: points.bottomPoint,
+    [OPERATE_RESIZE_HANDLERS.LEFT]: points.leftPoint,
+    [OPERATE_RESIZE_HANDLERS.RIGHT]: points.rightPoint,
+    [OPERATE_RESIZE_HANDLERS.LEFT_TOP]: points.leftTopPoint,
+    [OPERATE_RESIZE_HANDLERS.RIGHT_TOP]: points.rightTopPoint,
+    [OPERATE_RESIZE_HANDLERS.LEFT_BOTTOM]: points.leftBottomPoint,
+    [OPERATE_RESIZE_HANDLERS.RIGHT_BOTTOM]: points.rightBottomPoint,
   };
 
   return oppositeMap[direction];

@@ -2,7 +2,7 @@ import { computed, toRefs, type Ref } from 'vue';
 import { cloneDeep } from 'lodash-es';
 import { arrObject, getKeys } from '@/utils';
 import { useSlides, useEditor, useKeyboard } from '@/pages/Editor/models';
-import { collectAlignLines, getOppositePoint, getRectElementPoint, uniqueAlignLines } from '../utils';
+import { collectAlignLines, getCurrentPoint, getOppositePoint, getRectElementPoint, uniqueAlignLines } from '../utils';
 import { MIN_SIZE, OPERATE_RESIZE_HANDLERS } from '@/constants';
 
 import type { AlignmentLineProps, PPTElement, AlignLine, PPTLineElement } from '@/types';
@@ -73,13 +73,12 @@ export function useScaleElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
       edgeHeight,
     });
 
-    let basePoint = { x: 0, y: 0 };
-
-    /** 以操作的缩放点相对的点为基点，计算旋转后的基点真实坐标 */
-    if ('rotate' in element && element.rotate) {
-      const points = getRectElementPoint(element);
-      basePoint = getOppositePoint(command, points);
-    }
+    /**
+     *  1: 算出操作点和对角基点
+     */
+    const points = getRectElementPoint(element);
+    const basePoint = getOppositePoint(command, points);
+    const dragPoint = getCurrentPoint(command, points);
 
     const onMouseMove = (e: MouseEvent) => {
       const currentPageX = e.pageX;
@@ -101,89 +100,71 @@ export function useScaleElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
        * 元素在被旋转的情况下，需要根据元素旋转的角度，重新计算元素缩放的距离
        */
       if (originRotate) {
-        let revisedX = Math.cos(rotateRadian) * moveX - Math.sin(rotateRadian) * moveY;
-        let revisedY = Math.sin(rotateRadian) * moveX + Math.cos(rotateRadian) * moveY;
-
         /**
-         * 锁定宽高比例（仅四个角可能触发，四条边不会触发）
-         * 以水平方向上缩放的距离为基础，计算垂直方向上的缩放距离，保持二者具有相同的缩放比例
+         * 2：拖动后新顶点位置
          */
-        if (fixedRatio) {
-          if (command === OPERATE_RESIZE_HANDLERS.RIGHT_BOTTOM || command === OPERATE_RESIZE_HANDLERS.LEFT_TOP) {
-            revisedY = revisedY / aspectRatio;
-          } else if (command === OPERATE_RESIZE_HANDLERS.LEFT_BOTTOM || command === OPERATE_RESIZE_HANDLERS.RIGHT_TOP) {
-            revisedY = -revisedY / aspectRatio;
-          }
-        }
+        const newDragPoint = {
+          x: dragPoint.x + moveX,
+          y: dragPoint.y + moveY,
+        };
 
         /**
-         * 根据不同的操作点分别计算缩放后的大小和位置
-         * 注意：
-         *
-         * 1. 此处计算的位置需要在后面重新进行校正，因为旋转后再缩放事实上会改变元素基点的位置
-         *    （虽然视觉上基点保持不动，但这是【旋转】+【移动】共同作用的结果）
-         * 2. 但此处计算的大小不需要重新校正，因为前面已经重新计算需要缩放的距离，相当于大小已经经过了校正
+         * 3: 定义局部坐标系
+         */
+        const cosA = Math.cos(rotateRadian);
+        const sinA = Math.sin(rotateRadian);
+        const u = { x: cosA, y: sinA }; // 宽方向
+        const v = { x: -sinA, y: cosA }; // 高方向
+
+        /**
+         * 4: 投影到局部坐标系，算宽高
+         */
+        const vec = { x: newDragPoint.x - basePoint.x, y: newDragPoint.y - basePoint.y };
+        const newWidth = Math.abs(vec.x * u.x + vec.y * u.y);
+        const newHeight = Math.abs(vec.x * v.x + vec.y * v.y);
+
+        /**
+         * 5: 根据操作点，算出缩放后的宽高
+         * 角点会影响宽和高
+         * 中点仅会影响其中的一个
          */
         switch (command) {
           case OPERATE_RESIZE_HANDLERS.RIGHT_BOTTOM:
-            width = getSizeWithinRange(originWidth + revisedX, 'width');
-            height = getSizeWithinRange(originHeight + revisedY, 'height');
-            break;
-          case OPERATE_RESIZE_HANDLERS.LEFT_TOP:
-            width = getSizeWithinRange(originWidth - revisedX, 'width');
-            height = getSizeWithinRange(originHeight - revisedY, 'height');
-            // left = originLeft - revisedX;
-            // top = originTop - revisedY;
-            break;
           case OPERATE_RESIZE_HANDLERS.LEFT_BOTTOM:
-            width = getSizeWithinRange(originWidth - revisedX, 'width');
-            height = getSizeWithinRange(originHeight + revisedY, 'height');
-            // top = originTop + revisedY;
-            break;
+          case OPERATE_RESIZE_HANDLERS.LEFT_TOP:
           case OPERATE_RESIZE_HANDLERS.RIGHT_TOP:
-            width = getSizeWithinRange(originWidth + revisedX, 'width');
-            height = getSizeWithinRange(originHeight - revisedY, 'height');
-            // top = originTop - (height - originHeight);
-            break;
-          case OPERATE_RESIZE_HANDLERS.RIGHT:
-            width = getSizeWithinRange(originWidth + revisedX, 'width');
+            width = getSizeWithinRange(newWidth, 'width');
+            height = getSizeWithinRange(newHeight, 'height');
             break;
           case OPERATE_RESIZE_HANDLERS.LEFT:
-            width = getSizeWithinRange(originWidth - revisedX, 'width');
-            left = originLeft - revisedX;
+          case OPERATE_RESIZE_HANDLERS.RIGHT:
+            width = getSizeWithinRange(newWidth, 'width');
             break;
           case OPERATE_RESIZE_HANDLERS.TOP:
-            height = getSizeWithinRange(originHeight - revisedY, 'height');
-            // top = originTop - revisedY;
-            break;
           case OPERATE_RESIZE_HANDLERS.BOTTOM:
-            height = getSizeWithinRange(originHeight + revisedY, 'height');
-            break;
-          default:
+            height = getSizeWithinRange(newHeight, 'height');
             break;
         }
 
-        /** 获取当前元素的基点坐标，与初始状态基点坐标进行对比，并计算差值进行元素位置的矫正 */
-        const currentPoints = getRectElementPoint({ width, height, left, top, rotate: originRotate });
-        const currentOppositePoint = getOppositePoint(command, currentPoints);
-        const currentBaseLeft = currentOppositePoint.x;
-        const currentBaseTop = currentOppositePoint.y;
+        /**
+         * 6: 保持基点不变，反推left top
+         */
+        const newPoints = getRectElementPoint({
+          width,
+          height,
+          left: 0,
+          top: 0,
+          rotate: originRotate,
+        });
+        const newOpposite = getOppositePoint(command, newPoints);
 
-        const offsetX = currentBaseLeft - basePoint.x;
-        const offsetY = currentBaseTop - basePoint.y;
-
-        left = originLeft - offsetX;
-        top = originTop - offsetY;
-
-        console.log('moveX', moveX, 'revisedX', revisedX);
-        console.log('moveY', moveY, 'revisedY', revisedY);
-        console.log('width', width);
-        console.log('height', height);
+        /** 基点偏移修正 */
+        left = basePoint.x - newOpposite.x;
+        top = basePoint.y - newOpposite.y;
       } else {
         /**
          * 元素未被旋转的情况下，直接根据操作点计算缩放后的大小和位置
          */
-
         if (fixedRatio) {
           if (command === OPERATE_RESIZE_HANDLERS.RIGHT_BOTTOM || command === OPERATE_RESIZE_HANDLERS.LEFT_TOP) {
             moveY = moveY / aspectRatio;

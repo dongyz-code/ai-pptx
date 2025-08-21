@@ -3,6 +3,8 @@
     <resize-handler
       v-for="item in operate.resizeHandlers"
       :style="{ ...item.style }"
+      :direction="item.direction"
+      :rotate="element.rotate"
       @mousedown.nativate="($event: MouseEvent) => scaleElement($event, element, item.direction)"
     ></resize-handler>
     <BorderLine v-for="item in operate.borderLines" :key="item.type" :type="item.type" :style="item.style" />

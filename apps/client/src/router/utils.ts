@@ -6,5 +6,6 @@ export type RouteItem = Omit<RouteRecordRaw, 'name'> & {
 };
 
 export function getRoute(routes: RouteItem[]) {
+  /** 暂无其他定制，直接返回 */
   return routes as RouteRecordRaw[];
 }

@@ -1,19 +1,30 @@
-export function arrObject<T extends string | number>(arr?: T[]): Record<string, true>;
-export function arrObject<T extends Record<string, any>, F extends keyof T>(
+type ConditionalKeys<T, K> = keyof T;
+type ItemA = number | string;
+interface ItemB {
+  [key: string]: any;
+}
+/**
+ * 数组对象化
+ */
+export function arrObject<T extends ItemA>(arr: T[]): Record<string, true>;
+export function arrObject<T extends ItemB, K extends ConditionalKeys<T, ItemA>>(
   arr: T[],
-  key: F,
-  value: true,
-): Record<F, true>;
-export function arrObject<T extends Record<string, any>, F extends keyof T>(arr: T[], key: F): Record<F, T>;
-export function arrObject<T extends Record<string, any>, F extends keyof T, V extends keyof T>(
+  key: K | K[]
+): Record<string, T>;
+export function arrObject<T extends ItemB, K extends ConditionalKeys<T, ItemA>, U extends boolean>(
   arr: T[],
-  key: F,
-  value: V,
-): Record<F, T[V]>;
+  key: K | K[],
+  bool: U
+): Record<string, U>;
+export function arrObject<T extends ItemB, K extends ConditionalKeys<T, ItemA>, U extends keyof T>(
+  arr: T[],
+  key: K | K[],
+  bool: U
+): Record<string, T[U]>;
 export function arrObject<T extends Record<string, any>, F extends keyof T, V extends keyof T>(
   arr: T[] | string[] | number[],
-  key?: F,
-  value?: V | true,
+  key?: string,
+  value?: V | true
 ) {
   const map = {} as Record<string, T | T[V] | true>;
 
@@ -25,6 +36,7 @@ export function arrObject<T extends Record<string, any>, F extends keyof T, V ex
     if (typeof item === 'string' || typeof item === 'number') {
       map[item as string] = true;
     } else if (!key) {
+      map[item as unknown as string] = true;
     } else if (value === true) {
       map[item[key]] = true;
     } else if (typeof value === 'string') {

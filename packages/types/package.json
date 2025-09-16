@@ -1,7 +1,8 @@
 {
-  "name": "@global/types",
+  "name": "@pkg/types",
   "version": "1.0.0",
   "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {},
   "keywords": [],
   "author": "",

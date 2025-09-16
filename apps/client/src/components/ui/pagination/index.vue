@@ -1,5 +1,6 @@
 <template>
   <Paginator
+    :first="pageData.current"
     :rows="pageData.pageSize"
     :rowsPerPageOptions="pageData.pageSizes"
     :total-records="pageData.total"

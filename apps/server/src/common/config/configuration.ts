@@ -8,15 +8,15 @@ const __dirname = import.meta.dirname;
 
 export const getConfig = () => {
   /** 项目根目录 */
-  const root_dir = path.join(__dirname, '../..');
+  const root_dir = path.join(__dirname, '../../..');
   /** 项目SRC目录 */
-  const src_dir = path.join(__dirname, '..');
+  const src_dir = path.join(__dirname, '../..');
   /** 项目静态资源目录 */
   const static_dir = path.join(root_dir, './static');
   /** 日志目录 */
   const log_dir = path.join(root_dir, './logs');
   /** 配置文件目录 */
-  const config_dir = path.join(root_dir, './config');
+  const config_dir = path.join(root_dir, './.conf');
 
   const rootConf = (() => {
     try {

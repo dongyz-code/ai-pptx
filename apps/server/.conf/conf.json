@@ -1,0 +1,22 @@
+{
+  "app": {
+    "port": 3000,
+    "environment": "development",
+    "jwtSecret": "test-secret",
+    "jwtExpiresIn": "7d"
+  },
+  "pg": {
+    "host": "localhost",
+    "port": 5432,
+    "database": "test",
+    "user": "test",
+    "password": "test",
+    "schema": "public"
+  },
+  "redis": {
+    "host": "localhost",
+    "port": 6379,
+    "username": "",
+    "password": ""
+  }
+}

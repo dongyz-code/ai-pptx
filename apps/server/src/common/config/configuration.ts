@@ -8,9 +8,9 @@ const __dirname = import.meta.dirname;
 
 export const getConfig = () => {
   /** 项目根目录 */
-  const root_dir = path.join(__dirname, '../..');
+  const root_dir = path.join(__dirname, '../../..');
   /** 项目SRC目录 */
-  const src_dir = path.join(__dirname, '..');
+  const src_dir = path.join(__dirname, '../..');
   /** 项目静态资源目录 */
   const static_dir = path.join(root_dir, './static');
   /** 日志目录 */

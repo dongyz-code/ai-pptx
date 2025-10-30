@@ -16,7 +16,7 @@ export const getConfig = () => {
   /** 日志目录 */
   const log_dir = path.join(root_dir, './logs');
   /** 配置文件目录 */
-  const config_dir = path.join(root_dir, './config');
+  const config_dir = path.join(root_dir, './.conf');
 
   const rootConf = (() => {
     try {

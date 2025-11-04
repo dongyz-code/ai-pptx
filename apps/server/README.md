@@ -32,29 +32,7 @@ pnpm install
 
 ### Configuration
 
-#### Environment Variables
-
-Create a `.env` file or set environment variables:
-
-```bash
-# Server
-NODE_ENV=development
-PORT=3000
-
-# Redis - Option 1: Connection URL (recommended)
-REDIS_URL=redis://localhost:6379/0
-
-# Redis - Option 2: Individual settings
-REDIS_HOST=localhost
-REDIS_PORT=6379
-REDIS_PASSWORD=
-REDIS_DB=0
-REDIS_TLS=false
-```
-
-#### Configuration File
-
-Edit `.conf/conf.json` for additional configuration:
+所有配置都通过 `.conf/conf.json` 文件管理。编辑该文件以配置应用：
 
 ```json
 {
@@ -81,7 +59,14 @@ Edit `.conf/conf.json` for additional configuration:
 }
 ```
 
-**Note**: Environment variables take precedence over config file values.
+#### Redis 配置说明
+
+- `host`: Redis 服务器地址
+- `port`: Redis 端口（默认 6379）
+- `username`: Redis 用户名（可选）
+- `password`: Redis 密码（可选）
+
+环境变量（如 `NODE_ENV` 和 `PORT`）可通过 `.env` 文件或系统环境变量设置。
 
 ### Running the Server
 
@@ -271,20 +256,32 @@ pnpm test:e2e
 - Node.js 18+ runtime
 - Environment variables configured
 
-### Environment Variables (Production)
+### 生产环境配置
+
+在生产环境中，编辑 `.conf/conf.json` 文件：
+
+```json
+{
+  "app": {
+    "port": 3000,
+    "environment": "production",
+    "jwtSecret": "your-production-secret",
+    "jwtExpiresIn": "7d"
+  },
+  "redis": {
+    "host": "redis.example.com",
+    "port": 6379,
+    "username": "your-username",
+    "password": "your-strong-password"
+  }
+}
+```
+
+环境变量：
 
 ```bash
 NODE_ENV=production
 PORT=3000
-
-# Redis with TLS
-REDIS_URL=rediss://username:password@redis.example.com:6379/0
-
-# Or
-REDIS_HOST=redis.example.com
-REDIS_PORT=6379
-REDIS_PASSWORD=strongpassword
-REDIS_TLS=true
 ```
 
 ### Docker Deployment
@@ -295,13 +292,13 @@ Build production image:
 docker build -t ai-pptx-server:latest -f .dockerfile .
 ```
 
-Run container:
+Run container (需要挂载配置文件):
 
 ```bash
 docker run -d \
   -p 3000:3000 \
+  -v /path/to/conf:/app/.conf \
   -e NODE_ENV=production \
-  -e REDIS_URL=redis://redis:6379 \
   ai-pptx-server:latest
 ```
 
@@ -329,27 +326,32 @@ Expected response when healthy:
 
 ### Redis Connection Issues
 
-If you see `Failed to connect to Redis` errors:
+如果看到 `Failed to connect to Redis` 错误：
 
-1. Verify Redis is running:
+1. 验证 Redis 正在运行:
    ```bash
    redis-cli ping
-   # Should return: PONG
+   # 应该返回: PONG
    ```
 
-2. Check connection settings:
-   ```bash
-   echo $REDIS_URL
-   # or
-   echo $REDIS_HOST
+2. 检查配置文件 `.conf/conf.json` 中的 Redis 配置:
+   ```json
+   {
+     "redis": {
+       "host": "localhost",
+       "port": 6379,
+       "username": "",
+       "password": ""
+     }
+   }
    ```
 
-3. Test connection manually:
+3. 手动测试连接:
    ```bash
    redis-cli -h localhost -p 6379 ping
    ```
 
-4. Check Redis logs for authentication issues
+4. 检查 Redis 日志以排查认证问题
 
 ### Port Already in Use
 

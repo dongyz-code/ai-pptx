@@ -20,29 +20,7 @@ Dependencies are already installed:
 
 ## Configuration
 
-### Environment Variables
-
-Configure Redis connection using environment variables:
-
-#### Option 1: Using REDIS_URL (Recommended)
-```bash
-REDIS_URL=redis://username:password@host:6379/0
-# Or with TLS
-REDIS_URL=rediss://username:password@host:6379/0
-```
-
-#### Option 2: Using Individual Variables
-```bash
-REDIS_HOST=localhost
-REDIS_PORT=6379
-REDIS_PASSWORD=mypassword
-REDIS_DB=0
-REDIS_TLS=true  # Optional, set to 'true' to enable TLS
-```
-
-### Configuration File
-
-The module also supports configuration via `.conf/conf.json`:
+Redis 配置通过 `.conf/conf.json` 文件管理：
 
 ```json
 {
@@ -55,7 +33,14 @@ The module also supports configuration via `.conf/conf.json`:
 }
 ```
 
-**Note**: Environment variables take precedence over configuration file values.
+### 配置项说明
+
+- `host`: Redis 服务器地址（必填）
+- `port`: Redis 端口，默认 6379（必填）
+- `username`: Redis 用户名（可选）
+- `password`: Redis 密码（可选）
+
+模块会在启动时自动从配置文件读取这些设置并建立连接。
 
 ## Usage
 
@@ -311,9 +296,16 @@ pnpm test id.service.spec.ts
 docker run -d -p 6379:6379 redis:alpine
 ```
 
-2. Set environment variable:
-```bash
-export REDIS_HOST=localhost
+2. 确保 `.conf/conf.json` 中的 Redis 配置正确:
+```json
+{
+  "redis": {
+    "host": "localhost",
+    "port": 6379,
+    "username": "",
+    "password": ""
+  }
+}
 ```
 
 3. Start the server:

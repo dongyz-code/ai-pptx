@@ -27,10 +27,10 @@ const cursorAngle = computed(() => {
       return props.rotate + 90;
     case OPERATE_RESIZE_HANDLERS.LEFT_TOP:
     case OPERATE_RESIZE_HANDLERS.RIGHT_BOTTOM:
-      return 90;
+      return props.rotate - 45;
     case OPERATE_RESIZE_HANDLERS.RIGHT_TOP:
     case OPERATE_RESIZE_HANDLERS.LEFT_BOTTOM:
-      return 0;
+      return props.rotate + 45;
     default:
       return 0;
   }
@@ -43,7 +43,7 @@ const createRotateCursor = async () => {
   return new Promise<string>((resolve) => {
     img.onload = () => {
       const canvas = document.createElement('canvas');
-      const size = Math.max(img.width, img.height);
+      const size = 24;
       canvas.width = size;
       canvas.height = size;
       const ctx = canvas.getContext('2d');
@@ -60,8 +60,7 @@ const createRotateCursor = async () => {
 
 watchEffect(async () => {
   const img = await createRotateCursor();
-  console.log(img);
-  cursor.value = `url(${img}) 8 8, auto`;
+  cursor.value = `url(${img}) 12 12, auto`;
 });
 </script>
 

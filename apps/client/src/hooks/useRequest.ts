@@ -23,10 +23,10 @@ export type RequestOptions<P extends object, R extends object> = {
   /** 缓存时间 */
   cacheTime: number;
 
-  /**  延迟显示 loading 效果的时间，默认为 0 */
+  /** 延迟显示 loading 效果的时间，默认为 0 */
   loadingDelay: number;
 
-  /**  最短显示 loading 效果的时间，默认为 0 */
+  /** 最短显示 loading 效果的时间，默认为 0 */
   loadingKeep: number;
 
   /** 需要节流毫秒数 */

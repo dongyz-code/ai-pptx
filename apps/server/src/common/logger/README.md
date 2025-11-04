@@ -19,7 +19,7 @@
 
 ## 日志文件
 
-生产环境下，日志文件保存在 `apps/server/logs/` 目录：
+生产环境下，日志文件保存在 `apps/server/static/logs/` 目录：
 
 - `app.log` - 全量日志（每日轮转，gzip 压缩，保留 30 天）
 - `error.log` - 错误日志（每日轮转，gzip 压缩，保留 30 天）

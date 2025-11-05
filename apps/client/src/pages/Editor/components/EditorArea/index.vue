@@ -43,10 +43,10 @@ const onDoubleClickBlankArea = (e: MouseEvent) => {
 </script>
 
 <template>
-  <div class="editor-wrapper relative" ref="wrapperRef">
+  <div class="editor-wrapper relative overflow-hidden" ref="wrapperRef">
     <div
       id="editor-canvas"
-      class="canvas absolute transform-gpu shadow-lg"
+      class="canvas absolute transform-gpu overflow-hidden shadow-lg"
       :style="positionStyle"
       @mousedown="onClickBlankArea"
       @dblclick="onDoubleClickBlankArea"

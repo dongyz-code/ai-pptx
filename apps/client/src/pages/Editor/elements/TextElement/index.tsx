@@ -55,7 +55,6 @@ const TextElement = defineComponent({
           wordSpacing: `${props.element?.wordSpace}px`,
           writingMode: props.element?.vertical ? 'vertical-rl' : 'horizontal-tb',
         }}
-        onMousedown={onMouseDown}
         onDblclick={onActive}
       >
         <TiptapEditor
@@ -68,7 +67,9 @@ const TextElement = defineComponent({
           }}
         />
 
-        {!editable.value && <div class="absolute left-0 top-0 h-full w-full cursor-move"></div>}
+        {!editable.value && (
+          <div class="absolute left-0 top-0 h-full w-full cursor-move select-none" onMousedown={onMouseDown}></div>
+        )}
       </div>
     );
   },

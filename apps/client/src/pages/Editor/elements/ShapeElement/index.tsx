@@ -1,7 +1,7 @@
 import { defineComponent, computed, PropType } from 'vue';
 import GradientDefs from './GradientDefs';
-import type { PPTShapeElement } from '@/types';
 import { useElementFlip } from '../../hooks';
+import type { PPTShapeElement } from '@/types';
 
 const ShapeElement = defineComponent({
   name: 'ShapeElement',

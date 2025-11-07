@@ -1,6 +1,6 @@
 <template>
   <div
-    class="opreate-wrapper absolute"
+    class="operator-wrapper absolute"
     :style="{
       left: element.left + 'px',
       top: element.top + 'px',

@@ -11,7 +11,7 @@ export function useViewportSize(wrapperRef: Ref<HTMLDivElement | undefined>) {
   const canvasLeft = ref(0);
   const canvasTop = ref(0);
 
-  const initViewportSize = () => {
+  const updateViewportSize = () => {
     const dom = wrapperRef.value;
     if (!dom) return;
 
@@ -33,11 +33,22 @@ export function useViewportSize(wrapperRef: Ref<HTMLDivElement | undefined>) {
     }
   };
 
-  // watch(() => editorState.viewportPercent, initViewportSize);
-  watch(() => editorState.viewportSize, initViewportSize);
-  watch(() => editorState.viewportRatio, initViewportSize);
+  const updateCanvasPosition = () => {
+    const dom = wrapperRef.value;
+    if (!dom) return;
 
-  const observer = new ResizeObserver(initViewportSize);
+    const { width, height } = dom.getBoundingClientRect();
+    const viewportHeight = height * editorState.viewportPercent;
+    const viewportWidth = viewportHeight * editorState.viewportRatio;
+    canvasLeft.value = (width - viewportWidth) / 2;
+    canvasTop.value = (height - viewportHeight) / 2;
+  };
+
+  watch(() => editorState.viewportScale, updateCanvasPosition);
+  watch(() => editorState.viewportSize, updateViewportSize);
+  watch(() => editorState.viewportRatio, updateViewportSize);
+
+  const observer = new ResizeObserver(updateViewportSize);
 
   onMounted(() => {
     if (wrapperRef.value) {

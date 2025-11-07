@@ -1,7 +1,14 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { useEditor, useSlides } from '../../models';
-import { useViewportSize, useDragElement, useSelectElement, useSelectedElements, useScaleElement } from '../../hooks';
+import { useEditor, useKeyboard, useSlides } from '../../models';
+import {
+  useViewportSize,
+  useDragElement,
+  useSelectElement,
+  useSelectedElements,
+  useScaleElement,
+  useScaleCanvas,
+} from '../../hooks';
 
 import EditorElement from './EditorElement';
 import HoverOperator from './Operator/HoverOperator/index.vue';
@@ -14,12 +21,14 @@ import type { AlignmentLineProps } from '@/types';
 const wrapperRef = ref<HTMLDivElement>();
 const { editorState, setHoverElementId, setIsCanvasFocus, setSelectedElementIds } = useEditor();
 const { state } = useSlides();
+const { keyboardState } = useKeyboard();
 const alignmentLineList = ref<AlignmentLineProps[]>([]);
 const { positionStyle } = useViewportSize(wrapperRef);
 const { onInitDragElement } = useDragElement(alignmentLineList);
 const { onSelectElement } = useSelectElement(onInitDragElement);
 const { selectedElements } = useSelectedElements();
 const { scaleElement } = useScaleElement(alignmentLineList);
+const { scaleCanvas } = useScaleCanvas();
 
 const currentSlide = computed(() => state.slides[state.sliderIndex]);
 
@@ -40,10 +49,24 @@ const onDoubleClickBlankArea = (e: MouseEvent) => {
     setIsCanvasFocus(false);
   }
 };
+
+/**
+ * 滚轮滚动
+ */
+const onMouseWheel = (e: WheelEvent) => {
+  e.preventDefault();
+  e.stopPropagation();
+
+  /** 按下Ctrl，缩放画布 */
+  if (keyboardState.isCtrlKey) {
+    scaleCanvas(e.deltaY < 0 ? 'zoomIn' : 'zoomOut');
+    return;
+  }
+};
 </script>
 
 <template>
-  <div class="editor-wrapper relative overflow-hidden" ref="wrapperRef">
+  <div class="editor-wrapper relative overflow-hidden" ref="wrapperRef" @wheel="onMouseWheel">
     <div
       id="editor-canvas"
       class="canvas absolute transform-gpu overflow-hidden shadow-lg"

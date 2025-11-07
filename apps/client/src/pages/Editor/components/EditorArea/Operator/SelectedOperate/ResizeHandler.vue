@@ -1,6 +1,6 @@
 <template>
   <div
-    class="handler border-primary pointer-events-auto absolute z-10 -ml-[5px] -mt-[5px] h-2.5 w-2.5 border bg-white"
+    class="handler pointer-events-auto absolute z-10 -ml-[5px] -mt-[5px] h-3 w-3 rounded-full border border-gray-600 bg-white"
     :style="{ cursor }"
   ></div>
 </template>
@@ -64,4 +64,6 @@ watchEffect(async () => {
 });
 </script>
 
-<style lang="less" scoped></style>
+<style lang="postcss" scoped>
+
+</style>

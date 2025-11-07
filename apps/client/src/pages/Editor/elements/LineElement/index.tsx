@@ -34,7 +34,7 @@ const LineElement = defineComponent({
     const path = computed(() => getLineElementPath(props.element));
 
     /** 线条样式 */
-    const storkeDasharray = computed(() => {
+    const strokeDasharray = computed(() => {
       const { width } = props.element;
       if (props.element.style === 'dashed') {
         return width <= 8 ? `${width * 5} ${width * 2.5}` : `${width * 5} ${width * 1.5}`;
@@ -81,7 +81,7 @@ const LineElement = defineComponent({
             d={path.value}
             stroke={props.element.color}
             stroke-width={props.element.width}
-            stroke-dasharray={storkeDasharray.value}
+            stroke-dasharray={strokeDasharray.value}
             marker-start={props.element.points[0] && `url(#${props.element.id}-${props.element.points[0]}-start)`}
             marker-end={props.element.points[1] && `url(#${props.element.id}-${props.element.points[1]}-end)`}
             fill="null"

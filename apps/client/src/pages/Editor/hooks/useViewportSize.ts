@@ -38,10 +38,10 @@ export function useViewportSize(wrapperRef: Ref<HTMLDivElement | undefined>) {
     if (!dom) return;
 
     const { width, height } = dom.getBoundingClientRect();
-    const viewportHeight = height * editorState.viewportPercent;
-    const viewportWidth = viewportHeight * editorState.viewportRatio;
-    canvasLeft.value = (width - viewportWidth) / 2;
-    canvasTop.value = (height - viewportHeight) / 2;
+    const canvasWidth = editorState.viewportSize * editorState.viewportScale;
+    const canvasHeight = canvasWidth / editorState.viewportRatio;
+    canvasLeft.value = (width - canvasWidth) / 2;
+    canvasTop.value = (height - canvasHeight) / 2;
   };
 
   watch(() => editorState.viewportScale, updateCanvasPosition);

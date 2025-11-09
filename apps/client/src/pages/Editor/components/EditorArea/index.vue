@@ -19,13 +19,17 @@ import AlignmentLine from './AlignmentLine/index.vue';
 import type { AlignmentLineProps } from '@/types';
 
 const wrapperRef = ref<HTMLDivElement>();
+
+/** store 数据 */
 const { editorState, setHoverElementId, setIsCanvasFocus, setSelectedElementIds } = useEditor();
 const { state } = useSlides();
+
+/** hooks 调用 */
 const { keyboardState } = useKeyboard();
 const alignmentLineList = ref<AlignmentLineProps[]>([]);
 const { positionStyle } = useViewportSize(wrapperRef);
-const { onInitDragElement } = useDragElement(alignmentLineList);
-const { onSelectElement } = useSelectElement(onInitDragElement);
+const { onDragElement } = useDragElement(alignmentLineList);
+const { onSelectElement } = useSelectElement(onDragElement);
 const { selectedElements } = useSelectedElements();
 const { scaleElement } = useScaleElement(alignmentLineList);
 const { scaleCanvas } = useScaleCanvas();

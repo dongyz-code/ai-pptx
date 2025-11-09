@@ -20,7 +20,7 @@ export function useDragElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
 
   const elementList = computed(() => slidesStore.state.slides[slidesStore.state.sliderIndex]?.elements || []);
 
-  const onInitDragElement = (e: MouseEvent, element: PPTElement) => {
+  const onDragElement = (e: MouseEvent, element: PPTElement) => {
     /** 非选中元素不处理 */
     if (!selectedElementIds.value.includes(element.id)) return;
 
@@ -231,6 +231,6 @@ export function useDragElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
   };
 
   return {
-    onInitDragElement,
+    onDragElement,
   };
 }

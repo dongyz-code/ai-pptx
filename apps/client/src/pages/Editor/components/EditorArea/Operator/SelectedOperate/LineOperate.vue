@@ -1,48 +1,6 @@
 <template>
   <div>
     <resize-handler v-for="(item, i) in handlers" :key="i" :style="{ ...item.position }"></resize-handler>
-
-    <svg :width="svgWidth || 1" :height="svgHeight || 1" :stroke="element.color">
-      <template v-if="element.curve">
-        <g>
-          <line
-            class="anchor-line"
-            :x1="element.start[0]"
-            :y1="element.start[1]"
-            :x2="element.curve[0]"
-            :y2="element.curve[1]"
-          ></line>
-          <line
-            class="anchor-line"
-            :x1="element.end[0]"
-            :y1="element.end[1]"
-            :x2="element.curve[0]"
-            :y2="element.curve[1]"
-          ></line>
-        </g>
-      </template>
-      <template v-if="element.cubic">
-        <g v-for="(item, index) in element.cubic" :key="index">
-          <line
-            class="anchor-line"
-            v-if="index === 0"
-            :x1="element.start[0]"
-            :y1="element.start[1]"
-            :x2="item[0]"
-            :y2="item[1]"
-            fill="#FF0000"
-          ></line>
-          <line
-            class="anchor-line"
-            v-if="index === 1"
-            :x1="element.end[0]"
-            :y1="element.end[1]"
-            :x2="item[0]"
-            :y2="item[1]"
-          ></line>
-        </g>
-      </template>
-    </svg>
   </div>
 </template>
 
@@ -55,9 +13,6 @@ import { PPTLineElement, OperateLineHandlers } from '@/types';
 const props = defineProps<{
   element: PPTLineElement;
 }>();
-
-const svgWidth = computed(() => Math.max(props.element.start[0], props.element.end[0]));
-const svgHeight = computed(() => Math.max(props.element.start[1], props.element.end[1]));
 
 const handlers = computed(() => {
   const handlers: {
@@ -94,24 +49,26 @@ const handlers = computed(() => {
         top: p[1] + 'px',
       },
     });
-  } else if (props.element.broken2) {
+  } else if (props.element.cubic) {
+    const [c1, c2] = props.element.cubic;
+    handlers.push({
+      type: OperateLineHandlers.C1,
+      position: {
+        left: c1[0] + 'px',
+        top: c1[1] + 'px',
+      },
+    });
+    handlers.push({
+      type: OperateLineHandlers.C2,
+      position: {
+        left: c2[0] + 'px',
+        top: c2[1] + 'px',
+      },
+    });
   }
 
   return handlers;
 });
 </script>
 
-<style lang="scss" scoped>
-svg {
-  position: absolute;
-  left: 0;
-  top: 0;
-  pointer-events: none;
-  transform-origin: 0 0;
-}
-.anchor-line {
-  stroke-width: 1px;
-  stroke-dasharray: 5 5;
-  opacity: 0.5;
-}
-</style>
+<style lang="scss" scoped></style>

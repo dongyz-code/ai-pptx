@@ -1,5 +1,6 @@
-import { reactive } from 'vue';
+import { computed, reactive } from 'vue';
 import { defineStore, acceptHMRUpdate } from 'pinia';
+import { arrObject } from '@/utils';
 
 interface EditorState {
   /** 是否全屏 */
@@ -43,6 +44,8 @@ export const useEditor = defineStore('editor', () => {
     isScaling: false,
   });
 
+  const selectedIdMap = computed(() => arrObject(editorState.selectedElementIds));
+
   const setViewportSize = (size: number) => {
     editorState.viewportSize = size;
   };
@@ -69,6 +72,7 @@ export const useEditor = defineStore('editor', () => {
 
   return {
     editorState,
+    selectedIdMap,
     setViewportSize,
     setViewportScale,
     setSelectedElementIds,

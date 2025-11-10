@@ -17,6 +17,7 @@ import MultipleSelectedOperator from './Operator/MultipleSelectedOperator/index.
 import AlignmentLine from './AlignmentLine/index.vue';
 
 import type { AlignmentLineProps } from '@/types';
+import { useDragLineOperator } from '../../hooks/useDragLineOperator';
 
 const wrapperRef = ref<HTMLDivElement>();
 
@@ -29,6 +30,7 @@ const { keyboardState } = useKeyboard();
 const alignmentLineList = ref<AlignmentLineProps[]>([]);
 const { positionStyle } = useViewportSize(wrapperRef);
 const { onDragElement } = useDragElement(alignmentLineList);
+const { onDragLineOperator } = useDragLineOperator();
 const { onSelectElement } = useSelectElement(onDragElement);
 const { selectedElements } = useSelectedElements();
 const { scaleElement } = useScaleElement(alignmentLineList);
@@ -88,6 +90,7 @@ const onMouseWheel = (e: WheelEvent) => {
           :element="element"
           :z-index="index + 1"
           :selectElement="onSelectElement"
+          :dragLineOperator="onDragLineOperator"
         />
       </div>
     </div>
@@ -106,6 +109,7 @@ const onMouseWheel = (e: WheelEvent) => {
           :key="element.id"
           :element="element"
           :scale-element="scaleElement"
+          :drag-line-element="onDragLineOperator"
         />
 
         <!-- 吸附对齐线 -->

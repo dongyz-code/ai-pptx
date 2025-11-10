@@ -347,7 +347,7 @@ export type LinePoint = '' | 'arrow' | 'dot';
  *
  * cubic?: 三次曲线控制点位置（[[x1, y1], [x2, y2]]）
  */
-export interface PPTLineElement extends Omit<PPTBaseElement, 'height'> {
+export interface PPTLineElement extends Omit<PPTBaseElement, 'height' | 'rotate'> {
   type: 'line';
   start: [number, number];
   end: [number, number];

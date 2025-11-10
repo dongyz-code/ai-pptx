@@ -1,12 +1,11 @@
 import { defineComponent } from 'vue';
 import { Button } from 'primevue';
+import { useAction } from './useAction';
 
 const MaterialArea = defineComponent({
   name: 'MaterialArea',
   setup() {
-    const onAddText = () => {
-      console.log('添加文字');
-    };
+    const { onAddText } = useAction();
 
     return () => (
       <div>

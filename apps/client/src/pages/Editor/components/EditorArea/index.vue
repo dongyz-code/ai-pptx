@@ -90,7 +90,6 @@ const onMouseWheel = (e: WheelEvent) => {
           :element="element"
           :z-index="index + 1"
           :selectElement="onSelectElement"
-          :dragLineOperator="onDragLineOperator"
         />
       </div>
     </div>

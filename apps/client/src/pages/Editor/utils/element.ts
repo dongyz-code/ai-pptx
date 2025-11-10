@@ -303,6 +303,9 @@ export function getLineElementPath(element: PPTLineElement) {
   return `M${start} L${end}`;
 }
 
+/**
+ * 获取基本元素8个拖拽点
+ */
 export function getCommonOperate(width: number, height: number) {
   const halfWidth = width / 2;
   const halfHeight = height / 2;

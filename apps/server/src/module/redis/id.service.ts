@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { RedisService } from './redis.service.js';
-import dayjs = require('dayjs');
+import dayjs from 'dayjs';
 
 export type IdStrategy = 'incr' | 'xadd';
 

@@ -1,4 +1,4 @@
-import { defineComponent, Transition } from 'vue';
+import { defineComponent, FunctionalComponent, Transition } from 'vue';
 import { RouterView } from 'vue-router';
 
 const BasicLayout = defineComponent({
@@ -7,7 +7,7 @@ const BasicLayout = defineComponent({
     return () => (
       <div>
         <RouterView>
-          {({ Component }: any) => (
+          {({ Component }: { Component: FunctionalComponent }) => (
             <Transition name="fade">
               <Component />
             </Transition>

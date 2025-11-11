@@ -1,6 +1,6 @@
 :root {
   /* size */
-  --header-height: 64px;
+  --header-height: 56px;
   --body-height: calc(100vh - var(--header-height));
   --sidebar-width: 300px;
 }

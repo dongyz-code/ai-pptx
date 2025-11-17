@@ -1,3 +1,5 @@
-export { default as 'tabler:error-404' } from '~icons/tabler/error-404';
-export { default as 'weui:arrow-filled' } from '~icons/weui/arrow-filled';
-export { default as 'weui:arrow-outlined' } from '~icons/weui/arrow-outlined';
+export default {
+  'tabler:error-404': async () => (await import('~icons/tabler/error-404')).default,
+  'weui:arrow-filled': async () => (await import('~icons/weui/arrow-filled')).default,
+  'weui:arrow-outlined': async () => (await import('~icons/weui/arrow-outlined')).default,
+};

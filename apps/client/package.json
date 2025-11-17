@@ -4,9 +4,10 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "pnpm run gen:icons && vite",
     "build": "vue-tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "gen:icons": "node src/components/ui/icon/run.mjs"
   },
   "dependencies": {
     "@iconify/vue": "^5.0.0",

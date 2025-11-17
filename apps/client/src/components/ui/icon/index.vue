@@ -1,37 +1,71 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import * as IconifyIcons from './iconify-icons';
-import * as LocalIcons from './local-icons';
+import { computed, defineAsyncComponent, type Component } from 'vue';
+import IconifyIcons from './iconify-icons';
+import LocalIcons from './local-icons';
+import type { IconName } from './types';
 
-const props = defineProps<{
+export interface IconProps {
+  /** 图标名称 */
   icon: IconName;
-}>();
+  /** 图标大小，默认 1em */
+  size?: string | number;
+  /** 图标颜色，默认 currentColor */
+  color?: string;
+}
 
-const iconMap = {
+const props = withDefaults(defineProps<IconProps>(), {
+  size: '1em',
+  color: 'currentColor',
+});
+
+// 图标映射表 - 合并所有图标（异步加载函数）
+const iconMap: Record<string, () => Promise<Component>> = {
   ...IconifyIcons,
   ...LocalIcons,
 };
 
-type IconName = keyof typeof IconifyIcons | keyof typeof LocalIcons;
-
 /**
- * 找到图标组件
+ * 动态获取图标组件（异步加载）
  */
 const IconComponent = computed(() => {
-  const icon = iconMap[props.icon];
+  const iconLoader = iconMap[props.icon];
 
-  if (!icon) {
-    console.error(`Icon ${props.icon} not found`);
+  if (!iconLoader) {
+    if (import.meta.env.DEV) {
+      console.error(`[Icon] 图标未找到: "${props.icon}"`);
+    }
+    return null;
   }
 
-  return icon;
+  // 将异步加载函数转换为异步组件
+  return defineAsyncComponent(iconLoader);
+});
+
+/**
+ * 计算图标尺寸
+ */
+const computedSize = computed(() => {
+  if (typeof props.size === 'number') {
+    return `${props.size}px`;
+  }
+  return props.size;
 });
 </script>
 
 <template>
-  <component :is="IconComponent" height="1em" width="1em" color="currentColor" />
+  <component
+    :is="IconComponent"
+    v-if="IconComponent"
+    :height="computedSize"
+    :width="computedSize"
+    :color="color"
+  />
 </template>
 
-<style lang="less" scoped>
-
+<style scoped>
+/* 确保图标继承父元素的字体大小和颜色 */
+svg {
+  display: inline-block;
+  vertical-align: middle;
+}
 </style>

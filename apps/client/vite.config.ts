@@ -34,6 +34,16 @@ export default defineConfig({
     Icons({
       compiler: 'vue3',
       autoInstall: true,
+      customCollections: {
+        // 支持本地 SVG 图标
+        local: {
+          iconDir: './src/assets/svg-icons',
+        },
+      },
+      // 默认样式
+      defaultStyle: 'display: inline-block;',
+      // 默认类名
+      defaultClass: 'icon',
     }),
   ],
 });

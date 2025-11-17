@@ -9,7 +9,7 @@ const MaterialArea = defineComponent({
 
     return () => (
       <div>
-        <Button label="添加文字" onClick={onAddText} />
+        <Button label="添加文字" onClick={() => onAddText} />
       </div>
     );
   },

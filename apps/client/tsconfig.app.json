@@ -22,7 +22,8 @@
     "noFallthroughCasesInSwitch": true,
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "types": ["unplugin-icons/types/vue"]
   },
   "include": ["./src/**/*.ts", "./src/**/*.tsx", "./src/**/*.vue"]
 }

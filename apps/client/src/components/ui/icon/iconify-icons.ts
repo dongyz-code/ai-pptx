@@ -1,5 +1,13 @@
 export default {
+  'solar:text-bold': async () => (await import('~icons/solar/text-bold')).default,
+  'fluent:shapes-24-regular': async () => (await import('~icons/fluent/shapes-24-regular')).default,
+  'mage:image-fill': async () => (await import('~icons/mage/image-fill')).default,
+  'mdi:plus': async () => (await import('~icons/mdi/plus')).default,
   'tabler:error-404': async () => (await import('~icons/tabler/error-404')).default,
   'weui:arrow-filled': async () => (await import('~icons/weui/arrow-filled')).default,
   'weui:arrow-outlined': async () => (await import('~icons/weui/arrow-outlined')).default,
+  'uil:line-alt': async () => (await import('~icons/uil/line-alt')).default,
+  'majesticons:table': async () => (await import('~icons/majesticons/table')).default,
+  'ajesticons:table': async () => (await import('~icons/ajesticons/table')).default,
+  'teenyicons:donut-chart-solid': async () => (await import('~icons/teenyicons/donut-chart-solid')).default,
 };

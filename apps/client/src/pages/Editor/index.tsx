@@ -16,11 +16,9 @@ const Editor = defineComponent({
     return () => (
       <div>
         <VHeader />
-        <div class="flex h-[var(--body-height)]">
-          <div class="w-[var(--sidebar-width)] flex-shrink-0">
-            <MaterialArea />
-          </div>
-          <div class="flex w-[calc(100%-var(--sidebar-width))] flex-shrink flex-grow flex-col bg-slate-100">
+        <div class="flex h-[var(--body-height)] bg-slate-100">
+          <MaterialArea class="flex-shrink-0" />
+          <div class="flex w-[calc(100%-var(--sidebar-width))] flex-shrink flex-grow flex-col">
             <EditorArea class="flex-1" />
             <Sliders />
             <Footer />

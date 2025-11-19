@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { useSlides } from '../../models/slider';
 import { useDraggable } from 'vue-draggable-plus';
 
-import Icon from '@/components/ui/icon';
+import { VIcon } from '@/components/ui';
 
 const Slider = defineComponent({
   name: 'Slider',
@@ -19,7 +19,7 @@ const Slider = defineComponent({
 
     return () => (
       <div class="scroll-bar w-full overflow-x-auto">
-        <div ref={dragRef} class="flex h-20 py-2">
+        <div ref={dragRef} class="flex h-20 justify-center py-2">
           {state.slides.map((slide, index) => (
             <div
               key={slide.id}
@@ -37,10 +37,10 @@ const Slider = defineComponent({
           ))}
 
           <div
-            class="flex h-full w-28 flex-shrink-0 cursor-pointer items-center justify-center rounded bg-slate-400 text-xl"
+            class="flex h-full w-28 flex-shrink-0 cursor-pointer items-center justify-center rounded bg-slate-400 text-xl text-white"
             onClick={() => addSlide()}
           >
-            <Icon name="plus" />
+            <VIcon icon="mdi:plus" />
           </div>
         </div>
       </div>

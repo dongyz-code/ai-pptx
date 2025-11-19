@@ -8,7 +8,19 @@ const __dirname = import.meta.dirname;
  * 使用格式: 'collection:icon-name'
  * 可用集合: https://icon-sets.iconify.design/
  */
-const iconifyIcons = ['tabler:error-404', 'weui:arrow-filled', 'weui:arrow-outlined'];
+const iconifyIcons = [
+  'solar:text-bold',
+  'fluent:shapes-24-regular',
+  'mage:image-fill',
+  'mdi:plus',
+  'tabler:error-404',
+  'weui:arrow-filled',
+  'weui:arrow-outlined',
+  'uil:line-alt',
+  'majesticons:table',
+  'ajesticons:table',
+  'teenyicons:donut-chart-solid',
+];
 
 /**
  * 生成 Iconify 图标导出文件

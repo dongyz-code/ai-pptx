@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@iconify/vue": "^5.0.0",
+    "@popperjs/core": "^2.11.8",
     "@primevue/themes": "^4.2.3",
     "@tiptap/core": "^2.10.4",
     "@tiptap/extension-color": "^2.10.4",

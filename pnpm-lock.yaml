@@ -41,6 +41,9 @@ importers:
       '@iconify/vue':
         specifier: ^5.0.0
         version: 5.0.0(vue@3.5.13(typescript@5.7.2))
+      '@popperjs/core':
+        specifier: ^2.11.8
+        version: 2.11.8
       '@primevue/themes':
         specifier: ^4.2.3
         version: 4.2.3

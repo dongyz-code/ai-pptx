@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(mkdir:*)",
-      "Bash(node src/components/ui/icon/run.mjs:*)"
+      "Bash(node src/components/ui/icon/run.mjs:*)",
+      "Bash(pnpm add:*)"
     ],
     "deny": [],
     "ask": []

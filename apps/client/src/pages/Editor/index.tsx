@@ -3,7 +3,7 @@ import { defineComponent } from 'vue';
 import { useGlobalHotkey } from './hooks';
 
 import VHeader from './components/Header';
-import MaterialArea from './components/Sidebar';
+import MaterialArea from './components/Sidebar/index.vue';
 import EditorArea from './components/Canvas/index.vue';
 import Sliders from './components/Slides';
 import Footer from './components/Footer';

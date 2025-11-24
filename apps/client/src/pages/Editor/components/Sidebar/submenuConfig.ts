@@ -128,7 +128,8 @@ export const shapeSubmenuItems: SubmenuItem[] = [
   {
     label: '五角星',
     value: 'star',
-    preview: '<svg viewBox="0 0 40 30"><polygon points="20,2 24,14 36,14 26,22 30,34 20,26 10,34 14,22 4,14 16,14" fill="#4A90E2"/></svg>',
+    preview:
+      '<svg viewBox="0 0 40 30"><polygon points="20,2 24,14 36,14 26,22 30,34 20,26 10,34 14,22 4,14 16,14" fill="#4A90E2"/></svg>',
     data: {
       viewBox: [200, 200],
       path: 'M 100 0 L 120 70 L 190 80 L 130 130 L 150 200 L 100 160 L 50 200 L 70 130 L 10 80 L 80 70 Z',

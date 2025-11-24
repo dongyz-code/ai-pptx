@@ -1,150 +1,109 @@
 <template>
-  <div class="text-content">
-    <div class="content-title">选择文字类型</div>
-    <div class="text-options">
+  <div class="p-1">
+    <div class="flex flex-col">
       <div
         v-for="option in textOptions"
         :key="option.value"
-        class="text-option"
-        @click="handleSelect(option)"
+        class="flex cursor-pointer gap-2 rounded-md p-2 pr-12 hover:bg-gray-100"
+        :style="{ fontSize: option.previewSize }"
+        @click="handleClick(option)"
       >
-        <div class="text-preview" :style="{ fontSize: option.previewSize }">
-          {{ option.preview }}
+        <div>
+          <v-icon :icon="option.icon" />
         </div>
-        <div class="text-label">{{ option.label }}</div>
+        <div>{{ option.label }}</div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useAction } from '../useAction';
+import { PPTTextElement } from '@/types';
+import { VIcon, type IconName } from '@/components/ui';
+
 interface TextOption {
   label: string;
   value: string;
-  preview: string;
+  icon: IconName;
   previewSize: string;
-  data: {
-    content: string;
-    fontSize: string;
-    fontWeight: string;
-  };
+  data: Partial<PPTTextElement>;
 }
+
+const emit = defineEmits<{
+  (e: 'close'): void;
+}>();
 
 const textOptions: TextOption[] = [
   {
     label: '正文',
     value: 'body',
-    preview: 'Aa',
+    icon: 'solar:text-bold',
+    previewSize: '12px',
+    data: {
+      content: '<p><span style="font-size: 14px;">正文内容</span></p>',
+    },
+  },
+  {
+    label: '标题1',
+    value: 'heading1',
+    icon: 'mynaui:heading-one',
     previewSize: '16px',
     data: {
-      content: '正文内容',
-      fontSize: '16px',
-      fontWeight: 'normal',
+      content: '<p><strong><span style="font-size: 32px;">标题1</span></strong></p>',
     },
   },
   {
-    label: '一级标题',
-    value: 'heading1',
-    preview: 'Aa',
-    previewSize: '32px',
-    data: {
-      content: '一级标题',
-      fontSize: '32px',
-      fontWeight: 'bold',
-    },
-  },
-  {
-    label: '二级标题',
+    label: '标题2',
     value: 'heading2',
-    preview: 'Aa',
-    previewSize: '24px',
+    icon: 'mynaui:heading-two',
+    previewSize: '15px',
     data: {
-      content: '二级标题',
-      fontSize: '24px',
-      fontWeight: 'bold',
+      content: '<p><strong><span style="font-size: 28px;">标题2</span></strong></p>',
     },
   },
   {
-    label: '三级标题',
+    label: '标题3',
     value: 'heading3',
-    preview: 'Aa',
-    previewSize: '20px',
+    icon: 'mynaui:heading-three',
+    previewSize: '14px',
     data: {
-      content: '三级标题',
-      fontSize: '20px',
-      fontWeight: '600',
+      content: '<p><strong><span style="font-size: 24px;">标题3</span></strong></p>',
     },
   },
   {
-    label: '副标题',
-    value: 'subtitle',
-    preview: 'Aa',
-    previewSize: '18px',
+    label: '标题4',
+    value: 'heading4',
+    icon: 'mynaui:heading-four',
+    previewSize: '13px',
     data: {
-      content: '副标题',
-      fontSize: '18px',
-      fontWeight: '500',
+      content: '<p><strong><span style="font-size: 18px;">标题4</span></strong></p>',
+    },
+  },
+  {
+    label: '标题5',
+    value: 'heading5',
+    icon: 'mynaui:heading-five',
+    previewSize: '12px',
+    data: {
+      content: '<p><strong><span style="font-size: 16px;">标题5</span></strong></p>',
+    },
+  },
+  {
+    label: '标注',
+    value: 'caption',
+    icon: 'solar:text-bold',
+    previewSize: '12px',
+    data: {
+      content: '<p><span style="font-size: 12px;">标注</span></p>',
     },
   },
 ];
 
-const emit = defineEmits<{
-  select: [option: TextOption];
-}>();
+const { onAddText } = useAction();
 
-const handleSelect = (option: TextOption) => {
-  emit('select', option);
+const handleClick = (option: TextOption) => {
+  onAddText(option.data);
+  emit('close');
 };
 </script>
-
-<style scoped>
-.text-content {
-  min-width: 280px;
-  padding: 12px;
-}
-
-.content-title {
-  padding: 8px 12px;
-  font-weight: 600;
-  font-size: 14px;
-  color: #333;
-  border-bottom: 1px solid #e5e5e5;
-  margin-bottom: 12px;
-}
-
-.text-options {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
-}
-
-.text-option {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding: 16px 12px;
-  border: 1px solid #e5e5e5;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s;
-  background: white;
-}
-
-.text-option:hover {
-  border-color: #4a90e2;
-  background: #f0f7ff;
-  box-shadow: 0 2px 8px rgba(74, 144, 226, 0.1);
-}
-
-.text-preview {
-  font-weight: 600;
-  color: #333;
-  line-height: 1;
-}
-
-.text-label {
-  font-size: 13px;
-  color: #666;
-}
-</style>

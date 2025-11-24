@@ -20,6 +20,11 @@ const iconifyIcons = [
   'majesticons:table',
   'ajesticons:table',
   'teenyicons:donut-chart-solid',
+  'mynaui:heading-one',
+  'mynaui:heading-two',
+  'mynaui:heading-three',
+  'mynaui:heading-four',
+  'mynaui:heading-five',
 ];
 
 /**

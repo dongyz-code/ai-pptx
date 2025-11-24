@@ -16,6 +16,11 @@ export interface IconTypes {
   'majesticons:table': Component;
   'ajesticons:table': Component;
   'teenyicons:donut-chart-solid': Component;
+  'mynaui:heading-one': Component;
+  'mynaui:heading-two': Component;
+  'mynaui:heading-three': Component;
+  'mynaui:heading-four': Component;
+  'mynaui:heading-five': Component;
 }
 
 export type IconName = keyof IconTypes;

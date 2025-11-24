@@ -10,8 +10,8 @@
     "gen:icons": "node src/components/ui/icon/run.mjs"
   },
   "dependencies": {
+    "@floating-ui/vue": "^1.1.9",
     "@iconify/vue": "^5.0.0",
-    "@popperjs/core": "^2.11.8",
     "@primevue/themes": "^4.2.3",
     "@tiptap/core": "^2.10.4",
     "@tiptap/extension-color": "^2.10.4",

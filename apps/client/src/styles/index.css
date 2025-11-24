@@ -1,4 +1,5 @@
 @import './normalize.css';
 @import './tailwindcss.css';
 @import './var.css';
+@import './utils.css'
 @import 'primeicons/primeicons.css';

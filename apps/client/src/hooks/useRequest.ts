@@ -110,8 +110,8 @@ function useDelayLoading(loading: Ref<boolean>, option?: { delay?: number; keep?
   const { delay = 0, keep = 0 } = option || {};
   const delayLoading = ref(false);
 
-  let showTime: NodeJS.Timeout | null = null;
-  let hideTime: NodeJS.Timeout | null = null;
+  let showTime: number | null = null;
+  let hideTime: number | null = null;
 
   const start = () => {
     if (hideTime) {

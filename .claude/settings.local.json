@@ -3,7 +3,9 @@
     "allow": [
       "Bash(mkdir:*)",
       "Bash(node src/components/ui/icon/run.mjs:*)",
-      "Bash(pnpm add:*)"
+      "Bash(pnpm add:*)",
+      "Bash(npx tsc:*)",
+      "Bash(rm:*)"
     ],
     "deny": [],
     "ask": []

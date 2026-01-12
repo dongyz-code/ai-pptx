@@ -6,6 +6,7 @@ export type WorkerParams = {
 
 /** Worker 返回参数 */
 export type WorkResponse = {
+  type?: 'result' | 'progress' | 'ready';
   taskId: string;
   success: boolean;
   result?: any;
@@ -15,6 +16,14 @@ export type WorkResponse = {
   };
 };
 
+/** Worker 进度消息 */
+export type WorkerProgressMessage = {
+  type: 'progress';
+  progress: number;
+  message?: string;
+};
+
+/** Worker 池配置选项 */
 export type WorkerPoolOptions = {
   /** 脚本文件位置 */
   script: string;
@@ -26,12 +35,11 @@ export type WorkerPoolOptions = {
   retryInterval: number;
   /** 超时时间 24h */
   timeout: number;
-  /** 最大内存 默认2GB */
-  maxMemory: number;
   /** 单个worker执行最多任务数量 */
   maxTaskPerWorker: number;
 };
 
+/** Worker 任务 */
 export type WorkerTask<T> = {
   task_id: string;
 
@@ -44,4 +52,12 @@ export type WorkerTask<T> = {
   resolve: (v: any) => void;
 
   reject: (e: Error) => void;
+
+  onProgress?: (progress: number, message?: string) => void;
+};
+
+/** 函数执行载荷 */
+export type FunctionPayload = {
+  functionName: string;
+  args: any[];
 };

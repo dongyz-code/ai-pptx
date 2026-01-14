@@ -32,7 +32,6 @@
 
 import { parentPort, workerData } from 'worker_threads';
 import { pathToFileURL } from 'node:url';
-import { test } from './test.js';
 import type { WorkResponse, FunctionPayload } from './types.js';
 
 if (!parentPort) {
@@ -49,7 +48,6 @@ let workerModule: any = null;
 
 // 加载用户脚本
 (async () => {
-  test();
   try {
     const scriptPath = workerData.entry;
     if (!scriptPath) {

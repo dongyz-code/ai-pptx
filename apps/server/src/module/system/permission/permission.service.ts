@@ -1,12 +1,7 @@
 import { Injectable, Logger, ConflictException, NotFoundException, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Like, IsNull } from 'typeorm';
-import {
-  PermissionEntity,
-  PermissionType,
-  PermissionStatus,
-  PermissionTreeNode,
-} from './entities/permission.entity.js';
+import { Repository, Like } from 'typeorm';
+import { PermissionEntity, PermissionType, PermissionStatus } from './entities/permission.entity.js';
 import {
   CreatePermissionDto,
   UpdatePermissionDto,
@@ -14,9 +9,9 @@ import {
   PermissionResponseDto,
   PermissionTreeResponseDto,
 } from './dto/permission.dto.js';
-import { PaginatedResponse } from '../../common/dto/response.dto.js';
-import { CacheService } from '../../common/cache/cache.service.js';
-import { IdService } from '../redis/id.service.js';
+import { PaginatedResponse } from '@/common/dto/response.dto.js';
+import { CacheService } from '@/common/cache/cache.service.js';
+import { IdService } from '@/module/redis/index.js';
 
 /**
  * 权限服务 - 权限管理业务逻辑

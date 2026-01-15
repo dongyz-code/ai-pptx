@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger';
 import { IsString, IsOptional, MaxLength, IsEnum, IsNumber } from 'class-validator';
 import { PermissionType, PermissionStatus } from '../entities/permission.entity.js';
-import { PaginationDto } from '../../../common/dto/response.dto.js';
+import { PaginationDto } from '@/common/dto/response.dto.js';
 
 /**
  * 创建权限DTO

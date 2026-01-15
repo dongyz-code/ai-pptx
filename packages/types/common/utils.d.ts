@@ -12,8 +12,6 @@ export type GetTypeByPath<T, P extends string> = P extends `${infer Key}.${infer
 /**
  * 获取对象类型的所有路径
  */
-export type Paths<T> = T extends object
-  ? {
-      [K in keyof T]: K extends string ? (T[K] extends object ? `${K}.${Paths<T[K]>}` | K : K) : never;
-    }[keyof T]
-  : never;
+export type Paths<T extends object> = {
+  [K in keyof T]: K extends string ? (T[K] extends object ? `${K}.${Paths<T[K]>}` | K : K) : never;
+}[keyof T];

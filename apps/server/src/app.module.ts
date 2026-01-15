@@ -18,13 +18,8 @@ import { TransformInterceptor } from './common/interceptors/transform.intercepto
 import { RedisModule } from './module/redis/redis.module.js';
 import { HealthModule } from './module/health/health.module.js';
 import { IdsModule } from './module/ids/ids.module.js';
-import { UserModule } from './module/user/user.module.js';
-import { RoleModule } from './module/role/role.module.js';
-import { PermissionModule } from './module/permission/permission.module.js';
 import { AuthModule } from './module/auth/auth.module.js';
 import { OperationLogModule } from './module/operation-log/operation-log.module.js';
-
-// Legacy - can be removed after migration
 import { SystemModule } from './module/system/system.module.js';
 
 @Module({
@@ -38,15 +33,12 @@ import { SystemModule } from './module/system/system.module.js';
 
     // Core business modules
     AuthModule,
-    UserModule,
-    RoleModule,
-    PermissionModule,
     OperationLogModule,
 
     // System modules
     HealthModule,
     IdsModule,
-    SystemModule, // Legacy - for backward compatibility
+    SystemModule,
   ],
   providers: [
     // Global exception filter

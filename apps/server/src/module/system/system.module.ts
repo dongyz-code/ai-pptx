@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
-import { SystemController } from './system.controller.js';
-import { SystemService } from './system.service.js';
+import { PermissionModule } from './permission/permission.module.js';
+import { RoleModule } from './role/role.module.js';
+import { UserModule } from './user/user.module.js';
 
 @Module({
-  imports: [],
-  providers: [SystemService],
-  controllers: [SystemController],
+  imports: [PermissionModule, RoleModule, UserModule],
+  providers: [],
+  controllers: [],
 })
 export class SystemModule {}

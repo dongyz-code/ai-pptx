@@ -19,26 +19,40 @@ export class LoginDto {
 }
 
 /**
+ * 登录用户信息
+ */
+export class LoginUserInfo {
+  @ApiProperty({ description: '用户ID' })
+  id: string;
+
+  @ApiProperty({ description: '用户名' })
+  username: string;
+
+  @ApiPropertyOptional({ description: '昵称' })
+  nickname?: string;
+
+  @ApiProperty({ description: '角色列表', type: [String] })
+  roles: string[];
+
+  @ApiProperty({ description: '权限列表', type: [String] })
+  permissions: string[];
+}
+
+/**
  * 登录响应DTO
  */
 export class LoginResponseDto {
-  @ApiProperty({ description: '访问令牌' })
+  @ApiProperty({ description: '访问令牌', type: String })
   accessToken: string;
 
-  @ApiProperty({ description: '令牌类型', default: 'Bearer' })
+  @ApiProperty({ description: '令牌类型', default: 'Bearer', type: String })
   tokenType: string = 'Bearer';
 
-  @ApiProperty({ description: '过期时间（秒）' })
+  @ApiProperty({ description: '过期时间（秒）', type: Number })
   expiresIn: number;
 
-  @ApiPropertyOptional({ description: '用户信息' })
-  user?: {
-    id: string;
-    username: string;
-    nickname?: string;
-    roles: string[];
-    permissions: string[];
-  };
+  @ApiPropertyOptional({ description: '用户信息', type: () => LoginUserInfo })
+  user?: LoginUserInfo;
 }
 
 /**

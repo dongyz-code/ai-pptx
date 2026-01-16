@@ -4,9 +4,9 @@ import { Repository, Like } from 'typeorm';
 import { UserEntity, UserStatus } from './entities/user.entity.js';
 import { RoleEntity } from '../role/entities/role.entity.js';
 import { CreateUserDto, UpdateUserDto, QueryUserDto, UserResponseDto, ChangePasswordDto } from './dto/user.dto.js';
-import { PaginatedResponse } from '../../common/dto/response.dto.js';
-import { CacheService } from '../../common/cache/cache.service.js';
-import { IdService } from '../redis/id.service.js';
+import { PaginatedResponse } from '@/common/dto/response.dto.js';
+import { CacheService } from '@/common/cache/cache.service.js';
+import { IdService } from '@/module/redis/id.service.js';
 
 /**
  * 用户服务 - 用户管理业务逻辑

@@ -5,7 +5,8 @@
       "Bash(node src/components/ui/icon/run.mjs:*)",
       "Bash(pnpm add:*)",
       "Bash(npx tsc:*)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(pnpm run dev)"
     ],
     "deny": [],
     "ask": []

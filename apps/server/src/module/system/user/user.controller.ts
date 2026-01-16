@@ -2,10 +2,9 @@ import { Controller, Get, Post, Put, Delete, Body, Param, Query, HttpCode, HttpS
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiParam } from '@nestjs/swagger';
 import { UserService } from './user.service.js';
 import { CreateUserDto, UpdateUserDto, QueryUserDto, UserResponseDto, ChangePasswordDto } from './dto/user.dto.js';
-import { PaginatedResponse } from '../../common/dto/response.dto.js';
-import { Roles } from '../../common/decorators/roles.decorator.js';
-import { Permissions } from '../../common/decorators/permissions.decorator.js';
-import { CurrentUser } from '../../common/decorators/current-user.decorator.js';
+import { PaginatedResponse } from '@/common/dto/response.dto.js';
+import { Permissions } from '@/common/decorators/permissions.decorator.js';
+import { CurrentUser } from '@/common/decorators/current-user.decorator.js';
 
 @ApiTags('用户管理')
 @ApiBearerAuth()

@@ -1,20 +1,20 @@
 import { Module, Global } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppConfigService } from '../config/config.service.js';
+import { ConfigService } from '@nestjs/config';
 
 @Global()
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
-      inject: [AppConfigService],
-      useFactory: (configService: AppConfigService) => ({
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
         type: 'postgres',
-        host: configService.get('pg.host'),
-        port: configService.get('pg.port'),
-        username: configService.get('pg.user'),
-        password: configService.get('pg.password'),
-        database: configService.get('pg.database'),
-        schema: configService.get('pg.schema'),
+        host: configService.get<string>('pg.host'),
+        port: configService.get<number>('pg.port'),
+        username: configService.get<string>('pg.user'),
+        password: configService.get<string>('pg.password'),
+        database: configService.get<string>('pg.database'),
+        schema: configService.get<string>('pg.schema'),
         autoLoadEntities: true,
         synchronize: process.env.NODE_ENV !== 'production', // 生产环境禁用
         logging: process.env.NODE_ENV === 'development',

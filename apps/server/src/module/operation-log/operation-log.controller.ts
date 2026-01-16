@@ -1,8 +1,7 @@
 import { Controller, Get, Delete, Body, Param, Query, HttpCode, HttpStatus } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiParam } from '@nestjs/swagger';
 import { OperationLogService } from './operation-log.service.js';
-import { QueryOperationLogDto, DeleteOperationLogsDto } from './dto/operation-log.dto.js';
-import { OperationLogEntity } from './entities/operation-log.entity.js';
+import { QueryOperationLogDto, DeleteOperationLogsDto, OperationLogResponseDto } from './dto/operation-log.dto.js';
 import { PaginatedResponse } from '../../common/dto/response.dto.js';
 import { Permissions } from '../../common/decorators/permissions.decorator.js';
 
@@ -16,7 +15,7 @@ export class OperationLogController {
   @ApiOperation({ summary: '查询操作日志列表' })
   @ApiResponse({ status: 200, description: '查询成功' })
   @Permissions('log:list')
-  async findAll(@Query() query: QueryOperationLogDto): Promise<PaginatedResponse<OperationLogEntity>> {
+  async findAll(@Query() query: QueryOperationLogDto): Promise<PaginatedResponse<OperationLogResponseDto>> {
     return this.operationLogService.findAll(query);
   }
 
@@ -25,7 +24,7 @@ export class OperationLogController {
   @ApiParam({ name: 'id', description: '日志ID' })
   @ApiResponse({ status: 200, description: '查询成功' })
   @Permissions('log:read')
-  async findOne(@Param('id') id: string): Promise<OperationLogEntity> {
+  async findOne(@Param('id') id: string): Promise<OperationLogResponseDto> {
     return this.operationLogService.findOne(id);
   }
 

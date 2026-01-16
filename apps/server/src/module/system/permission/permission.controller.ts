@@ -8,8 +8,8 @@ import {
   PermissionResponseDto,
   PermissionTreeResponseDto,
 } from './dto/permission.dto.js';
-import { PaginatedResponse } from '../../common/dto/response.dto.js';
-import { Permissions } from '../../common/decorators/permissions.decorator.js';
+import { PaginatedResponse } from '@/common/dto/response.dto.js';
+import { Permissions } from '@/common/decorators/permissions.decorator.js';
 
 @ApiTags('权限管理')
 @ApiBearerAuth()
@@ -35,7 +35,7 @@ export class PermissionController {
 
   @Get('tree')
   @ApiOperation({ summary: '获取权限树' })
-  @ApiResponse({ status: 200, description: '查询成功', type: [PermissionTreeResponseDto] })
+  @ApiResponse({ status: 200, description: '查询成功' })
   async getTree(): Promise<PermissionTreeResponseDto[]> {
     return this.permissionService.getTree();
   }

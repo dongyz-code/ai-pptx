@@ -4,7 +4,7 @@ import { UserController } from './user.controller.js';
 import { UserService } from './user.service.js';
 import { UserEntity } from './entities/user.entity.js';
 import { RoleEntity } from '../role/entities/role.entity.js';
-import { RedisModule } from '../redis/redis.module.js';
+import { RedisModule } from '@/module/redis/redis.module.js';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity, RoleEntity]), RedisModule],

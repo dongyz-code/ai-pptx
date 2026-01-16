@@ -2,8 +2,8 @@ import { Controller, Get, Post, Put, Delete, Body, Param, Query, HttpCode, HttpS
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiParam } from '@nestjs/swagger';
 import { RoleService } from './role.service.js';
 import { CreateRoleDto, UpdateRoleDto, QueryRoleDto, RoleResponseDto, AssignPermissionsDto } from './dto/role.dto.js';
-import { PaginatedResponse } from '../../common/dto/response.dto.js';
-import { Permissions } from '../../common/decorators/permissions.decorator.js';
+import { PaginatedResponse } from '@/common/dto/response.dto.js';
+import { Permissions } from '@/common/decorators/permissions.decorator.js';
 
 @ApiTags('角色管理')
 @ApiBearerAuth()

@@ -1,6 +1,5 @@
 import path from 'path';
 import fse from 'fs-extra';
-import { registerAs } from '@nestjs/config';
 
 import type { ROOT_CONFIG } from '@pkg/types';
 
@@ -44,4 +43,4 @@ export const getConfig = () => {
   };
 };
 
-export default registerAs('appConfig', getConfig);
+export default getConfig;

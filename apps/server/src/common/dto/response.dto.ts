@@ -10,7 +10,7 @@ export class ApiResponse<T = any> {
   @ApiProperty({ description: '消息', example: 'success' })
   message: string;
 
-  @ApiPropertyOptional({ description: '数据' })
+  @ApiPropertyOptional({ description: '数据', type: Object })
   data?: T;
 
   @ApiProperty({ description: '时间戳' })
@@ -47,7 +47,7 @@ export class PaginationDto {
  * 分页响应
  */
 export class PaginatedResponse<T> {
-  @ApiProperty({ description: '数据列表' })
+  @ApiProperty({ description: '数据列表', type: 'array', items: { type: 'object' } })
   list: T[];
 
   @ApiProperty({ description: '总条数' })

@@ -1,17 +1,19 @@
-import { Injectable, OnModuleInit, OnModuleDestroy, Logger } from '@nestjs/common';
+import { Injectable, OnModuleInit, OnModuleDestroy, Logger, Inject, Optional } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { Redis } from 'ioredis';
-import { AppConfigService } from '../../common/config/config.service.js';
 
 @Injectable()
 export class RedisService implements OnModuleInit, OnModuleDestroy {
   private readonly logger = new Logger(RedisService.name);
   private client: Redis;
 
-  constructor(private readonly configService: AppConfigService) {
-    const host = this.configService.get('redis.host');
-    const port = this.configService.get('redis.port');
-    const password = this.configService.get('redis.password');
-    const username = this.configService.get('redis.username');
+  constructor(@Optional() @Inject(ConfigService) private readonly configService: ConfigService) {}
+
+  async onModuleInit() {
+    const host = this.configService.get<string>('redis.host');
+    const port = this.configService.get<number>('redis.port');
+    const password = this.configService.get<string>('redis.password');
+    const username = this.configService.get<string>('redis.username');
 
     this.client = new Redis({
       host,
@@ -46,9 +48,7 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
     this.client.on('reconnecting', () => {
       this.logger.log('Redis reconnecting...');
     });
-  }
 
-  async onModuleInit() {
     try {
       await this.client.connect();
       await this.client.ping();

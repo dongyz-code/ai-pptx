@@ -129,7 +129,43 @@ export class PermissionResponseDto {
 /**
  * 权限树响应DTO
  */
-export class PermissionTreeResponseDto extends PermissionResponseDto {
-  @ApiPropertyOptional({ description: '子权限列表', type: [PermissionTreeResponseDto] })
+export class PermissionTreeResponseDto {
+  @ApiProperty({ description: '权限ID', type: String })
+  id: string;
+
+  @ApiProperty({ description: '权限名称', type: String })
+  name: string;
+
+  @ApiProperty({ description: '权限编码', type: String })
+  code: string;
+
+  @ApiProperty({ description: '权限类型', enum: PermissionType })
+  type: PermissionType;
+
+  @ApiPropertyOptional({ description: '父级权限ID', type: String })
+  parentId?: string;
+
+  @ApiPropertyOptional({ description: '路由路径', type: String })
+  path?: string;
+
+  @ApiPropertyOptional({ description: '图标', type: String })
+  icon?: string;
+
+  @ApiPropertyOptional({ description: '排序号', type: Number })
+  sort?: number;
+
+  @ApiProperty({ description: '权限状态', enum: PermissionStatus })
+  status: PermissionStatus;
+
+  @ApiPropertyOptional({ description: '描述', type: String })
+  description?: string;
+
+  @ApiProperty({ description: '创建时间', type: Date })
+  createdAt: Date;
+
+  @ApiProperty({ description: '更新时间', type: Date })
+  updatedAt: Date;
+
+  @ApiPropertyOptional({ description: '子权限列表', type: 'array', items: { type: 'object' } })
   children?: PermissionTreeResponseDto[];
 }

@@ -24,12 +24,13 @@ import { SystemModule } from './module/system/system.module.js';
 
 @Module({
   imports: [
-    // Infrastructure modules
+    // Infrastructure modules (order matters!)
+    AppConfigModule, // Must be first - provides ConfigService
     AppLoggerModule,
-    AppConfigModule,
     DatabaseModule, // TypeORM PostgreSQL
+    RedisModule, // Must be before CacheModule
     CacheModule, // Redis Cache
-    RedisModule,
+    IdsModule,
 
     // Core business modules
     AuthModule,
@@ -37,7 +38,6 @@ import { SystemModule } from './module/system/system.module.js';
 
     // System modules
     HealthModule,
-    IdsModule,
     SystemModule,
   ],
   providers: [

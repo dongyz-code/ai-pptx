@@ -6,7 +6,7 @@ import { PermissionEntity } from '../permission/entities/permission.entity.js';
 import { CreateRoleDto, UpdateRoleDto, QueryRoleDto, RoleResponseDto, AssignPermissionsDto } from './dto/role.dto.js';
 import { PaginatedResponse } from '@/common/dto/response.dto.js';
 import { CacheService } from '@/common/cache/cache.service.js';
-import { IdService } from '@/module/redis/id.service.js';
+import { IdService } from '@/common/id/id.service.js';
 
 /**
  * 角色服务 - 角色管理业务逻辑
@@ -91,7 +91,7 @@ export class RoleService implements OnModuleInit {
   /**
    * 查询角色列表（分页）
    */
-  async findAll(query: QueryRoleDto): Promise<PaginatedResponse<RoleResponseDto>> {
+  async findAll(query: QueryRoleDto) {
     const { page = 1, pageSize = 10, name, code, status } = query;
 
     const where: any = {};

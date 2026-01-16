@@ -2,7 +2,6 @@ import { Controller, Get, Post, Put, Delete, Body, Param, Query, HttpCode, HttpS
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiParam } from '@nestjs/swagger';
 import { RoleService } from './role.service.js';
 import { CreateRoleDto, UpdateRoleDto, QueryRoleDto, RoleResponseDto, AssignPermissionsDto } from './dto/role.dto.js';
-import { PaginatedResponse } from '@/common/dto/response.dto.js';
 import { Permissions } from '@/common/decorators/permissions.decorator.js';
 
 @ApiTags('角色管理')
@@ -13,7 +12,7 @@ export class RoleController {
 
   @Post()
   @ApiOperation({ summary: '创建角色' })
-  @ApiResponse({ status: 201, description: '创建成功', type: RoleResponseDto })
+  @ApiResponse({ status: 201, description: '创建成功', type: () => RoleResponseDto })
   @Permissions('role:create')
   async create(@Body() createRoleDto: CreateRoleDto): Promise<RoleResponseDto> {
     return this.roleService.create(createRoleDto);
@@ -23,13 +22,13 @@ export class RoleController {
   @ApiOperation({ summary: '查询角色列表' })
   @ApiResponse({ status: 200, description: '查询成功' })
   @Permissions('role:list')
-  async findAll(@Query() query: QueryRoleDto): Promise<PaginatedResponse<RoleResponseDto>> {
+  async findAll(@Query() query: QueryRoleDto) {
     return this.roleService.findAll(query);
   }
 
   @Get('simple')
   @ApiOperation({ summary: '获取所有角色（不分页）' })
-  @ApiResponse({ status: 200, description: '查询成功', type: [RoleResponseDto] })
+  @ApiResponse({ status: 200, description: '查询成功', type: () => [RoleResponseDto] })
   async findAllSimple(): Promise<RoleResponseDto[]> {
     return this.roleService.findAllSimple();
   }
@@ -37,7 +36,7 @@ export class RoleController {
   @Get(':id')
   @ApiOperation({ summary: '根据ID查询角色' })
   @ApiParam({ name: 'id', description: '角色ID' })
-  @ApiResponse({ status: 200, description: '查询成功', type: RoleResponseDto })
+  @ApiResponse({ status: 200, description: '查询成功', type: () => RoleResponseDto })
   @Permissions('role:read')
   async findOne(@Param('id') id: string): Promise<RoleResponseDto> {
     return this.roleService.findOne(id);
@@ -46,7 +45,7 @@ export class RoleController {
   @Put(':id')
   @ApiOperation({ summary: '更新角色' })
   @ApiParam({ name: 'id', description: '角色ID' })
-  @ApiResponse({ status: 200, description: '更新成功', type: RoleResponseDto })
+  @ApiResponse({ status: 200, description: '更新成功', type: () => RoleResponseDto })
   @Permissions('role:update')
   async update(@Param('id') id: string, @Body() updateRoleDto: UpdateRoleDto): Promise<RoleResponseDto> {
     return this.roleService.update(id, updateRoleDto);
@@ -65,7 +64,7 @@ export class RoleController {
   @Put(':id/permissions')
   @ApiOperation({ summary: '分配权限' })
   @ApiParam({ name: 'id', description: '角色ID' })
-  @ApiResponse({ status: 200, description: '分配成功', type: RoleResponseDto })
+  @ApiResponse({ status: 200, description: '分配成功', type: () => RoleResponseDto })
   @Permissions('role:assign-permissions')
   async assignPermissions(@Param('id') id: string, @Body() dto: AssignPermissionsDto): Promise<RoleResponseDto> {
     return this.roleService.assignPermissions(id, dto);

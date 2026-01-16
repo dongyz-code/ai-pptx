@@ -1,7 +1,7 @@
 import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../system/user/user.service.js';
 import { RoleService } from '../system/role/role.service.js';
-import { RedisService } from '../redis/redis.service.js';
+import { RedisService } from '../../common/redis/redis.service.js';
 import { LoginDto, LoginResponseDto } from './dto/auth.dto.js';
 import { UserStatus } from '../system/user/entities/user.entity.js';
 import { randomBytes } from 'crypto';

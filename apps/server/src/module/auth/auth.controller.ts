@@ -13,7 +13,7 @@ export class AuthController {
   @Post('login')
   @Public()
   @ApiOperation({ summary: '用户登录' })
-  @ApiResponse({ status: 200, description: '登录成功', type: LoginResponseDto })
+  @ApiResponse({ status: 200, description: '登录成功', type: () => LoginResponseDto })
   @ApiResponse({ status: 401, description: '用户名或密码错误' })
   async login(@Body() loginDto: LoginDto, @Req() request: any): Promise<LoginResponseDto> {
     const ip = request.ip || request.headers['x-forwarded-for'] || '';
@@ -41,7 +41,7 @@ export class AuthController {
   @Post('refresh')
   @ApiBearerAuth()
   @ApiOperation({ summary: '刷新令牌' })
-  @ApiResponse({ status: 200, description: '刷新成功', type: LoginResponseDto })
+  @ApiResponse({ status: 200, description: '刷新成功', type: () => LoginResponseDto })
   async refreshToken(@Headers('authorization') authHeader: string): Promise<LoginResponseDto> {
     const token = authHeader?.replace('Bearer ', '');
     return this.authService.refreshToken(token);

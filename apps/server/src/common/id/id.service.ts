@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { RedisService } from './redis.service.js';
+import { RedisService } from '../redis/redis.service.js';
+import { randomBytes } from 'crypto';
 import dayjs from 'dayjs';
 
 export type IdStrategy = 'incr' | 'xadd';
@@ -13,6 +14,10 @@ export interface IdGenerationOptions {
 export class IdService {
   private readonly logger = new Logger(IdService.name);
   private readonly defaultStrategy: IdStrategy = 'incr';
+
+  // 本地降级计数器 (进程内)
+  private localCounter = 0;
+  private lastCounterReset = Date.now();
 
   constructor(private readonly redisService: RedisService) {}
 
@@ -33,9 +38,30 @@ export class IdService {
 
       return prefix ? `${prefix}${id}` : id;
     } catch (error) {
-      this.logger.error(`Failed to generate ID: ${error.message}`);
-      throw error;
+      this.logger.warn(`Redis ID generation failed, falling back to local: ${error.message}`);
+      const fallbackId = this.generateFallbackId();
+      return prefix ? `${prefix}${fallbackId}` : fallbackId;
     }
+  }
+
+  /**
+   * 本地降级 ID 生成
+   * 格式: {YYYYMMDD}-L{进程内计数}-{随机4字符}
+   * L 标记表示这是降级生成的 ID
+   */
+  private generateFallbackId(): string {
+    const now = Date.now();
+    const dateStr = dayjs().format('YYYYMMDD');
+
+    // 每小时重置计数器，避免溢出
+    if (now - this.lastCounterReset > 3600000) {
+      this.localCounter = 0;
+      this.lastCounterReset = now;
+    }
+
+    this.localCounter++;
+    const random = randomBytes(2).toString('hex').toUpperCase();
+    return `${dateStr}-L${this.localCounter}-${random}`;
   }
 
   private async generateIncrId(): Promise<string> {
@@ -73,23 +99,5 @@ export class IdService {
       ids.push(id);
     }
     return ids;
-  }
-
-  async testConcurrency(concurrent: number = 10): Promise<{
-    total: number;
-    unique: number;
-    duplicates: number;
-    ids: string[];
-  }> {
-    const promises = Array.from({ length: concurrent }, () => this.nextId());
-    const ids = await Promise.all(promises);
-    const uniqueIds = new Set(ids);
-
-    return {
-      total: ids.length,
-      unique: uniqueIds.size,
-      duplicates: ids.length - uniqueIds.size,
-      ids,
-    };
   }
 }

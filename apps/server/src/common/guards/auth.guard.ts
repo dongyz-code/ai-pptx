@@ -1,7 +1,7 @@
 import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { IS_PUBLIC_KEY } from '../decorators/public.decorator.js';
-import { RedisService } from '../../module/redis/redis.service.js';
+import { RedisService } from '../redis/redis.service.js';
 
 /**
  * JWT认证守卫

@@ -2,7 +2,6 @@ import { Controller, Get, Delete, Body, Param, Query, HttpCode, HttpStatus } fro
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiParam } from '@nestjs/swagger';
 import { OperationLogService } from './operation-log.service.js';
 import { QueryOperationLogDto, DeleteOperationLogsDto, OperationLogResponseDto } from './dto/operation-log.dto.js';
-import { PaginatedResponse } from '../../common/dto/response.dto.js';
 import { Permissions } from '../../common/decorators/permissions.decorator.js';
 
 @ApiTags('操作日志')
@@ -15,7 +14,7 @@ export class OperationLogController {
   @ApiOperation({ summary: '查询操作日志列表' })
   @ApiResponse({ status: 200, description: '查询成功' })
   @Permissions('log:list')
-  async findAll(@Query() query: QueryOperationLogDto): Promise<PaginatedResponse<OperationLogResponseDto>> {
+  async findAll(@Query() query: QueryOperationLogDto) {
     return this.operationLogService.findAll(query);
   }
 

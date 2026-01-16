@@ -8,7 +8,6 @@ import {
   PermissionResponseDto,
   PermissionTreeResponseDto,
 } from './dto/permission.dto.js';
-import { PaginatedResponse } from '@/common/dto/response.dto.js';
 import { Permissions } from '@/common/decorators/permissions.decorator.js';
 
 @ApiTags('权限管理')
@@ -19,7 +18,7 @@ export class PermissionController {
 
   @Post()
   @ApiOperation({ summary: '创建权限' })
-  @ApiResponse({ status: 201, description: '创建成功', type: PermissionResponseDto })
+  @ApiResponse({ status: 201, description: '创建成功', type: () => PermissionResponseDto })
   @Permissions('permission:create')
   async create(@Body() createPermissionDto: CreatePermissionDto): Promise<PermissionResponseDto> {
     return this.permissionService.create(createPermissionDto);
@@ -29,7 +28,7 @@ export class PermissionController {
   @ApiOperation({ summary: '查询权限列表' })
   @ApiResponse({ status: 200, description: '查询成功' })
   @Permissions('permission:list')
-  async findAll(@Query() query: QueryPermissionDto): Promise<PaginatedResponse<PermissionResponseDto>> {
+  async findAll(@Query() query: QueryPermissionDto) {
     return this.permissionService.findAll(query);
   }
 
@@ -43,7 +42,7 @@ export class PermissionController {
   @Get(':id')
   @ApiOperation({ summary: '根据ID查询权限' })
   @ApiParam({ name: 'id', description: '权限ID' })
-  @ApiResponse({ status: 200, description: '查询成功', type: PermissionResponseDto })
+  @ApiResponse({ status: 200, description: '查询成功', type: () => PermissionResponseDto })
   @Permissions('permission:read')
   async findOne(@Param('id') id: string): Promise<PermissionResponseDto> {
     return this.permissionService.findOne(id);
@@ -52,7 +51,7 @@ export class PermissionController {
   @Put(':id')
   @ApiOperation({ summary: '更新权限' })
   @ApiParam({ name: 'id', description: '权限ID' })
-  @ApiResponse({ status: 200, description: '更新成功', type: PermissionResponseDto })
+  @ApiResponse({ status: 200, description: '更新成功', type: () => PermissionResponseDto })
   @Permissions('permission:update')
   async update(
     @Param('id') id: string,

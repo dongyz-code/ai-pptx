@@ -4,7 +4,7 @@ import { Repository, Like, LessThan, Between, In } from 'typeorm';
 import { OperationLogEntity } from './entities/operation-log.entity.js';
 import { QueryOperationLogDto, DeleteOperationLogsDto } from './dto/operation-log.dto.js';
 import { PaginatedResponse } from '../../common/dto/response.dto.js';
-import { IdService } from '../redis/id.service.js';
+import { IdService } from '../../common/id/id.service.js';
 
 /**
  * 操作日志服务 - 日志记录和查询
@@ -36,7 +36,7 @@ export class OperationLogService {
   /**
    * 查询操作日志列表（分页）
    */
-  async findAll(query: QueryOperationLogDto): Promise<PaginatedResponse<OperationLogEntity>> {
+  async findAll(query: QueryOperationLogDto) {
     const { page = 1, pageSize = 10, username, module, action, url, statusCode, startTime, endTime } = query;
 
     const where: any = {};

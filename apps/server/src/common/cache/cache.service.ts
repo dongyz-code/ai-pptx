@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { RedisService } from '../../module/redis/redis.service.js';
+import { RedisService } from '../redis/redis.service.js';
 
 /**
  * 缓存服务 - 基于Redis的缓存封装

@@ -15,9 +15,9 @@ import { HttpExceptionFilter } from './common/filters/http-exception.filter.js';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor.js';
 
 // Business modules
-import { RedisModule } from './module/redis/redis.module.js';
+import { RedisModule } from './common/redis/redis.module.js';
+import { IdModule } from './common/id/id.module.js';
 import { HealthModule } from './module/health/health.module.js';
-import { IdsModule } from './module/ids/ids.module.js';
 import { AuthModule } from './module/auth/auth.module.js';
 import { OperationLogModule } from './module/operation-log/operation-log.module.js';
 import { SystemModule } from './module/system/system.module.js';
@@ -29,8 +29,8 @@ import { SystemModule } from './module/system/system.module.js';
     AppLoggerModule,
     DatabaseModule, // TypeORM PostgreSQL
     RedisModule, // Must be before CacheModule
+    IdModule, // ID generation service
     CacheModule, // Redis Cache
-    IdsModule,
 
     // Core business modules
     AuthModule,

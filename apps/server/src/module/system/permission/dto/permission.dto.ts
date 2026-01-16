@@ -17,7 +17,7 @@ export class CreatePermissionDto {
   @MaxLength(100)
   code: string;
 
-  @ApiProperty({ description: '权限类型', enum: PermissionType })
+  @ApiProperty({ description: '权限类型', enum: () => PermissionType })
   @IsEnum(PermissionType)
   type: PermissionType;
 

@@ -21,6 +21,7 @@
     "docker:build": "docker build --tag nest-demo:1.0.0 -f ./.dockerfile ."
   },
   "dependencies": {
+    "@fastify/static": "^9.0.0",
     "@nestjs/common": "^11.1.12",
     "@nestjs/config": "^3.2.3",
     "@nestjs/core": "^11.1.12",

@@ -11,7 +11,7 @@ import {
 } from './dto/permission.dto.js';
 import { PaginatedResponse } from '@/common/dto/response.dto.js';
 import { CacheService } from '@/common/cache/cache.service.js';
-import { IdService } from '@/module/redis/index.js';
+import { IdService } from '@/common/id/id.service.js';
 
 /**
  * 权限服务 - 权限管理业务逻辑
@@ -204,7 +204,7 @@ export class PermissionService implements OnModuleInit {
   /**
    * 查询权限列表（分页）
    */
-  async findAll(query: QueryPermissionDto): Promise<PaginatedResponse<PermissionResponseDto>> {
+  async findAll(query: QueryPermissionDto) {
     const { page = 1, pageSize = 10, name, code, type, status } = query;
 
     const where: any = {};

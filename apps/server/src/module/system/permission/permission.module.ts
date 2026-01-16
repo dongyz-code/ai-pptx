@@ -3,10 +3,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PermissionController } from './permission.controller.js';
 import { PermissionService } from './permission.service.js';
 import { PermissionEntity } from './entities/permission.entity.js';
-import { RedisModule } from '@/module/redis/redis.module.js';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([PermissionEntity]), RedisModule],
+  imports: [TypeOrmModule.forFeature([PermissionEntity])],
   controllers: [PermissionController],
   providers: [PermissionService],
   exports: [PermissionService],

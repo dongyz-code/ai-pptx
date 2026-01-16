@@ -6,7 +6,8 @@
       "Bash(pnpm add:*)",
       "Bash(npx tsc:*)",
       "Bash(rm:*)",
-      "Bash(pnpm run dev)"
+      "Bash(pnpm run dev)",
+      "Bash(pnpm tsc --noEmit)"
     ],
     "deny": [],
     "ask": []

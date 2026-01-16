@@ -6,7 +6,7 @@ import { RoleEntity } from '../role/entities/role.entity.js';
 import { CreateUserDto, UpdateUserDto, QueryUserDto, UserResponseDto, ChangePasswordDto } from './dto/user.dto.js';
 import { PaginatedResponse } from '@/common/dto/response.dto.js';
 import { CacheService } from '@/common/cache/cache.service.js';
-import { IdService } from '@/module/redis/id.service.js';
+import { IdService } from '@/common/id/id.service.js';
 
 /**
  * 用户服务 - 用户管理业务逻辑
@@ -85,7 +85,7 @@ export class UserService implements OnModuleInit {
   /**
    * 查询用户列表（分页）
    */
-  async findAll(query: QueryUserDto): Promise<PaginatedResponse<UserResponseDto>> {
+  async findAll(query: QueryUserDto) {
     const { page = 1, pageSize = 10, username, nickname, status } = query;
 
     const where: any = {};

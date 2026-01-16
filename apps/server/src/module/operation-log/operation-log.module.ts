@@ -3,10 +3,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { OperationLogController } from './operation-log.controller.js';
 import { OperationLogService } from './operation-log.service.js';
 import { OperationLogEntity } from './entities/operation-log.entity.js';
-import { RedisModule } from '../redis/redis.module.js';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([OperationLogEntity]), RedisModule],
+  imports: [TypeOrmModule.forFeature([OperationLogEntity])],
   controllers: [OperationLogController],
   providers: [OperationLogService],
   exports: [OperationLogService],

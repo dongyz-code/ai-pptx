@@ -139,7 +139,7 @@ export class PermissionTreeResponseDto {
   @ApiProperty({ description: '权限编码', type: String })
   code: string;
 
-  @ApiProperty({ description: '权限类型', enum: PermissionType })
+  @ApiProperty({ description: '权限类型', enum: () => PermissionType })
   type: PermissionType;
 
   @ApiPropertyOptional({ description: '父级权限ID', type: String })
@@ -154,7 +154,7 @@ export class PermissionTreeResponseDto {
   @ApiPropertyOptional({ description: '排序号', type: Number })
   sort?: number;
 
-  @ApiProperty({ description: '权限状态', enum: PermissionStatus })
+  @ApiProperty({ description: '权限状态', enum: () => PermissionStatus })
   status: PermissionStatus;
 
   @ApiPropertyOptional({ description: '描述', type: String })
@@ -166,6 +166,6 @@ export class PermissionTreeResponseDto {
   @ApiProperty({ description: '更新时间', type: Date })
   updatedAt: Date;
 
-  @ApiPropertyOptional({ description: '子权限列表', type: 'array', items: { type: 'object' } })
+  @ApiPropertyOptional({ description: '子权限列表', type: () => [PermissionTreeResponseDto] })
   children?: PermissionTreeResponseDto[];
 }

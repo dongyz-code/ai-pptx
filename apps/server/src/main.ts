@@ -49,10 +49,15 @@ async function bootstrap() {
     .addTag('操作日志', '操作日志查询和管理')
     .build();
 
-  const document = () => SwaggerModule.createDocument(app, config);
+  const document = SwaggerModule.createDocument(app, config, {
+    ignoreGlobalPrefix: false,
+    deepScanRoutes: true,
+  });
   SwaggerModule.setup('api/docs', app, document, {
     swaggerOptions: {
       persistAuthorization: true,
+      deepLinking: true,
+      displayRequestDuration: true,
     },
   });
 

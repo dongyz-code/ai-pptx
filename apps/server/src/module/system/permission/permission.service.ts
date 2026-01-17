@@ -1,3 +1,4 @@
+import { Permissions } from '@/common/decorators/permissions.decorator.js';
 import { Injectable, Logger, ConflictException, NotFoundException, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like } from 'typeorm';
@@ -194,11 +195,11 @@ export class PermissionService implements OnModuleInit {
       status: createPermissionDto.status || PermissionStatus.ACTIVE,
     });
 
-    await this.permissionRepository.save(permission);
+    const saved = await this.permissionRepository.save(permission);
     await this.invalidateCache();
 
     this.logger.log(`权限 ${permission.name} 创建成功`);
-    return permission;
+    return { ...saved };
   }
 
   /**
@@ -220,7 +221,7 @@ export class PermissionService implements OnModuleInit {
       take: pageSize,
     });
 
-    return new PaginatedResponse(permissions, total, page, pageSize);
+    return new PaginatedResponse(permissions as PermissionResponseDto[], total, page, pageSize);
   }
 
   /**
@@ -257,7 +258,7 @@ export class PermissionService implements OnModuleInit {
     if (!permission) {
       throw new NotFoundException('权限不存在');
     }
-    return permission;
+    return { ...permission };
   }
 
   /**
@@ -287,11 +288,11 @@ export class PermissionService implements OnModuleInit {
     }
 
     Object.assign(permission, updatePermissionDto);
-    await this.permissionRepository.save(permission);
+    const saved = await this.permissionRepository.save(permission);
     await this.invalidateCache();
 
     this.logger.log(`权限 ${permission.name} 更新成功`);
-    return permission;
+    return { ...saved };
   }
 
   /**

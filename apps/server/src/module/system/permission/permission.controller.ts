@@ -34,7 +34,7 @@ export class PermissionController {
 
   @Get('tree')
   @ApiOperation({ summary: '获取权限树' })
-  @ApiResponse({ status: 200, description: '查询成功' })
+  @ApiResponse({ status: 200, description: '查询成功', type: () => [PermissionTreeResponseDto] })
   async getTree(): Promise<PermissionTreeResponseDto[]> {
     return this.permissionService.getTree();
   }

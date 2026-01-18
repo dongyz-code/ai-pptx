@@ -166,6 +166,6 @@ export class PermissionTreeResponseDto {
   @ApiProperty({ description: '更新时间', type: Date })
   updatedAt: Date;
 
-  @ApiPropertyOptional({ description: '子权限列表' })
-  children?: any[];
+  @ApiPropertyOptional({ description: '子权限列表', type: () => PermissionTreeResponseDto, isArray: true })
+  children?: PermissionTreeResponseDto[];
 }

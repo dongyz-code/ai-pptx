@@ -61,51 +61,51 @@ export class DeleteOperationLogsDto {
  * 操作日志响应DTO
  */
 export class OperationLogResponseDto {
-  @ApiProperty({ description: '日志ID', type: String })
+  @ApiProperty({ description: '日志ID', type: () => String })
   id: string;
 
-  @ApiPropertyOptional({ description: '用户ID', type: String })
+  @ApiPropertyOptional({ description: '用户ID', type: () => String })
   userId?: string;
 
-  @ApiPropertyOptional({ description: '用户名', type: String })
+  @ApiPropertyOptional({ description: '用户名', type: () => String })
   username?: string;
 
-  @ApiProperty({ description: '模块名称', type: String })
+  @ApiProperty({ description: '模块名称', type: () => String })
   module: string;
 
-  @ApiProperty({ description: '操作名称', type: String })
+  @ApiProperty({ description: '操作名称', type: () => String })
   action: string;
 
-  @ApiProperty({ description: 'HTTP方法', type: String })
+  @ApiProperty({ description: 'HTTP方法', type: () => String })
   method: string;
 
-  @ApiProperty({ description: '请求URL', type: String })
+  @ApiProperty({ description: '请求URL', type: () => String })
   url: string;
 
-  @ApiPropertyOptional({ description: '请求IP', type: String })
+  @ApiPropertyOptional({ description: '请求IP', type: () => String })
   ip?: string;
 
-  @ApiPropertyOptional({ description: '请求参数', type: Object })
+  @ApiPropertyOptional({ description: '请求参数', type: () => Object })
   params?: Record<string, any>;
 
-  @ApiPropertyOptional({ description: '请求体', type: Object })
+  @ApiPropertyOptional({ description: '请求体', type: () => Object })
   body?: Record<string, any>;
 
-  @ApiPropertyOptional({ description: '响应结果', type: Object })
+  @ApiPropertyOptional({ description: '响应结果', type: () => Object })
   result?: Record<string, any>;
 
-  @ApiPropertyOptional({ description: '错误信息', type: String })
+  @ApiPropertyOptional({ description: '错误信息', type: () => String })
   error?: string;
 
-  @ApiProperty({ description: '状态码', type: Number })
+  @ApiProperty({ description: '状态码', type: () => Number })
   statusCode: number;
 
-  @ApiProperty({ description: '耗时（毫秒）', type: Number })
+  @ApiProperty({ description: '耗时（毫秒）', type: () => Number })
   duration: number;
 
-  @ApiPropertyOptional({ description: 'User-Agent', type: String })
+  @ApiPropertyOptional({ description: 'User-Agent', type: () => String })
   userAgent?: string;
 
-  @ApiProperty({ description: '创建时间', type: Date })
+  @ApiProperty({ description: '创建时间', type: () => Date })
   createdAt: Date;
 }

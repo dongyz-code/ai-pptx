@@ -69,31 +69,31 @@ export class QueryRoleDto extends PaginationDto {
  * 角色响应DTO
  */
 export class RoleResponseDto {
-  @ApiProperty({ description: '角色ID' })
+  @ApiProperty({ description: '角色ID', type: () => String })
   id: string;
 
-  @ApiProperty({ description: '角色名称' })
+  @ApiProperty({ description: '角色名称', type: () => String })
   name: string;
 
-  @ApiProperty({ description: '角色编码' })
+  @ApiProperty({ description: '角色编码', type: () => String })
   code: string;
 
-  @ApiPropertyOptional({ description: '角色描述' })
+  @ApiPropertyOptional({ description: '角色描述', type: () => String })
   description?: string;
 
   @ApiProperty({ description: '角色状态', enum: RoleStatus })
   status: RoleStatus;
 
-  @ApiPropertyOptional({ description: '权限ID列表', type: String, isArray: true })
+  @ApiPropertyOptional({ description: '权限ID列表', type: () => String, isArray: true })
   permissionIds?: string[];
 
-  @ApiPropertyOptional({ description: '排序号' })
+  @ApiPropertyOptional({ description: '排序号', type: () => Number })
   sort?: number;
 
-  @ApiProperty({ description: '创建时间' })
+  @ApiProperty({ description: '创建时间', type: () => Date })
   createdAt: Date;
 
-  @ApiProperty({ description: '更新时间' })
+  @ApiProperty({ description: '更新时间', type: () => Date })
   updatedAt: Date;
 }
 

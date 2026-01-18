@@ -22,19 +22,19 @@ export class LoginDto {
  * 登录用户信息
  */
 export class LoginUserInfo {
-  @ApiProperty({ description: '用户ID' })
+  @ApiProperty({ description: '用户ID', type: () => String })
   id: string;
 
-  @ApiProperty({ description: '用户名' })
+  @ApiProperty({ description: '用户名', type: () => String })
   username: string;
 
-  @ApiPropertyOptional({ description: '昵称' })
+  @ApiPropertyOptional({ description: '昵称', type: () => String })
   nickname?: string;
 
-  @ApiProperty({ description: '角色列表', type: String, isArray: true })
+  @ApiProperty({ description: '角色列表', type: () => String, isArray: true })
   roles: string[];
 
-  @ApiProperty({ description: '权限列表', type: String, isArray: true })
+  @ApiProperty({ description: '权限列表', type: () => String, isArray: true })
   permissions: string[];
 }
 

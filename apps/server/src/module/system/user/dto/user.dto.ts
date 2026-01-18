@@ -88,40 +88,40 @@ export class QueryUserDto extends PaginationDto {
  * 用户响应DTO（排除密码）
  */
 export class UserResponseDto {
-  @ApiProperty({ description: '用户ID' })
+  @ApiProperty({ description: '用户ID', type: () => String })
   id: string;
 
-  @ApiProperty({ description: '用户名' })
+  @ApiProperty({ description: '用户名', type: () => String })
   username: string;
 
-  @ApiPropertyOptional({ description: '昵称' })
+  @ApiPropertyOptional({ description: '昵称', type: () => String })
   nickname?: string;
 
-  @ApiPropertyOptional({ description: '邮箱' })
+  @ApiPropertyOptional({ description: '邮箱', type: () => String })
   email?: string;
 
-  @ApiPropertyOptional({ description: '手机号' })
+  @ApiPropertyOptional({ description: '手机号', type: () => String })
   phone?: string;
 
-  @ApiPropertyOptional({ description: '头像URL' })
+  @ApiPropertyOptional({ description: '头像URL', type: () => String })
   avatar?: string;
 
   @ApiProperty({ description: '用户状态', enum: UserStatus })
   status: UserStatus;
 
-  @ApiPropertyOptional({ description: '角色ID列表', type: String, isArray: true })
+  @ApiPropertyOptional({ description: '角色ID列表', type: () => String, isArray: true })
   roleIds?: string[];
 
-  @ApiPropertyOptional({ description: '备注' })
+  @ApiPropertyOptional({ description: '备注', type: () => String })
   remark?: string;
 
-  @ApiProperty({ description: '创建时间' })
+  @ApiProperty({ description: '创建时间', type: () => Date })
   createdAt: Date;
 
-  @ApiProperty({ description: '更新时间' })
+  @ApiProperty({ description: '更新时间', type: () => Date })
   updatedAt: Date;
 
-  @ApiPropertyOptional({ description: '最后登录时间' })
+  @ApiPropertyOptional({ description: '最后登录时间', type: () => Date })
   lastLoginAt?: Date;
 }
 

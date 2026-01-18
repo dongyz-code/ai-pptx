@@ -15,7 +15,8 @@
       "Bash(pkill:*)",
       "Bash(npm outdated:*)",
       "Bash(npm install:*)",
-      "Bash(pnpm --filter ai-ppt-server add:*)"
+      "Bash(pnpm --filter ai-ppt-server add:*)",
+      "Bash(timeout 15 pnpm dev:server:*)"
     ],
     "deny": [],
     "ask": []

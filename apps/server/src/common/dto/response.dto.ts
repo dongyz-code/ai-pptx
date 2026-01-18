@@ -4,16 +4,16 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
  * 标准API响应包装类
  */
 export class ApiResponse<T = any> {
-  @ApiProperty({ description: '状态码', example: 200 })
+  @ApiProperty({ description: '状态码', example: 200, type: () => Number })
   code: number;
 
-  @ApiProperty({ description: '消息', example: 'success' })
+  @ApiProperty({ description: '消息', example: 'success', type: () => String })
   message: string;
 
-  @ApiPropertyOptional({ description: '数据', type: Object })
+  @ApiPropertyOptional({ description: '数据', type: () => Object })
   data?: T;
 
-  @ApiProperty({ description: '时间戳' })
+  @ApiProperty({ description: '时间戳', type: () => Number })
   timestamp: number;
 
   constructor(code: number, message: string, data?: T) {

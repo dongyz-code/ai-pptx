@@ -24,6 +24,7 @@
     "@tiptap/starter-kit": "^2.10.4",
     "@tiptap/vue-3": "^2.10.4",
     "@vueuse/core": "^12.2.0",
+    "axios": "^1.13.2",
     "classnames": "^2.5.1",
     "dayjs": "^1.11.12",
     "html-to-image": "^1.11.11",
@@ -41,6 +42,7 @@
   },
   "devDependencies": {
     "@iconify/json": "^2.2.408",
+    "@pkg/types": "workspace:*",
     "@types/lodash-es": "^4.17.12",
     "@vitejs/plugin-vue": "^5.1.2",
     "@vitejs/plugin-vue-jsx": "^4.0.1",

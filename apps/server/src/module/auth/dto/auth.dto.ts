@@ -1,10 +1,11 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsString, MinLength, MaxLength } from 'class-validator';
+import type { LoginDto as ILoginDto, LoginUserInfo as ILoginUserInfo, LoginResponseDto as ILoginResponseDto, RefreshTokenDto as IRefreshTokenDto } from '@pkg/types';
 
 /**
  * 登录请求DTO
  */
-export class LoginDto {
+export class LoginDto implements ILoginDto {
   @ApiProperty({ description: '用户名', minLength: 3, maxLength: 50 })
   @IsString()
   @MinLength(3)
@@ -21,7 +22,7 @@ export class LoginDto {
 /**
  * 登录用户信息
  */
-export class LoginUserInfo {
+export class LoginUserInfo implements ILoginUserInfo {
   @ApiProperty({ description: '用户ID', type: () => String })
   id: string;
 
@@ -41,7 +42,7 @@ export class LoginUserInfo {
 /**
  * 登录响应DTO
  */
-export class LoginResponseDto {
+export class LoginResponseDto implements ILoginResponseDto {
   @ApiProperty({ description: '访问令牌', type: String })
   accessToken: string;
 
@@ -58,7 +59,7 @@ export class LoginResponseDto {
 /**
  * 刷新令牌DTO
  */
-export class RefreshTokenDto {
+export class RefreshTokenDto implements IRefreshTokenDto {
   @ApiProperty({ description: '刷新令牌' })
   @IsString()
   refreshToken: string;

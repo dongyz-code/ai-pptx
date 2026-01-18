@@ -28,7 +28,7 @@ export class RoleController {
 
   @Get('simple')
   @ApiOperation({ summary: '获取所有角色（不分页）' })
-  @ApiResponse({ status: 200, description: '查询成功', type: () => [RoleResponseDto] })
+  @ApiResponse({ status: 200, description: '查询成功', type: () => RoleResponseDto, isArray: true })
   async findAllSimple(): Promise<RoleResponseDto[]> {
     return this.roleService.findAllSimple();
   }

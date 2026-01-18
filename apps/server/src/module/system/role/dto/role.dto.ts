@@ -28,7 +28,7 @@ export class CreateRoleDto {
   @IsOptional()
   status?: RoleStatus;
 
-  @ApiPropertyOptional({ description: '权限ID列表', type: [String] })
+  @ApiPropertyOptional({ description: '权限ID列表', type: String, isArray: true })
   @IsArray()
   @IsString({ each: true })
   @IsOptional()
@@ -84,7 +84,7 @@ export class RoleResponseDto {
   @ApiProperty({ description: '角色状态', enum: RoleStatus })
   status: RoleStatus;
 
-  @ApiPropertyOptional({ description: '权限ID列表', type: [String] })
+  @ApiPropertyOptional({ description: '权限ID列表', type: String, isArray: true })
   permissionIds?: string[];
 
   @ApiPropertyOptional({ description: '排序号' })
@@ -101,7 +101,7 @@ export class RoleResponseDto {
  * 分配权限DTO
  */
 export class AssignPermissionsDto {
-  @ApiProperty({ description: '权限ID列表', type: [String] })
+  @ApiProperty({ description: '权限ID列表', type: String, isArray: true })
   @IsArray()
   @IsString({ each: true })
   permissionIds: string[];

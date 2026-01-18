@@ -46,7 +46,7 @@ export class QueryOperationLogDto extends PaginationDto {
  * 批量删除操作日志DTO
  */
 export class DeleteOperationLogsDto {
-  @ApiPropertyOptional({ description: '日志ID列表（不传则根据时间范围删除）', type: [String] })
+  @ApiPropertyOptional({ description: '日志ID列表（不传则根据时间范围删除）', type: String, isArray: true })
   @IsString({ each: true })
   @IsOptional()
   ids?: string[];

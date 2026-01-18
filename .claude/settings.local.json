@@ -7,7 +7,15 @@
       "Bash(npx tsc:*)",
       "Bash(rm:*)",
       "Bash(pnpm run dev)",
-      "Bash(pnpm tsc --noEmit)"
+      "Bash(pnpm tsc --noEmit)",
+      "Bash(npm run build)",
+      "Bash(npm run start:prod:*)",
+      "Bash(curl:*)",
+      "Bash(find:*)",
+      "Bash(pkill:*)",
+      "Bash(npm outdated:*)",
+      "Bash(npm install:*)",
+      "Bash(pnpm --filter ai-ppt-server add:*)"
     ],
     "deny": [],
     "ask": []

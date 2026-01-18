@@ -31,10 +31,10 @@ export class LoginUserInfo {
   @ApiPropertyOptional({ description: '昵称' })
   nickname?: string;
 
-  @ApiProperty({ description: '角色列表', type: [String] })
+  @ApiProperty({ description: '角色列表', type: String, isArray: true })
   roles: string[];
 
-  @ApiProperty({ description: '权限列表', type: [String] })
+  @ApiProperty({ description: '权限列表', type: String, isArray: true })
   permissions: string[];
 }
 

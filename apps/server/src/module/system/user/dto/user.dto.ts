@@ -46,7 +46,7 @@ export class CreateUserDto {
   @IsOptional()
   status?: UserStatus;
 
-  @ApiPropertyOptional({ description: '角色ID列表', type: [String] })
+  @ApiPropertyOptional({ description: '角色ID列表', type: String, isArray: true })
   @IsArray()
   @IsString({ each: true })
   @IsOptional()
@@ -109,7 +109,7 @@ export class UserResponseDto {
   @ApiProperty({ description: '用户状态', enum: UserStatus })
   status: UserStatus;
 
-  @ApiPropertyOptional({ description: '角色ID列表', type: [String] })
+  @ApiPropertyOptional({ description: '角色ID列表', type: String, isArray: true })
   roleIds?: string[];
 
   @ApiPropertyOptional({ description: '备注' })

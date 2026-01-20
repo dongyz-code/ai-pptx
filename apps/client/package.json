@@ -12,6 +12,9 @@
   "dependencies": {
     "@floating-ui/vue": "^1.1.9",
     "@iconify/vue": "^5.0.0",
+    "@primeuix/styles": "^2.0.3",
+    "@primeuix/themes": "^2.0.3",
+    "@primevue/forms": "^4.5.4",
     "@primevue/themes": "^4.2.3",
     "@tiptap/core": "^2.10.4",
     "@tiptap/extension-color": "^2.10.4",
@@ -38,7 +41,8 @@
     "uuid": "^11.0.3",
     "vue": "^3.5.13",
     "vue-draggable-plus": "^0.6.0",
-    "vue-router": "^4.4.3"
+    "vue-router": "^4.4.3",
+    "zod": "^4.3.5"
   },
   "devDependencies": {
     "@iconify/json": "^2.2.408",

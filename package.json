@@ -34,5 +34,9 @@
   "packageManager": "pnpm@10.26.1",
   "engines": {
     "node": ">=18.2.0"
+  },
+  "dependencies": {
+    "@primevue/forms": "^4.5.4",
+    "zod": "^4.3.5"
   }
 }

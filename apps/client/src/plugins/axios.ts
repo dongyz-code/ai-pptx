@@ -29,23 +29,49 @@ const instance: AxiosInstance = axios.create({
 });
 
 /**
+ * 处理 401 未授权错误，跳转到登录页
+ */
+function handleUnauthorized(errorMessage: string) {
+  const userStore = useUserStore();
+
+  notify({
+    severity: 'error',
+    summary: 'Error',
+    detail: errorMessage,
+  });
+
+  userStore.logout();
+
+  // 延迟跳转，确保用户能看到提示
+  setTimeout(() => {
+    // 保存当前页面路径作为 redirect 参数，登录后可以跳转回来
+    const currentPath = window.location.pathname + window.location.search + window.location.hash;
+    // 避免在登录页循环重定向
+    if (currentPath !== '/login' && !currentPath.startsWith('/login?')) {
+      const redirectUrl = encodeURIComponent(currentPath);
+      window.location.href = `/login?redirect=${redirectUrl}`;
+    } else {
+      window.location.href = '/login';
+    }
+  }, 1000);
+}
+
+/**
  * 错误处理
  */
 function handleError(error: AxiosError<ApiResponse>) {
   const userStore = useUserStore();
+  let errorMessage = '请求失败';
 
   // 处理不同的 HTTP 错误状态
   if (error.response) {
     const { status, data } = error.response;
-    let errorMessage = data?.message || '请求失败';
 
     switch (status) {
       case 401:
         errorMessage = '未授权,请重新登录';
-        userStore.logout();
-        // 跳转到登录页
-        window.location.href = '/login';
-        break;
+        handleUnauthorized(errorMessage);
+        return Promise.reject(new Error(errorMessage));
       case 403:
         errorMessage = '拒绝访问';
         break;
@@ -64,19 +90,21 @@ function handleError(error: AxiosError<ApiResponse>) {
       case 504:
         errorMessage = '网关超时';
         break;
-      default:
-        errorMessage = data?.message || `请求失败 (${status})`;
+    }
+
+    if ('message' in data && data.message) {
+      errorMessage = data.message;
     }
 
     notify({
       severity: 'error',
-      summary: errorMessage,
+      summary: 'Error',
+      detail: errorMessage,
     });
     return Promise.reject(new Error(errorMessage));
   }
 
   // 网络错误
-  let errorMessage = '请求失败';
   if (error.code === 'ECONNABORTED') {
     errorMessage = '请求超时,请稍后重试';
   } else if (error.message === 'Network Error') {
@@ -86,7 +114,8 @@ function handleError(error: AxiosError<ApiResponse>) {
   }
   notify({
     severity: 'error',
-    summary: errorMessage,
+    summary: 'Error',
+    detail: errorMessage,
   });
   return Promise.reject(error);
 }

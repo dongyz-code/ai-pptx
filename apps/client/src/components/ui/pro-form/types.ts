@@ -1,21 +1,28 @@
 import type { Component, ComputedRef, Ref, VNode } from 'vue';
 import type { z } from 'zod';
-import type { InputTextProps } from 'primevue/inputtext';
-import type { TextareaProps } from 'primevue/textarea';
-import type { InputNumberProps } from 'primevue/inputnumber';
-import type { SelectProps } from 'primevue/select';
-import type { CascadeSelectProps } from 'primevue/cascadeselect';
-import type { DatePickerProps } from 'primevue/datepicker';
-import type { ToggleSwitchProps } from 'primevue/toggleswitch';
-import type { CheckboxProps } from 'primevue/checkbox';
-import type { RadioButtonProps } from 'primevue/radiobutton';
-import type { SliderProps } from 'primevue/slider';
 
+// ==================== ValueType 枚举 ====================
+export type ValueType =
+  | 'text'
+  | 'textarea'
+  | 'number'
+  | 'password'
+  | 'select'
+  | 'multiSelect'
+  | 'radio'
+  | 'checkbox'
+  | 'checkboxGroup'
+  | 'treeSelect'
+  | 'date'
+  | 'dateRange'
+  | 'switch';
+
+// ==================== Options 类型 ====================
 export interface ProFormOption {
   label: string;
   value: any;
   disabled?: boolean;
-  children?: ProFormOption[];
+  children?: ProFormOption[]; // 用于 TreeSelect
   [key: string]: any;
 }
 
@@ -26,135 +33,81 @@ export type ProFormOptions =
   | (() => ProFormOption[])
   | (() => Promise<ProFormOption[]>);
 
-interface ProFormFieldBase {
+// ==================== 字段配置 ====================
+export interface ProFormFieldSchema {
   key: string;
-  label: string;
+  label?: string;
+  tooltip?: string | VNode;
   placeholder?: string;
-  colSpan?: number;
-  visible?: boolean | ((ctx: { model: Record<string, any> }) => boolean);
-  slot?: string | boolean;
-  defaultValue?: any;
+  valueType: ValueType;
+  value?: any;
+  props?: Record<string, any>;
+  options?: ProFormOptions;
   schema?: z.ZodType<any>;
+  hideInForm?: boolean;
+  colProps?: {
+    xs?: number;
+    sm?: number;
+    md?: number;
+    lg?: number;
+    xl?: number;
+  };
 }
 
-export type InputField = ProFormFieldBase & {
-  type: 'input';
-  props?: Partial<InputTextProps>;
-};
-
-export type TextareaField = ProFormFieldBase & {
-  type: 'textarea';
-  props?: Partial<TextareaProps>;
-};
-
-export type InputNumberField = ProFormFieldBase & {
-  type: 'input-number';
-  props?: Partial<InputNumberProps>;
-};
-
-export type SelectField = ProFormFieldBase & {
-  type: 'select';
-  options: ProFormOptions;
-  props?: Partial<SelectProps>;
-};
-
-export type CascaderField = ProFormFieldBase & {
-  type: 'cascader';
-  options: ProFormOptions;
-  props?: Partial<CascadeSelectProps>;
-};
-
-export type DateField = ProFormFieldBase & {
-  type: 'date';
-  props?: Partial<DatePickerProps>;
-};
-
-export type DateRangeField = ProFormFieldBase & {
-  type: 'daterange';
-  props?: Partial<DatePickerProps>;
-};
-
-export type SwitchField = ProFormFieldBase & {
-  type: 'switch';
-  props?: Partial<ToggleSwitchProps>;
-};
-
-export type CheckboxField = ProFormFieldBase & {
-  type: 'checkbox';
-  options: ProFormOptions;
-  props?: Partial<CheckboxProps>;
-};
-
-export type RadioField = ProFormFieldBase & {
-  type: 'radio';
-  options: ProFormOptions;
-  props?: Partial<RadioButtonProps>;
-};
-
-export type SliderField = ProFormFieldBase & {
-  type: 'slider';
-  props?: Partial<SliderProps>;
-};
-
-export type ComponentField = ProFormFieldBase & {
-  type: 'component';
-  component: Component;
-};
-
-export type RenderField = ProFormFieldBase & {
-  type: 'render';
-  render: (props: any) => VNode;
-};
-
-export type StaticField = ProFormFieldBase & {
-  type: 'text';
-};
-
-export type ProFormField =
-  | InputField
-  | TextareaField
-  | InputNumberField
-  | SelectField
-  | CascaderField
-  | DateField
-  | DateRangeField
-  | SwitchField
-  | CheckboxField
-  | RadioField
-  | SliderField
-  | StaticField
-  | ComponentField
-  | RenderField;
-
+// ==================== 表单配置 ====================
 export interface ProFormProps {
-  modelValue: Record<string, any>;
-  options: ProFormField[];
-  schema?: z.ZodObject<any>;
-  labelWidth?: string | number;
-  labelPosition?: 'left' | 'top' | 'right';
-  collapseToRows?: number;
-  defaultCollapsed?: boolean;
-  showCollapse?: boolean;
-  submitText?: string;
-  resetText?: string;
-  formProps?: Record<string, any>;
+  schema: ProFormFieldSchema[];
+  modelValue?: Record<string, any>;
+  layout?: 'horizontal' | 'vertical' | 'inline';
+  labelCol?: number;
+  wrapperCol?: number;
+  grid?: boolean;
+  gridProps?: {
+    gutter?: number;
+    cols?: number;
+  };
+  readonly?: boolean;
+  disabled?: boolean;
 }
 
-export interface ProFormEmits {
-  'update:modelValue': [value: Record<string, any>];
-  submit: [values: Record<string, any>];
-  reset: [];
-  change: [key: string, value: any, model: Record<string, any>];
-  toggle: [collapsed: boolean];
+// ==================== 校验相关 ====================
+export interface FieldError {
+  key: string;
+  message: string;
 }
 
-export interface ProFormExpose {
-  validate: () => Promise<void>;
-  clearValidate: () => void;
-  resetFields: () => void;
+export interface ValidationResult {
+  valid: boolean;
+  errors: Record<string, string>;
 }
 
-export interface ProFormFieldProps {
-  field: ProFormField;
+// ==================== 渲染器相关 ====================
+export interface FieldRendererProps {
+  field: ProFormFieldSchema;
   modelValue: any;
+  error?: string;
+  disabled?: boolean;
+  readonly?: boolean;
+}
+
+export type FieldRenderer = Component;
+
+// ==================== 表单实例方法 ====================
+export interface ProFormInstance {
+  validate: () => Promise<ValidationResult>;
+  validateField: (key: string) => Promise<boolean>;
+  clearValidate: (keys?: string[]) => void;
+  resetFields: () => void;
+  getFieldValue: (key: string) => any;
+  setFieldValue: (key: string, value: any) => void;
+  getFieldsValue: () => Record<string, any>;
+  setFieldsValue: (values: Record<string, any>) => void;
+}
+
+// ==================== 事件类型 ====================
+export interface ProFormEmits {
+  (e: 'update:modelValue', value: Record<string, any>): void;
+  (e: 'submit', values: Record<string, any>): void;
+  (e: 'reset'): void;
+  (e: 'valuesChange', changedValues: Record<string, any>, allValues: Record<string, any>): void;
 }

@@ -1,6 +1,7 @@
 import { defineComponent, ref } from 'vue';
 import { Button, Dialog } from 'primevue';
 import { routerPush } from '@/utils/route';
+import ProFormExample from '@/components/ui/pro-form/examples/demo.vue';
 
 const Home = defineComponent({
   name: 'Home',
@@ -13,6 +14,7 @@ const Home = defineComponent({
 
     return () => (
       <div class="flex w-full flex-col items-center justify-center">
+        <ProFormExample />
         <div class="flex w-full p-2">
           <Button onClick={goEditor}>Go Editor</Button>
         </div>

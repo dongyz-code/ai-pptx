@@ -1,17 +1,18 @@
 <template>
-  <form class="pro-form" @submit.prevent="handleSubmit">
+  <form class="w-full" @submit.prevent="handleSubmit">
     <!-- 表单字段 -->
     <div
-      class="pro-form__fields"
+      class="mb-6"
       :class="{
-        'grid gap-4': grid,
-        [`grid-cols-${gridProps?.cols || 2}`]: grid,
+        'flex flex-wrap': grid,
       }"
+      :style="grid ? gridStyle : undefined"
     >
       <div
         v-for="field in visibleFields"
         :key="field.key"
         :class="getFieldColClass(field)"
+        :style="getFieldColStyle(field)"
       >
         <ProFormItem
           :field="field"
@@ -19,6 +20,8 @@
           :error="errors[field.key]"
           :disabled="disabled"
           :readonly="readonly"
+          :label-position="labelPosition"
+          :label-width="labelWidth"
           @update:model-value="(value) => handleFieldChange(field.key, value)"
           @blur="() => handleFieldBlur(field.key)"
         />
@@ -26,7 +29,7 @@
     </div>
 
     <!-- 操作按钮 -->
-    <div class="pro-form__actions">
+    <div class="flex justify-end gap-3">
       <slot name="actions" :submit="handleSubmit" :reset="handleReset">
         <Button type="submit" label="提交" />
         <Button type="button" label="重置" severity="secondary" @click="handleReset" />
@@ -36,14 +39,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, onMounted } from 'vue';
+import { ref, computed, watch, onMounted, HTMLAttributes } from 'vue';
 import Button from 'primevue/button';
 import ProFormItem from './ProFormItem.vue';
 import { useZodValidator } from './core/use-zod-validator';
 import type { ProFormProps, ProFormFieldSchema, ProFormInstance, ValidationResult } from './types';
 
 const props = withDefaults(defineProps<ProFormProps>(), {
-  layout: 'vertical',
+  labelPosition: 'top',
+  labelWidth: '120px',
   grid: false,
   readonly: false,
   disabled: false,
@@ -87,7 +91,7 @@ watch(
 );
 
 // 校验器
-const { errors, validateField, validateForm, clearValidate, setFieldError } = useZodValidator({
+const { errors, validateField, validateForm, clearValidate } = useZodValidator({
   fields: props.schema,
   formData,
 });
@@ -97,18 +101,40 @@ const visibleFields = computed(() => {
   return props.schema.filter((field) => !field.hideInForm);
 });
 
+// Grid 样式
+const gridStyle = computed(() => {
+  if (!props.grid) return undefined;
+  const gutter = props.gridProps?.gutter || 16;
+  return {
+    display: 'flex',
+    flexWrap: 'wrap',
+    marginLeft: `-${gutter / 2}px`,
+    marginRight: `-${gutter / 2}px`,
+  } as HTMLAttributes['style'];
+});
+
 // 获取字段列类名
 const getFieldColClass = (field: ProFormFieldSchema) => {
-  if (!props.grid || !field.colProps) return '';
+  if (!props.grid) return '';
+  return 'box-border';
+};
 
-  const classes: string[] = [];
-  if (field.colProps.xs) classes.push(`col-span-${field.colProps.xs}`);
-  if (field.colProps.sm) classes.push(`sm:col-span-${field.colProps.sm}`);
-  if (field.colProps.md) classes.push(`md:col-span-${field.colProps.md}`);
-  if (field.colProps.lg) classes.push(`lg:col-span-${field.colProps.lg}`);
-  if (field.colProps.xl) classes.push(`xl:col-span-${field.colProps.xl}`);
+// 获取字段列样式（24栅格系统）
+const getFieldColStyle = (field: ProFormFieldSchema) => {
+  if (!props.grid) return undefined;
 
-  return classes.join(' ');
+  const gutter = props.gridProps?.gutter || 16;
+  const span = field.colProps?.span || 24;
+
+  // 计算百分比宽度
+  const width = `${(span / 24) * 100}%`;
+
+  return {
+    width,
+    paddingLeft: `${gutter / 2}px`,
+    paddingRight: `${gutter / 2}px`,
+    marginBottom: `${gutter}px`,
+  };
 };
 
 // 字段值变化
@@ -181,19 +207,3 @@ defineExpose<ProFormInstance>({
   setFieldsValue,
 });
 </script>
-
-<style scoped>
-.pro-form {
-  width: 100%;
-}
-
-.pro-form__fields {
-  margin-bottom: 1.5rem;
-}
-
-.pro-form__actions {
-  display: flex;
-  gap: 0.75rem;
-  justify-content: flex-end;
-}
-</style>

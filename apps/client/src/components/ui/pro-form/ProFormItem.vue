@@ -1,7 +1,22 @@
 <template>
-  <div class="pro-form-item" :class="{ 'has-error': !!error }">
+  <div
+    class="mb-6"
+    :class="{
+      'has-error': !!error,
+      'flex flex-col': labelPosition === 'top',
+      'flex flex-row items-start': labelPosition === 'left',
+    }"
+  >
     <!-- Label 区域 -->
-    <div v-if="field.label" class="pro-form-item__label">
+    <div
+      v-if="field.label"
+      class="flex items-center font-medium text-gray-700"
+      :class="{
+        'mb-2': labelPosition === 'top',
+        'flex-shrink-0 pt-2 mr-4 text-right': labelPosition === 'left',
+      }"
+      :style="labelPosition === 'left' && labelWidth ? { width: labelWidth } : undefined"
+    >
       <label :for="field.key">
         {{ field.label }}
       </label>
@@ -15,7 +30,10 @@
     </div>
 
     <!-- 字段渲染区域 -->
-    <div class="pro-form-item__control">
+    <div
+      class="w-full"
+      :class="{ 'flex-1 min-w-0': labelPosition === 'left' }"
+    >
       <FieldRenderer
         :field="field"
         :model-value="modelValue"
@@ -24,10 +42,15 @@
         :readonly="readonly"
         @update:model-value="handleChange"
       />
+
+      <!-- 错误信息（在 left 布局时显示在控制区域内） -->
+      <div v-if="error && labelPosition === 'left'" class="mt-1">
+        <small class="text-red-500">{{ error }}</small>
+      </div>
     </div>
 
-    <!-- 错误信息 -->
-    <div v-if="error" class="pro-form-item__error">
+    <!-- 错误信息（在 top 布局时显示在外层） -->
+    <div v-if="error && labelPosition === 'top'" class="mt-1">
       <small class="text-red-500">{{ error }}</small>
     </div>
   </div>
@@ -36,7 +59,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import FieldRenderer from './core/field-renderer.vue';
-import type { ProFormFieldSchema } from './types';
+import type { ProFormFieldSchema, LabelPosition } from './types';
 
 interface ProFormItemProps {
   field: ProFormFieldSchema;
@@ -44,9 +67,15 @@ interface ProFormItemProps {
   error?: string;
   disabled?: boolean;
   readonly?: boolean;
+  labelPosition?: LabelPosition;
+  labelWidth?: string;
 }
 
-const props = defineProps<ProFormItemProps>();
+const props = withDefaults(defineProps<ProFormItemProps>(), {
+  labelPosition: 'top',
+  labelWidth: '120px',
+});
+
 const emit = defineEmits<{
   (e: 'update:modelValue', value: any): void;
   (e: 'blur'): void;
@@ -67,30 +96,11 @@ const handleChange = (value: any) => {
 </script>
 
 <style scoped>
-.pro-form-item {
-  margin-bottom: 1.5rem;
-}
-
-.pro-form-item__label {
-  display: flex;
-  align-items: center;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-  color: #374151;
-}
-
-.pro-form-item__control {
-  width: 100%;
-}
-
-.pro-form-item__error {
-  margin-top: 0.25rem;
-}
-
-.pro-form-item.has-error .pro-form-item__control :deep(input),
-.pro-form-item.has-error .pro-form-item__control :deep(textarea),
-.pro-form-item.has-error .pro-form-item__control :deep(.p-select),
-.pro-form-item.has-error .pro-form-item__control :deep(.p-multiselect) {
+/* 错误状态 - 使用 :deep() 来影响子组件 */
+.has-error :deep(input),
+.has-error :deep(textarea),
+.has-error :deep(.p-select),
+.has-error :deep(.p-multiselect) {
   border-color: #ef4444;
 }
 </style>

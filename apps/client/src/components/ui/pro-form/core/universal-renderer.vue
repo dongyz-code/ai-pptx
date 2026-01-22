@@ -69,10 +69,11 @@ const needsOptions = computed(() => config.value.needsOptions);
 // 解析 options - 直接传递 field.options，让 resolver 内部判断
 const { options: resolvedOptions, loading } = useOptionsResolver(props.field.options);
 
-// 合并 props（默认 props + 用户 props）
+// 合并 props（默认 props + 用户 props + fluid）
 const mergedProps = computed(() => ({
   ...config.value.defaultProps,
   ...props.field.props,
+  fluid: props.field.fluid !== undefined ? props.field.fluid : true, // 默认 fluid 为 true
 }));
 
 // 处理值变化

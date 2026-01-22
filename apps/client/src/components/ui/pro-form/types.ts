@@ -17,6 +17,9 @@ export type ValueType =
   | 'dateRange'
   | 'switch';
 
+// ==================== Label 布局 ====================
+export type LabelPosition = 'top' | 'left';
+
 // ==================== Options 类型 ====================
 export interface ProFormOption {
   label: string;
@@ -45,12 +48,14 @@ export interface ProFormFieldSchema {
   options?: ProFormOptions;
   schema?: z.ZodType<any>;
   hideInForm?: boolean;
+  fluid?: boolean; // 是否让表单控件占满容器宽度，默认 true
   colProps?: {
-    xs?: number;
-    sm?: number;
-    md?: number;
-    lg?: number;
-    xl?: number;
+    span?: number; // 占据的栅格数，默认 24（独占一行）
+    xs?: number; // <576px 响应式栅格
+    sm?: number; // ≥576px 响应式栅格
+    md?: number; // ≥768px 响应式栅格
+    lg?: number; // ≥992px 响应式栅格
+    xl?: number; // ≥1200px 响应式栅格
   };
 }
 
@@ -58,9 +63,8 @@ export interface ProFormFieldSchema {
 export interface ProFormProps {
   schema: ProFormFieldSchema[];
   modelValue?: Record<string, any>;
-  layout?: 'horizontal' | 'vertical' | 'inline';
-  labelCol?: number;
-  wrapperCol?: number;
+  labelPosition?: LabelPosition; // label 位置：top（上面）或 left（左边）
+  labelWidth?: string; // label 宽度（仅在 labelPosition='left' 时生效）
   grid?: boolean;
   gridProps?: {
     gutter?: number;

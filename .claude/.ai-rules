@@ -1,0 +1,126 @@
+# AI 编码规则
+
+## 项目架构约束
+
+### 目录结构
+- `apps/client` - 前端应用 (Vue3 + TypeScript)
+- `apps/server` - 后端应用 (NestJS)
+- `packages/types` - 共享类型定义
+- 所有共享代码必须放在 packages 下，禁止跨 app 直接引用
+
+### 配置管理
+- 环境变量统一用 `.env` 文件，禁止硬编码
+- 配置文件统一放在各 app 的 `config/` 目录
+- API 地址、常量等统一在 `constants/` 目录管理
+- 禁止在组件中直接写配置值
+
+### 代码组织
+- 组件按功能模块分目录，不要全堆在一起
+- 工具函数放 `utils/`，业务逻辑放 `services/`
+- 类型定义放 `types/`，接口定义放 `api/`
+- 每个模块独立，减少耦合
+
+### 命名规范
+- 文件名：kebab-case (user-profile.tsx)
+- 组件名：PascalCase (UserProfile)
+- 函数/变量：camelCase (getUserInfo)
+- 常量：UPPER_SNAKE_CASE (API_BASE_URL)
+- 类型/接口：PascalCase (UserInfo)
+
+### 导入规范
+- 使用路径别名 `@/` 代替相对路径
+- 按顺序导入：第三方库 → 内部模块 → 类型 → 样式
+- 禁止循环依赖
+
+## 前端规范
+
+### 组件开发
+- 优先用组合式 API (setup)
+- 组件拆分粒度合理，单个文件不超过 300 行
+- Props 必须定义类型，使用 TypeScript
+- 事件命名用 `on` 前缀 (onSubmit, onChange)
+
+### 状态管理
+- 全局状态用 Pinia，局部状态用 ref/reactive
+- Store 按模块拆分，不要一个大 store
+- 异步操作统一在 actions 中处理
+
+### 表单规范
+- 所有表单必须用 ProForm，禁止原生表单或直接用 PrimeVue 组件
+- 导入：`import { ProForm } from '@/components/ui/pro-form'`
+- 验证用 Zod：`schema: z.string().min(1, '错误提示')`
+- 字段类型：text, textarea, number, password, select, multiSelect, radio, checkbox, checkboxGroup, treeSelect, date, dateRange, switch
+
+### 样式规范
+- 只用 Tailwind CSS，禁止内联 style
+- 禁止写 scoped style，除非必须用 :deep()
+- 颜色、间距等用 Tailwind 变量，不要硬编码
+- 响应式用 Tailwind 断点 (sm, md, lg, xl)
+
+### API 调用
+- 统一封装 axios，不要直接用 fetch
+- API 接口定义在 `api/` 目录，按模块分文件
+- 错误处理统一在拦截器中处理
+- 使用 TypeScript 定义请求/响应类型
+
+## 后端规范
+
+### 模块设计
+- 按业务领域划分模块 (user, auth, ppt 等)
+- 每个模块包含：controller, service, dto, entity
+- 模块间通过接口通信，不要直接依赖实现
+
+### 数据验证
+- DTO 必须用 class-validator 验证
+- 所有输入参数必须验证，不信任前端数据
+- 错误信息要清晰，便于调试
+
+### 错误处理
+- 统一用异常过滤器处理错误
+- 自定义业务异常继承 HttpException
+- 错误码统一管理，不要散落各处
+
+### 数据库
+- 实体定义用 TypeORM 装饰器
+- 复杂查询用 QueryBuilder，不要写原生 SQL
+- 事务操作必须用 @Transaction 装饰器
+- 敏感数据加密存储
+
+## 通用规范
+
+### TypeScript
+- 严格模式，不用 any (特殊情况用 unknown)
+- 接口优先于 type (除非需要联合类型)
+- 善用泛型，提高代码复用性
+- 枚举用 const enum 提升性能
+
+### 代码质量
+- 函数单一职责，不超过 50 行
+- 避免深层嵌套，最多 3 层
+- 魔法数字提取为常量
+- 注释写"为什么"，不写"是什么"
+
+### Git 规范
+- Commit 格式：`feat: 功能描述` / `fix: 修复描述`
+- 类型：feat, fix, docs, style, refactor, test, chore
+- 一次 commit 只做一件事
+- 提交前必须通过 lint 检查
+
+### 性能优化
+- 组件懒加载，路由按需加载
+- 图片压缩，使用 WebP 格式
+- 列表虚拟滚动，避免一次渲染大量数据
+- API 请求防抖节流，避免频繁调用
+
+### 安全规范
+- 敏感信息不提交到 Git
+- XSS 防护：用户输入必须转义
+- CSRF 防护：使用 token 验证
+- SQL 注入防护：用 ORM，不拼接 SQL
+- 权限校验：前后端都要做
+
+## 测试规范
+- 核心业务逻辑必须写单元测试
+- API 接口必须写集成测试
+- 测试覆盖率不低于 60%
+- 测试文件命名：`*.spec.ts` / `*.test.ts`

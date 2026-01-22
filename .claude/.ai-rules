@@ -45,6 +45,15 @@
 - Store 按模块拆分，不要一个大 store
 - 异步操作统一在 actions 中处理
 
+### 图标规范
+- 使用 v-icon 组件：`<v-icon icon="solar:text-bold" />`
+- 禁止直接用 PrimeVue 的 `<i class="pi pi-xxx">` 或其他图标方案
+- 新增图标必须先在 `apps/client/src/components/ui/icon/run.mjs` 的 `iconifyIcons` 数组中定义
+- 图标格式：`collection:icon-name`（如 `solar:text-bold`）
+- 可用图标集：https://icon-sets.iconify.design/
+- 定义后运行 `pnpm run icon` 生成类型文件
+- 本地 SVG 图标放在 `apps/client/src/assets/svg-icons/`，使用 `local:` 前缀
+
 ### 表单规范
 - 所有表单必须用 ProForm，禁止原生表单或直接用 PrimeVue 组件
 - 导入：`import { ProForm } from '@/components/ui/pro-form'`

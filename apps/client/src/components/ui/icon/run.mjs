@@ -25,6 +25,13 @@ const iconifyIcons = [
   'mynaui:heading-three',
   'mynaui:heading-four',
   'mynaui:heading-five',
+  'solar:sparkles-bold',
+  'solar:palette-bold',
+  'solar:bolt-bold',
+  'solar:download-bold',
+  'solar:add-circle-bold',
+  'solar:eye-bold',
+  'solar:arrow-right-bold',
 ];
 
 /**

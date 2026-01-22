@@ -15,4 +15,11 @@ export default {
   'mynaui:heading-three': async () => (await import('~icons/mynaui/heading-three')).default,
   'mynaui:heading-four': async () => (await import('~icons/mynaui/heading-four')).default,
   'mynaui:heading-five': async () => (await import('~icons/mynaui/heading-five')).default,
+  'solar:sparkles-bold': async () => (await import('~icons/solar/sparkles-bold')).default,
+  'solar:palette-bold': async () => (await import('~icons/solar/palette-bold')).default,
+  'solar:bolt-bold': async () => (await import('~icons/solar/bolt-bold')).default,
+  'solar:download-bold': async () => (await import('~icons/solar/download-bold')).default,
+  'solar:add-circle-bold': async () => (await import('~icons/solar/add-circle-bold')).default,
+  'solar:eye-bold': async () => (await import('~icons/solar/eye-bold')).default,
+  'solar:arrow-right-bold': async () => (await import('~icons/solar/arrow-right-bold')).default,
 };

@@ -41,10 +41,9 @@ export function useZodValidator(
       delete errors.value[key];
       return true;
     } catch (error) {
-      if (error instanceof z.ZodError) {
-        // 安全地获取第一个错误信息
-        const firstError = error.errors?.[0];
-        errors.value[key] = firstError?.message || '校验失败';
+      if (error instanceof z.ZodError && error.errors && error.errors.length > 0) {
+        // 获取第一个错误信息
+        errors.value[key] = error.errors[0].message;
       } else {
         errors.value[key] = '校验失败';
       }

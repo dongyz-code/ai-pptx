@@ -21,6 +21,13 @@ export interface IconTypes {
   'mynaui:heading-three': Component;
   'mynaui:heading-four': Component;
   'mynaui:heading-five': Component;
+  'solar:sparkles-bold': Component;
+  'solar:palette-bold': Component;
+  'solar:bolt-bold': Component;
+  'solar:download-bold': Component;
+  'solar:add-circle-bold': Component;
+  'solar:eye-bold': Component;
+  'solar:arrow-right-bold': Component;
 }
 
 export type IconName = keyof IconTypes;

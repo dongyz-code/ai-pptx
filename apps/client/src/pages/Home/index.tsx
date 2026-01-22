@@ -1,6 +1,7 @@
 import { defineComponent, ref } from 'vue';
 import { Button } from 'primevue';
 import { routerPush } from '@/utils/route';
+import { IconName, VIcon } from '@/components/ui';
 
 const Home = defineComponent({
   name: 'Home',
@@ -9,24 +10,28 @@ const Home = defineComponent({
       routerPush({ name: 'Editor' });
     };
 
-    const features = [
+    const features: {
+      icon: IconName;
+      title: string;
+      description: string;
+    }[] = [
       {
-        icon: 'pi-sparkles',
+        icon: 'solar:sparkles-bold',
         title: 'AI 智能生成',
         description: '输入主题，AI 自动生成专业演示文稿',
       },
       {
-        icon: 'pi-palette',
+        icon: 'solar:palette-bold',
         title: '精美模板',
         description: '多种设计风格，一键应用主题',
       },
       {
-        icon: 'pi-bolt',
+        icon: 'solar:bolt-bold',
         title: '快速编辑',
         description: '直观的编辑器，实时预览效果',
       },
       {
-        icon: 'pi-download',
+        icon: 'solar:download-bold',
         title: '多格式导出',
         description: '支持 PPTX、PDF 等多种格式',
       },
@@ -43,15 +48,14 @@ const Home = defineComponent({
             </h1>
             <p class="mx-auto mb-8 max-w-2xl text-xl text-gray-600">让 AI 帮你创建专业演示文稿，节省时间，提升效率</p>
             <div class="flex justify-center gap-4">
-              <Button onClick={goEditor} label="开始创作" icon="pi pi-plus" size="large" class="px-8 py-3 text-lg" />
-              <Button
-                label="查看示例"
-                icon="pi pi-eye"
-                severity="secondary"
-                outlined
-                size="large"
-                class="px-8 py-3 text-lg"
-              />
+              <Button onClick={goEditor} size="large" class="px-8 py-3 text-lg">
+                <VIcon icon="solar:add-circle-bold" class="mr-2" />
+                开始创作
+              </Button>
+              <Button severity="secondary" outlined size="large" class="px-8 py-3 text-lg">
+                <VIcon icon="solar:eye-bold" class="mr-2" />
+                查看示例
+              </Button>
             </div>
           </div>
 
@@ -63,7 +67,7 @@ const Home = defineComponent({
                 class="rounded-xl border border-gray-100 bg-white p-6 shadow-lg transition-shadow duration-300 hover:shadow-xl"
               >
                 <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-purple-500">
-                  <i class={`pi ${feature.icon} text-xl text-white`}></i>
+                  <VIcon icon={feature.icon} class="text-xl text-white" />
                 </div>
                 <h3 class="mb-2 text-lg font-semibold text-gray-900">{feature.title}</h3>
                 <p class="text-sm text-gray-600">{feature.description}</p>
@@ -105,12 +109,13 @@ const Home = defineComponent({
             <p class="mb-8 text-xl opacity-90">立即开始，体验 AI 驱动的演示创作</p>
             <Button
               onClick={goEditor}
-              label="立即开始"
-              icon="pi pi-arrow-right"
               size="large"
               severity="secondary"
               class="bg-white px-10 py-4 text-lg text-blue-600 hover:bg-gray-100"
-            />
+            >
+              立即开始
+              <VIcon icon="solar:arrow-right-bold" class="ml-2" />
+            </Button>
           </div>
         </div>
 

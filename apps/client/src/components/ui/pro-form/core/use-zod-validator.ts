@@ -19,9 +19,7 @@ export interface UseZodValidatorReturn {
   setFieldError: (key: string, message: string) => void;
 }
 
-export function useZodValidator(
-  options: UseZodValidatorOptions
-): UseZodValidatorReturn {
+export function useZodValidator(options: UseZodValidatorOptions): UseZodValidatorReturn {
   const { fields, formData } = options;
   const errors = ref<Record<string, string>>({});
 
@@ -41,9 +39,8 @@ export function useZodValidator(
       delete errors.value[key];
       return true;
     } catch (error) {
-      if (error instanceof z.ZodError && error.errors && error.errors.length > 0) {
-        // 获取第一个错误信息
-        errors.value[key] = error.errors[0].message;
+      if (error instanceof z.ZodError && error.issues?.length) {
+        errors.value[key] = error.issues[0].message;
       } else {
         errors.value[key] = '校验失败';
       }

@@ -1,9 +1,15 @@
+import { merge } from 'lodash-es';
 import type { ToastServiceMethods, ToastMessageOptions } from 'primevue';
 
 /**
  * Toast 实例
  */
 let toastInstance: ToastServiceMethods | null = null;
+
+const defaultOptions: ToastMessageOptions = {
+  severity: 'info',
+  life: 3000,
+};
 
 /**
 
@@ -33,5 +39,5 @@ function getToastInstance(): ToastServiceMethods {
  */
 export function notify(options: ToastMessageOptions) {
   const instance = getToastInstance();
-  instance.add(options);
+  instance.add(merge(defaultOptions, options));
 }

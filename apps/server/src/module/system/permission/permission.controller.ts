@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, Query, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, Query, HttpCode, HttpStatus, Inject } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth, ApiParam } from '@nestjs/swagger';
 import { PermissionService } from './permission.service.js';
 import {
@@ -15,7 +15,7 @@ import { ApiResponseWrapper } from '@/common/decorators/api-response-wrapper.dec
 @ApiBearerAuth()
 @Controller('permissions')
 export class PermissionController {
-  constructor(private readonly permissionService: PermissionService) {}
+  constructor(@Inject(PermissionService) private readonly permissionService: PermissionService) {}
 
   @Post()
   @ApiOperation({ summary: '创建权限' })

@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Body, Headers, Req } from '@nestjs/common';
+import { Controller, Post, Get, Body, Headers, Req, Inject } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { AuthService } from './auth.service.js';
 import { LoginDto, LoginResponseDto, LoginUserInfo } from './dto/auth.dto.js';
@@ -9,7 +9,7 @@ import { ApiResponseWrapper, ApiErrorResponse } from '../../common/decorators/ap
 @ApiTags('认证管理')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(@Inject(AuthService) private readonly authService: AuthService) {}
 
   @Post('login')
   @Public()

@@ -1,6 +1,11 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsString, MinLength, MaxLength } from 'class-validator';
-import type { LoginDto as ILoginDto, LoginUserInfo as ILoginUserInfo, LoginResponseDto as ILoginResponseDto, RefreshTokenDto as IRefreshTokenDto } from '@pkg/types';
+import type {
+  LoginDto as ILoginDto,
+  LoginUserInfo as ILoginUserInfo,
+  LoginResponseDto as ILoginResponseDto,
+  RefreshTokenDto as IRefreshTokenDto,
+} from '@pkg/types';
 
 /**
  * 登录请求DTO

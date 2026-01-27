@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, Query, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, Query, HttpCode, HttpStatus, Inject } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth, ApiParam } from '@nestjs/swagger';
 import { UserService } from './user.service.js';
 import { CreateUserDto, UpdateUserDto, QueryUserDto, UserResponseDto, ChangePasswordDto } from './dto/user.dto.js';
@@ -10,7 +10,7 @@ import { ApiResponseWrapper } from '@/common/decorators/api-response-wrapper.dec
 @ApiBearerAuth()
 @Controller('users')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(@Inject(UserService) private readonly userService: UserService) {}
 
   @Post()
   @ApiOperation({ summary: '创建用户' })

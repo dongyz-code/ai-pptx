@@ -1,4 +1,4 @@
-import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
+import { Inject, Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../system/user/user.service.js';
 import { RoleService } from '../system/role/role.service.js';
 import { RedisService } from '../../common/redis/redis.service.js';
@@ -17,9 +17,9 @@ export class AuthService {
   private readonly tokenExpiry = 7200; // 2小时
 
   constructor(
-    private readonly userService: UserService,
-    private readonly roleService: RoleService,
-    private readonly redisService: RedisService
+    @Inject(UserService) private readonly userService: UserService,
+    @Inject(RoleService) private readonly roleService: RoleService,
+    @Inject(RedisService) private readonly redisService: RedisService
   ) {}
 
   /**

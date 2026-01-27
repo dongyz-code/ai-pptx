@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, Query, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, Query, HttpCode, HttpStatus, Inject } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth, ApiParam } from '@nestjs/swagger';
 import { RoleService } from './role.service.js';
 import { CreateRoleDto, UpdateRoleDto, QueryRoleDto, RoleResponseDto, AssignPermissionsDto } from './dto/role.dto.js';
@@ -9,7 +9,7 @@ import { ApiResponseWrapper } from '@/common/decorators/api-response-wrapper.dec
 @ApiBearerAuth()
 @Controller('roles')
 export class RoleController {
-  constructor(private readonly roleService: RoleService) {}
+  constructor(@Inject(RoleService) private readonly roleService: RoleService) {}
 
   @Post()
   @ApiOperation({ summary: '创建角色' })

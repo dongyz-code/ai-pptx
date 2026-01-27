@@ -1,13 +1,18 @@
-import { Injectable, OnModuleInit, OnModuleDestroy, Logger, Inject, Optional } from '@nestjs/common';
+import { Injectable, OnModuleInit, OnModuleDestroy, Inject, Optional } from '@nestjs/common';
+import { Logger } from '../logger/logger.service.js';
 import { ConfigService } from '@nestjs/config';
 import { Redis } from 'ioredis';
 
 @Injectable()
 export class RedisService implements OnModuleInit, OnModuleDestroy {
-  private readonly logger = new Logger(RedisService.name);
   private client: Redis;
 
-  constructor(@Optional() @Inject(ConfigService) private readonly configService: ConfigService) {}
+  constructor(
+    @Inject(Logger) private readonly logger: Logger,
+    @Optional() @Inject(ConfigService) private readonly configService: ConfigService
+  ) {
+    this.logger.setContext(RedisService.name);
+  }
 
   async onModuleInit() {
     const host = this.configService.get<string>('redis.host');
@@ -34,11 +39,11 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
     });
 
     this.client.on('connect', () => {
-      this.logger.log('Redis connected');
+      this.logger.info('Redis connected');
     });
 
     this.client.on('ready', () => {
-      this.logger.log('Redis ready');
+      this.logger.info('Redis ready');
     });
 
     this.client.on('close', () => {
@@ -46,13 +51,13 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
     });
 
     this.client.on('reconnecting', () => {
-      this.logger.log('Redis reconnecting...');
+      this.logger.info('Redis reconnecting...');
     });
 
     try {
       await this.client.connect();
       await this.client.ping();
-      this.logger.log('Redis module initialized successfully');
+      this.logger.info('Redis module initialized successfully');
     } catch (error) {
       this.logger.error(`Failed to connect to Redis: ${error.message}`);
       throw error;
@@ -61,7 +66,7 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
 
   async onModuleDestroy() {
     await this.client.quit();
-    this.logger.log('Redis connection closed gracefully');
+    this.logger.info('Redis connection closed gracefully');
   }
 
   getClient(): Redis {

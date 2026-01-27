@@ -3,7 +3,7 @@ import { APP_GUARD, APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 
 // Common modules
 import { AppConfigModule } from './common/config/config.module.js';
-import { AppLoggerModule } from './common/logger/index.js';
+import { AppLoggerModule } from './common/logger/logger.module.js';
 import { DatabaseModule } from './common/database/database.module.js';
 import { CacheModule } from './common/cache/cache.module.js';
 

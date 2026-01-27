@@ -1,4 +1,5 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
+import { Logger } from '../logger/logger.service.js';
 import { RedisService } from '../redis/redis.service.js';
 import { randomBytes } from 'crypto';
 import dayjs from 'dayjs';
@@ -12,14 +13,18 @@ export interface IdGenerationOptions {
 
 @Injectable()
 export class IdService {
-  private readonly logger = new Logger(IdService.name);
   private readonly defaultStrategy: IdStrategy = 'incr';
 
   // 本地降级计数器 (进程内)
   private localCounter = 0;
   private lastCounterReset = Date.now();
 
-  constructor(private readonly redisService: RedisService) {}
+  constructor(
+    @Inject(Logger) private readonly logger: Logger,
+    private readonly redisService: RedisService
+  ) {
+    this.logger.setContext(IdService.name);
+  }
 
   async nextId(opts?: IdGenerationOptions): Promise<string> {
     const strategy = opts?.strategy || this.defaultStrategy;

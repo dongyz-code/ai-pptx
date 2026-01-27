@@ -1,4 +1,5 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, Inject } from '@nestjs/common';
+import { Logger } from '@/common/logger/logger.service.js';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like, LessThan, Between, In } from 'typeorm';
 import { OperationLogEntity } from './entities/operation-log.entity.js';
@@ -11,13 +12,14 @@ import { IdService } from '../../common/id/id.service.js';
  */
 @Injectable()
 export class OperationLogService {
-  private readonly logger = new Logger(OperationLogService.name);
-
   constructor(
+    @Inject(Logger) private readonly logger: Logger,
     @InjectRepository(OperationLogEntity)
     private readonly logRepository: Repository<OperationLogEntity>,
     private readonly idService: IdService
-  ) {}
+  ) {
+    this.logger.setContext(OperationLogService.name);
+  }
 
   /**
    * 创建操作日志
@@ -90,7 +92,7 @@ export class OperationLogService {
     }
 
     const deleted = result?.affected || 0;
-    this.logger.log(`删除了 ${deleted} 条操作日志`);
+    this.logger.info(`删除了 ${deleted} 条操作日志`);
     return { deleted };
   }
 
@@ -99,7 +101,7 @@ export class OperationLogService {
    */
   async clear(): Promise<{ deleted: number }> {
     const result = await this.logRepository.clear();
-    this.logger.log('清空了所有操作日志');
+    this.logger.info('清空了所有操作日志');
     return { deleted: 0 }; // clear() 不返回删除数量
   }
 }

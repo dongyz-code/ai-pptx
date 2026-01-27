@@ -1,4 +1,5 @@
-import { Inject, Injectable, Logger, UnauthorizedException } from '@nestjs/common';
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { Logger } from '@/common/logger/logger.service.js';
 import { UserService } from '../system/user/user.service.js';
 import { RoleService } from '../system/role/role.service.js';
 import { RedisService } from '../../common/redis/redis.service.js';
@@ -11,16 +12,17 @@ import { randomBytes } from 'crypto';
  */
 @Injectable()
 export class AuthService {
-  private readonly logger = new Logger(AuthService.name);
-
   // 令牌过期时间（秒）
   private readonly tokenExpiry = 7200; // 2小时
 
   constructor(
+    @Inject(Logger) private readonly logger: Logger,
     @Inject(UserService) private readonly userService: UserService,
     @Inject(RoleService) private readonly roleService: RoleService,
     @Inject(RedisService) private readonly redisService: RedisService
-  ) {}
+  ) {
+    this.logger.setContext(AuthService.name);
+  }
 
   /**
    * 用户登录
@@ -71,7 +73,7 @@ export class AuthService {
     // 更新最后登录信息
     await this.userService.updateLastLogin(user.id, ip || '');
 
-    this.logger.log(`用户 ${username} 登录成功`);
+    this.logger.info(`用户 ${username} 登录成功`);
 
     return {
       accessToken,
@@ -91,7 +93,7 @@ export class AuthService {
 
     // 从Redis删除令牌
     await this.redisService.getClient().del(`auth:token:${token}`);
-    this.logger.log('用户登出成功');
+    this.logger.info('用户登出成功');
   }
 
   /**

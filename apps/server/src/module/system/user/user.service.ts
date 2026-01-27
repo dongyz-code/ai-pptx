@@ -1,4 +1,5 @@
-import { Injectable, Logger, ConflictException, NotFoundException, OnModuleInit } from '@nestjs/common';
+import { Injectable, ConflictException, NotFoundException, OnModuleInit, Inject } from '@nestjs/common';
+import { Logger } from '@/common/logger/logger.service.js';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like } from 'typeorm';
 import { UserEntity, UserStatus } from './entities/user.entity.js';
@@ -13,18 +14,20 @@ import { IdService } from '@/common/id/id.service.js';
  */
 @Injectable()
 export class UserService implements OnModuleInit {
-  private readonly logger = new Logger(UserService.name);
   private readonly CACHE_PREFIX = 'user';
   private readonly CACHE_TTL = 300; // 5分钟
 
   constructor(
+    @Inject(Logger) private readonly logger: Logger,
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
     @InjectRepository(RoleEntity)
     private readonly roleRepository: Repository<RoleEntity>,
     private readonly cacheService: CacheService,
     private readonly idService: IdService
-  ) {}
+  ) {
+    this.logger.setContext(UserService.name);
+  }
 
   async onModuleInit() {
     // 初始化默认管理员
@@ -45,7 +48,7 @@ export class UserService implements OnModuleInit {
         roles: adminRole ? [adminRole] : [],
       });
       await this.userRepository.save(admin);
-      this.logger.log('默认管理员用户已初始化');
+      this.logger.info('默认管理员用户已初始化');
     }
   }
 
@@ -77,7 +80,7 @@ export class UserService implements OnModuleInit {
     });
 
     await this.userRepository.save(user);
-    this.logger.log(`用户 ${user.username} 创建成功`);
+    this.logger.info(`用户 ${user.username} 创建成功`);
 
     return this.toResponseDto(user);
   }
@@ -168,7 +171,7 @@ export class UserService implements OnModuleInit {
     await this.cacheService.del(`${this.CACHE_PREFIX}:${id}`);
     await this.cacheService.del(`${this.CACHE_PREFIX}:${id}:permissions`);
 
-    this.logger.log(`用户 ${user.username} 更新成功`);
+    this.logger.info(`用户 ${user.username} 更新成功`);
     return this.toResponseDto(user);
   }
 
@@ -187,7 +190,7 @@ export class UserService implements OnModuleInit {
     await this.cacheService.del(`${this.CACHE_PREFIX}:${id}`);
     await this.cacheService.del(`${this.CACHE_PREFIX}:${id}:permissions`);
 
-    this.logger.log(`用户 ${user.username} 删除成功`);
+    this.logger.info(`用户 ${user.username} 删除成功`);
   }
 
   /**
@@ -206,7 +209,7 @@ export class UserService implements OnModuleInit {
     user.password = this.hashPassword(dto.newPassword);
     await this.userRepository.save(user);
 
-    this.logger.log(`用户 ${user.username} 密码修改成功`);
+    this.logger.info(`用户 ${user.username} 密码修改成功`);
   }
 
   /**

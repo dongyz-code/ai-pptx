@@ -1,4 +1,5 @@
-import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus, Logger } from '@nestjs/common';
+import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus, Inject } from '@nestjs/common';
+import { Logger } from '../logger/logger.service.js';
 import { ApiResponse } from '../dto/response.dto.js';
 
 /**
@@ -6,7 +7,9 @@ import { ApiResponse } from '../dto/response.dto.js';
  */
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
-  private readonly logger = new Logger(HttpExceptionFilter.name);
+  constructor(@Inject(Logger) private readonly logger: Logger) {
+    this.logger.setContext(HttpExceptionFilter.name);
+  }
 
   catch(exception: unknown, host: ArgumentsHost) {
     const ctx = host.switchToHttp();

@@ -1,4 +1,5 @@
-import { Injectable, NestInterceptor, ExecutionContext, CallHandler, Logger } from '@nestjs/common';
+import { Injectable, NestInterceptor, ExecutionContext, CallHandler, Inject } from '@nestjs/common';
+import { Logger } from '@/common/logger/logger.service.js';
 import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
@@ -11,12 +12,13 @@ import { OperationLogEntity } from '../entities/operation-log.entity.js';
  */
 @Injectable()
 export class OperationLogInterceptor implements NestInterceptor {
-  private readonly logger = new Logger(OperationLogInterceptor.name);
-
   constructor(
+    @Inject(Logger) private readonly logger: Logger,
     private readonly reflector: Reflector,
     private readonly operationLogService: OperationLogService
-  ) {}
+  ) {
+    this.logger.setContext(OperationLogInterceptor.name);
+  }
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const operationLogMeta = this.reflector.get<OperationLogMetadata>(OPERATION_LOG_KEY, context.getHandler());

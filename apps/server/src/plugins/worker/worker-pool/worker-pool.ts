@@ -23,9 +23,12 @@
 import { Worker } from 'worker_threads';
 import os from 'node:os';
 import { extname } from 'node:path';
+import { pino } from 'pino';
 import { uuidV7 } from '@/utils/ids.js';
 import type { WorkerPoolOptions, WorkerTask, WorkResponse, FunctionPayload, WorkerProgressMessage } from './types.js';
 import { resolveScriptPathSync } from '@/utils/file.js';
+
+const logger = pino({ name: 'WorkerPool' });
 
 interface WorkerExt extends Worker {
   taskCount: number;
@@ -161,7 +164,7 @@ export class WorkerPool {
     const script = this.options.script;
     const { type, path: scriptPath } = resolveScriptPathSync(script);
 
-    console.log(type, scriptPath);
+    logger.debug({ type, scriptPath }, 'Creating worker with script');
 
     // 根据用户脚本的文件类型选择对应的 bootstrap 文件
     const bootstrapPath = type === 'typescript' ? './worker-bootstrap.ts' : './worker-bootstrap.js';
@@ -192,7 +195,7 @@ export class WorkerPool {
       if (!this.killed) this.createWorker();
     });
 
-    worker.on('error', console.error);
+    worker.on('error', (err) => logger.error({ err }, 'Worker error'));
 
     this.workers.add(worker);
     this.idleWorkers.push(worker);

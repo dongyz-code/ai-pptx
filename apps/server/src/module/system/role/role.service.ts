@@ -1,4 +1,5 @@
-import { Injectable, Logger, ConflictException, NotFoundException, OnModuleInit } from '@nestjs/common';
+import { Injectable, ConflictException, NotFoundException, OnModuleInit, Inject } from '@nestjs/common';
+import { Logger } from '@/common/logger/logger.service.js';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like } from 'typeorm';
 import { RoleEntity, RoleStatus } from './entities/role.entity.js';
@@ -13,18 +14,20 @@ import { IdService } from '@/common/id/id.service.js';
  */
 @Injectable()
 export class RoleService implements OnModuleInit {
-  private readonly logger = new Logger(RoleService.name);
   private readonly CACHE_KEY_ALL = 'roles:all';
   private readonly CACHE_TTL = 600; // 10分钟
 
   constructor(
+    @Inject(Logger) private readonly logger: Logger,
     @InjectRepository(RoleEntity)
     private readonly roleRepository: Repository<RoleEntity>,
     @InjectRepository(PermissionEntity)
     private readonly permissionRepository: Repository<PermissionEntity>,
     private readonly cacheService: CacheService,
     private readonly idService: IdService
-  ) {}
+  ) {
+    this.logger.setContext(RoleService.name);
+  }
 
   async onModuleInit() {
     await this.initDefaultRoles();
@@ -51,7 +54,7 @@ export class RoleService implements OnModuleInit {
         sort: 10,
       });
 
-      this.logger.log('默认角色已初始化');
+      this.logger.info('默认角色已初始化');
     }
   }
 
@@ -84,7 +87,7 @@ export class RoleService implements OnModuleInit {
     await this.roleRepository.save(role);
     await this.invalidateCache();
 
-    this.logger.log(`角色 ${role.name} 创建成功`);
+    this.logger.info(`角色 ${role.name} 创建成功`);
     return this.toResponseDto(role);
   }
 
@@ -198,7 +201,7 @@ export class RoleService implements OnModuleInit {
     await this.roleRepository.save(role);
     await this.invalidateCache();
 
-    this.logger.log(`角色 ${role.name} 更新成功`);
+    this.logger.info(`角色 ${role.name} 更新成功`);
     return this.toResponseDto(role);
   }
 
@@ -214,7 +217,7 @@ export class RoleService implements OnModuleInit {
     await this.roleRepository.remove(role);
     await this.invalidateCache();
 
-    this.logger.log(`角色 ${role.name} 删除成功`);
+    this.logger.info(`角色 ${role.name} 删除成功`);
   }
 
   /**
@@ -230,7 +233,7 @@ export class RoleService implements OnModuleInit {
     await this.roleRepository.save(role);
     await this.invalidateCache();
 
-    this.logger.log(`角色 ${role.name} 权限分配成功`);
+    this.logger.info(`角色 ${role.name} 权限分配成功`);
     return this.toResponseDto(role);
   }
 

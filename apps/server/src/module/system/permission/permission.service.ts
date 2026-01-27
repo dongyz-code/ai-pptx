@@ -1,4 +1,5 @@
-import { Injectable, Logger, ConflictException, NotFoundException, OnModuleInit } from '@nestjs/common';
+import { Injectable, ConflictException, NotFoundException, OnModuleInit, Inject } from '@nestjs/common';
+import { Logger } from '@/common/logger/logger.service.js';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like } from 'typeorm';
 import { PermissionEntity, PermissionType, PermissionStatus } from './entities/permission.entity.js';
@@ -18,16 +19,18 @@ import { IdService } from '@/common/id/id.service.js';
  */
 @Injectable()
 export class PermissionService implements OnModuleInit {
-  private readonly logger = new Logger(PermissionService.name);
   private readonly CACHE_KEY_TREE = 'permissions:tree';
   private readonly CACHE_TTL = 600; // 10分钟
 
   constructor(
+    @Inject(Logger) private readonly logger: Logger,
     @InjectRepository(PermissionEntity)
     private readonly permissionRepository: Repository<PermissionEntity>,
     private readonly cacheService: CacheService,
     private readonly idService: IdService
-  ) {}
+  ) {
+    this.logger.setContext(PermissionService.name);
+  }
 
   async onModuleInit() {
     await this.initDefaultPermissions();
@@ -172,7 +175,7 @@ export class PermissionService implements OnModuleInit {
     ];
 
     await this.permissionRepository.save(defaultPermissions);
-    this.logger.log('默认权限已初始化');
+    this.logger.info('默认权限已初始化');
   }
 
   /**
@@ -197,7 +200,7 @@ export class PermissionService implements OnModuleInit {
     const saved = await this.permissionRepository.save(permission);
     await this.invalidateCache();
 
-    this.logger.log(`权限 ${permission.name} 创建成功`);
+    this.logger.info(`权限 ${permission.name} 创建成功`);
     return { ...saved };
   }
 
@@ -290,7 +293,7 @@ export class PermissionService implements OnModuleInit {
     const saved = await this.permissionRepository.save(permission);
     await this.invalidateCache();
 
-    this.logger.log(`权限 ${permission.name} 更新成功`);
+    this.logger.info(`权限 ${permission.name} 更新成功`);
     return { ...saved };
   }
 
@@ -311,7 +314,7 @@ export class PermissionService implements OnModuleInit {
     await this.permissionRepository.remove(permission);
     await this.invalidateCache();
 
-    this.logger.log(`权限 ${permission.name} 删除成功`);
+    this.logger.info(`权限 ${permission.name} 删除成功`);
   }
 
   private async invalidateCache(): Promise<void> {

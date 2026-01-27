@@ -1,4 +1,5 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
+import { Logger } from '../logger/logger.service.js';
 import { RedisService } from '../redis/redis.service.js';
 
 /**
@@ -6,10 +7,14 @@ import { RedisService } from '../redis/redis.service.js';
  */
 @Injectable()
 export class CacheService {
-  private readonly logger = new Logger(CacheService.name);
   private readonly defaultTTL = 300; // 默认5分钟
 
-  constructor(private readonly redisService: RedisService) {}
+  constructor(
+    @Inject(Logger) private readonly logger: Logger,
+    private readonly redisService: RedisService
+  ) {
+    this.logger.setContext(CacheService.name);
+  }
 
   /**
    * 获取缓存

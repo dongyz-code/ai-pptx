@@ -2,6 +2,7 @@ import PrimeVue from 'primevue/config';
 import Aura from '@primevue/themes/aura';
 import { definePreset } from '@primevue/themes';
 import Tooltip from 'primevue/tooltip';
+import ToastService from 'primevue/toastservice';
 
 import type { Plugin } from 'vue';
 
@@ -68,5 +69,6 @@ export const usePrimeVue: Plugin<void> = (app) => {
   });
 
   // 注册 Tooltip 指令
+  app.use(ToastService);
   app.directive('tooltip', Tooltip);
 };

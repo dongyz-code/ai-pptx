@@ -1,5 +1,6 @@
 import axios, { AxiosError, type AxiosInstance, type AxiosRequestConfig, type AxiosResponse } from 'axios';
 import { useUserStore } from '@/models/user';
+import { router } from '@/router';
 import { ENV } from '@/constants/env';
 import { notify } from './notify';
 
@@ -18,6 +19,77 @@ export interface ApiResponse<T = any> {
 }
 
 /**
+ * 处理 401 未授权错误，跳转到登录页
+ */
+function handleUnauthorized() {
+  const userStore = useUserStore();
+
+  userStore.logout();
+  const currentRoute = router.currentRoute.value;
+  const redirectUrl = currentRoute.fullPath;
+
+  if (currentRoute.name !== 'Login')
+    router.push({
+      name: 'Login',
+      query: {
+        redirect: redirectUrl,
+      },
+    });
+}
+
+/**
+ * 获取错误信息
+ */
+function getErrorMessage(error: AxiosError<ApiResponse>) {
+  if (error.response && error.response.data && error.response.data.message) {
+    return error.response.data.message;
+  } else if (error.response && error.response.status) {
+    const { status } = error.response;
+    switch (status) {
+      case 401:
+        return '请重新登录';
+      case 403:
+        return '拒绝访问';
+      case 404:
+        return '请求的资源不存在';
+      case 500:
+        return '服务器内部错误';
+      case 502:
+        return '网关错误';
+      case 503:
+        return '服务不可用';
+      case 504:
+        return '网关超时';
+    }
+  } else if (error.code === 'ECONNABORTED') {
+    return '请求超时,请稍后重试';
+  } else if (error.message === 'Network Error') {
+    return '网络连接失败,请检查网络';
+  } else {
+    return error.message || '请求失败';
+  }
+}
+
+/**
+ * 错误处理
+ */
+function handleError(error: AxiosError<ApiResponse>) {
+  const message = getErrorMessage(error);
+
+  notify({
+    severity: 'error',
+    summary: 'Error',
+    detail: message,
+  });
+
+  if (error.response && error.response.status === 401) {
+    handleUnauthorized();
+  }
+
+  return Promise.reject(message);
+}
+
+/**
  * 创建 axios 实例
  */
 const instance: AxiosInstance = axios.create({
@@ -27,98 +99,6 @@ const instance: AxiosInstance = axios.create({
     'Content-Type': 'application/json',
   },
 });
-
-/**
- * 处理 401 未授权错误，跳转到登录页
- */
-function handleUnauthorized(errorMessage: string) {
-  const userStore = useUserStore();
-
-  notify({
-    severity: 'error',
-    summary: 'Error',
-    detail: errorMessage,
-  });
-
-  userStore.logout();
-
-  // 延迟跳转，确保用户能看到提示
-  setTimeout(() => {
-    // 保存当前页面路径作为 redirect 参数，登录后可以跳转回来
-    const currentPath = window.location.pathname + window.location.search + window.location.hash;
-    // 避免在登录页循环重定向
-    if (currentPath !== '/login' && !currentPath.startsWith('/login?')) {
-      const redirectUrl = encodeURIComponent(currentPath);
-      window.location.href = `/login?redirect=${redirectUrl}`;
-    } else {
-      window.location.href = '/login';
-    }
-  }, 1000);
-}
-
-/**
- * 错误处理
- */
-function handleError(error: AxiosError<ApiResponse>) {
-  const userStore = useUserStore();
-  let errorMessage = '请求失败';
-
-  // 处理不同的 HTTP 错误状态
-  if (error.response) {
-    const { status, data } = error.response;
-
-    switch (status) {
-      case 401:
-        errorMessage = '未授权,请重新登录';
-        handleUnauthorized(errorMessage);
-        return Promise.reject(new Error(errorMessage));
-      case 403:
-        errorMessage = '拒绝访问';
-        break;
-      case 404:
-        errorMessage = '请求的资源不存在';
-        break;
-      case 500:
-        errorMessage = '服务器内部错误';
-        break;
-      case 502:
-        errorMessage = '网关错误';
-        break;
-      case 503:
-        errorMessage = '服务不可用';
-        break;
-      case 504:
-        errorMessage = '网关超时';
-        break;
-    }
-
-    if ('message' in data && data.message) {
-      errorMessage = data.message;
-    }
-
-    notify({
-      severity: 'error',
-      summary: 'Error',
-      detail: errorMessage,
-    });
-    return Promise.reject(new Error(errorMessage));
-  }
-
-  // 网络错误
-  if (error.code === 'ECONNABORTED') {
-    errorMessage = '请求超时,请稍后重试';
-  } else if (error.message === 'Network Error') {
-    errorMessage = '网络连接失败,请检查网络';
-  } else {
-    errorMessage = error.message || '请求失败';
-  }
-  notify({
-    severity: 'error',
-    summary: 'Error',
-    detail: errorMessage,
-  });
-  return Promise.reject(error);
-}
 
 /**
  * 请求拦截器

@@ -48,8 +48,9 @@ const handleLogin = async (values: Record<string, any>) => {
     });
 
     userStore.login(res.accessToken, res.user!);
-    notify({ severity: 'success', summary: '成功', detail: '登录成功', life: 3000 });
+    notify({ severity: 'success', summary: '成功', detail: '登录成功' });
     router.push(redirect.value);
+  } catch (e) {
   } finally {
     loading.value = false;
   }

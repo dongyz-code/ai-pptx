@@ -37,7 +37,7 @@ function getToastInstance(): ToastServiceMethods {
  * 显示 Toast 消息
  * @param options 消息选项
  */
-export function notify(options: ToastMessageOptions) {
+export function notify(options: ToastMessageOptions = {}) {
   const instance = getToastInstance();
-  instance.add(merge(defaultOptions, options));
+  instance.add(merge({}, defaultOptions, options));
 }

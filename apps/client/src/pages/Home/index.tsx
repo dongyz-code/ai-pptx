@@ -16,7 +16,7 @@ const Home = defineComponent({
       description: string;
     }[] = [
       {
-        icon: 'solar:sparkles-bold',
+        icon: 'solar:widget-2-bold',
         title: 'AI 智能生成',
         description: '输入主题，AI 自动生成专业演示文稿',
       },

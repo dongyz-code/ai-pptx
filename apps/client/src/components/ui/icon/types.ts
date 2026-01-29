@@ -21,7 +21,7 @@ export interface IconTypes {
   'mynaui:heading-three': Component;
   'mynaui:heading-four': Component;
   'mynaui:heading-five': Component;
-  'solar:sparkles-bold': Component;
+  'solar:widget-2-bold': Component;
   'solar:palette-bold': Component;
   'solar:bolt-bold': Component;
   'solar:download-bold': Component;

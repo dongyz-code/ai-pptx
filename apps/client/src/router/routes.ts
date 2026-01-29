@@ -4,7 +4,7 @@ const _routes: RouteItem[] = [
   {
     path: '/login',
     name: 'Login',
-    component: () => import('@/pages/Login/index.vue'),
+    component: () => import('@/pages/login/index.vue'),
     meta: {
       isAuth: false,
     },
@@ -12,13 +12,13 @@ const _routes: RouteItem[] = [
   {
     path: '/',
     name: 'BasicLayout',
-    component: () => import('@/layout/BasicLayout.tsx'),
+    component: () => import('@/layout/basic-layout.tsx'),
     redirect: '/home',
     children: [
       {
         path: 'home',
         name: 'Home',
-        component: () => import('@/pages/Home/index.tsx'),
+        component: () => import('@/pages/home/index.tsx'),
         meta: {
           isAuth: false,
         },
@@ -26,12 +26,12 @@ const _routes: RouteItem[] = [
       {
         path: 'editor',
         name: 'Editor',
-        component: () => import('@/pages/Editor/index.tsx'),
+        component: () => import('@/pages/ppt-editor'),
       },
       {
         path: 'system/users',
         name: 'UserManagement',
-        component: () => import('@/pages/System/UserManagement.vue'),
+        component: () => import('@/pages/system/users/index.vue'),
         meta: {
           permission: 'system:user:view',
         },
@@ -39,7 +39,7 @@ const _routes: RouteItem[] = [
       {
         path: 'system/roles',
         name: 'RoleManagement',
-        component: () => import('@/pages/System/RoleManagement.vue'),
+        component: () => import('@/pages/system/roles/index.vue'),
         meta: {
           permission: 'system:role:view',
         },
@@ -47,7 +47,7 @@ const _routes: RouteItem[] = [
       {
         path: 'system/permissions',
         name: 'PermissionManagement',
-        component: () => import('@/pages/System/PermissionManagement.vue'),
+        component: () => import('@/pages/system/permissions/index.vue'),
         meta: {
           permission: 'system:permission:view',
         },

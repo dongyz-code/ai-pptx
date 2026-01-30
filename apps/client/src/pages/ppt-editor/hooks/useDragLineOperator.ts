@@ -8,9 +8,15 @@ export function useDragLineOperator() {
   const slidesStore = useSlides();
   const { viewportScale } = toRefs(editorStore.editorState);
 
-  const elementList = computed(() => slidesStore.state.slides[slidesStore.state.sliderIndex]?.elements || []);
+  const elementList = computed(
+    () => slidesStore.state.slides[slidesStore.state.sliderIndex]?.elements || []
+  );
 
-  const onDragLineOperator = (e: MouseEvent, element: PPTLineElement, command: OperateLineHandlers) => {
+  const onDragLineOperator = (
+    e: MouseEvent,
+    element: PPTLineElement,
+    command: OperateLineHandlers
+  ) => {
     e.stopPropagation();
 
     let isMouseDown = true;
@@ -44,7 +50,11 @@ export function useDragLineOperator() {
     /**
      * 自动计算控制点位置
      */
-    const autoCalculateControlPoint = (start: [number, number], end: [number, number], type: 'curve' | 'broken') => {
+    const autoCalculateControlPoint = (
+      start: [number, number],
+      end: [number, number],
+      type: 'curve' | 'broken'
+    ) => {
       const midX = (start[0] + end[0]) / 2;
       const midY = (start[1] + end[1]) / 2;
 
@@ -105,15 +115,29 @@ export function useDragLineOperator() {
       switch (command) {
         case OperateLineHandlers.START:
           // 更新起点位置
-          updatedElement.start = [originElement.start[0] + offset.x, originElement.start[1] + offset.y];
+          updatedElement.start = [
+            originElement.start[0] + offset.x,
+            originElement.start[1] + offset.y,
+          ];
 
           // 如果有曲线控制点，自动重新计算
           if (updatedElement.curve) {
-            updatedElement.curve = autoCalculateControlPoint(updatedElement.start, updatedElement.end, 'curve');
+            updatedElement.curve = autoCalculateControlPoint(
+              updatedElement.start,
+              updatedElement.end,
+              'curve'
+            );
           } else if (updatedElement.broken) {
-            updatedElement.broken = autoCalculateControlPoint(updatedElement.start, updatedElement.end, 'broken');
+            updatedElement.broken = autoCalculateControlPoint(
+              updatedElement.start,
+              updatedElement.end,
+              'broken'
+            );
           } else if (updatedElement.cubic) {
-            updatedElement.cubic = autoCalculateCubicControlPoints(updatedElement.start, updatedElement.end);
+            updatedElement.cubic = autoCalculateCubicControlPoints(
+              updatedElement.start,
+              updatedElement.end
+            );
           }
           break;
 
@@ -123,22 +147,42 @@ export function useDragLineOperator() {
 
           // 如果有曲线控制点，自动重新计算
           if (updatedElement.curve) {
-            updatedElement.curve = autoCalculateControlPoint(updatedElement.start, updatedElement.end, 'curve');
+            updatedElement.curve = autoCalculateControlPoint(
+              updatedElement.start,
+              updatedElement.end,
+              'curve'
+            );
           } else if (updatedElement.broken) {
-            updatedElement.broken = autoCalculateControlPoint(updatedElement.start, updatedElement.end, 'broken');
+            updatedElement.broken = autoCalculateControlPoint(
+              updatedElement.start,
+              updatedElement.end,
+              'broken'
+            );
           } else if (updatedElement.cubic) {
-            updatedElement.cubic = autoCalculateCubicControlPoints(updatedElement.start, updatedElement.end);
+            updatedElement.cubic = autoCalculateCubicControlPoints(
+              updatedElement.start,
+              updatedElement.end
+            );
           }
           break;
 
         case OperateLineHandlers.C:
           // 更新单个控制点（broken/broken2/curve）
           if (updatedElement.broken) {
-            updatedElement.broken = [updatedElement.broken[0] + offset.x, updatedElement.broken[1] + offset.y];
+            updatedElement.broken = [
+              updatedElement.broken[0] + offset.x,
+              updatedElement.broken[1] + offset.y,
+            ];
           } else if (updatedElement.broken2) {
-            updatedElement.broken2 = [updatedElement.broken2[0] + offset.x, updatedElement.broken2[1] + offset.y];
+            updatedElement.broken2 = [
+              updatedElement.broken2[0] + offset.x,
+              updatedElement.broken2[1] + offset.y,
+            ];
           } else if (updatedElement.curve) {
-            updatedElement.curve = [updatedElement.curve[0] + offset.x, updatedElement.curve[1] + offset.y];
+            updatedElement.curve = [
+              updatedElement.curve[0] + offset.x,
+              updatedElement.curve[1] + offset.y,
+            ];
           }
           break;
 

@@ -1,4 +1,10 @@
-import { Injectable, CanActivate, ExecutionContext, ForbiddenException, Inject } from '@nestjs/common';
+import {
+  Injectable,
+  CanActivate,
+  ExecutionContext,
+  ForbiddenException,
+  Inject,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { PERMISSIONS_KEY } from '../decorators/permissions.decorator.js';
 
@@ -25,7 +31,9 @@ export class PermissionsGuard implements CanActivate {
       throw new ForbiddenException('无权访问此资源');
     }
 
-    const hasPermission = requiredPermissions.every((permission) => user.permissions.includes(permission));
+    const hasPermission = requiredPermissions.every((permission) =>
+      user.permissions.includes(permission)
+    );
 
     if (!hasPermission) {
       throw new ForbiddenException('无权访问此资源');

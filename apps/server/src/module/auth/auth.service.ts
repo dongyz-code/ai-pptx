@@ -68,7 +68,9 @@ export class AuthService {
     };
 
     // 存储到Redis
-    await this.redisService.getClient().setex(`auth:token:${accessToken}`, this.tokenExpiry, JSON.stringify(userInfo));
+    await this.redisService
+      .getClient()
+      .setex(`auth:token:${accessToken}`, this.tokenExpiry, JSON.stringify(userInfo));
 
     // 更新最后登录信息
     await this.userService.updateLastLogin(user.id, ip || '');
@@ -134,7 +136,9 @@ export class AuthService {
 
     // 生成新令牌
     const newToken = this.generateToken();
-    await this.redisService.getClient().setex(`auth:token:${newToken}`, this.tokenExpiry, JSON.stringify(user));
+    await this.redisService
+      .getClient()
+      .setex(`auth:token:${newToken}`, this.tokenExpiry, JSON.stringify(user));
 
     return {
       accessToken: newToken,

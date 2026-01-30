@@ -15,7 +15,12 @@
 
     <Teleport to="body">
       <Transition name="fade">
-        <div ref="floating" class="rounded-md bg-white shadow-md" v-if="activeAction" :style="floatingStyles">
+        <div
+          ref="floating"
+          class="rounded-md bg-white shadow-md"
+          v-if="activeAction"
+          :style="floatingStyles"
+        >
           <component :is="activeAction.component" @close="handleClose()" />
         </div>
       </Transition>
@@ -24,7 +29,17 @@
 </template>
 
 <script setup lang="ts">
-import { type Component, markRaw, nextTick, onMounted, onUnmounted, ref, shallowRef, Teleport, Transition } from 'vue';
+import {
+  type Component,
+  markRaw,
+  nextTick,
+  onMounted,
+  onUnmounted,
+  ref,
+  shallowRef,
+  Teleport,
+  Transition,
+} from 'vue';
 import { VIcon, IconName } from '@/components/ui';
 import { useFloating, offset, flip, shift } from '@floating-ui/vue';
 

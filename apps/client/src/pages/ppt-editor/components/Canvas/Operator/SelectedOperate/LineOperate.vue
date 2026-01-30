@@ -47,7 +47,8 @@ const handlers = computed(() => {
   ];
 
   if (props.element.broken || props.element.broken2 || props.element.curve) {
-    const p = props.element.broken || props.element.broken2 || (props.element.curve as [number, number]);
+    const p =
+      props.element.broken || props.element.broken2 || (props.element.curve as [number, number]);
     handlers.push({
       type: OperateLineHandlers.C,
       position: {

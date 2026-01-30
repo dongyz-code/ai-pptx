@@ -33,7 +33,12 @@ const loadPermissions = async () => {
     const res = await permissionApi.getList({ page: 1, pageSize: 100 });
     permissions.value = res.items;
   } catch (error: any) {
-    notify({ severity: 'error', summary: '错误', detail: error.message || '加载权限失败', life: 3000 });
+    notify({
+      severity: 'error',
+      summary: '错误',
+      detail: error.message || '加载权限失败',
+      life: 3000,
+    });
   }
 };
 
@@ -111,7 +116,11 @@ onMounted(() => {
       </Column>
     </DataTable>
 
-    <Dialog v-model:visible="dialogVisible" :header="editingRole ? '编辑角色' : '新建角色'" :style="{ width: '500px' }">
+    <Dialog
+      v-model:visible="dialogVisible"
+      :header="editingRole ? '编辑角色' : '新建角色'"
+      :style="{ width: '500px' }"
+    >
       <div class="space-y-4">
         <div>
           <label class="mb-2 block">角色名称</label>
@@ -127,7 +136,13 @@ onMounted(() => {
         </div>
         <div>
           <label class="mb-2 block">权限</label>
-          <MultiSelect v-model="formData.permissionIds" :options="permissions" optionLabel="name" optionValue="id" class="w-full" />
+          <MultiSelect
+            v-model="formData.permissionIds"
+            :options="permissions"
+            optionLabel="name"
+            optionValue="id"
+            class="w-full"
+          />
         </div>
       </div>
       <div class="mt-4 flex justify-end gap-2">

@@ -1,7 +1,10 @@
 import { computed, type Ref } from 'vue';
 
 // 计算元素的翻转样式
-export const useElementFlip = (flipH: Ref<boolean | undefined>, flipV: Ref<boolean | undefined>) => {
+export const useElementFlip = (
+  flipH: Ref<boolean | undefined>,
+  flipV: Ref<boolean | undefined>
+) => {
   const flipStyle = computed(() => {
     let style = '';
 

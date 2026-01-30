@@ -25,7 +25,13 @@ import os from 'node:os';
 import { extname } from 'node:path';
 import { pino } from 'pino';
 import { uuidV7 } from '@/utils/ids.js';
-import type { WorkerPoolOptions, WorkerTask, WorkResponse, FunctionPayload, WorkerProgressMessage } from './types.js';
+import type {
+  WorkerPoolOptions,
+  WorkerTask,
+  WorkResponse,
+  FunctionPayload,
+  WorkerProgressMessage,
+} from './types.js';
 import { resolveScriptPathSync } from '@/utils/file.js';
 
 const logger = pino({ name: 'WorkerPool' });

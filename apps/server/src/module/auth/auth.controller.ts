@@ -4,7 +4,10 @@ import { AuthService } from './auth.service.js';
 import { LoginDto, LoginResponseDto, LoginUserInfo } from './dto/auth.dto.js';
 import { Public } from '../../common/decorators/public.decorator.js';
 import { CurrentUser } from '../../common/decorators/current-user.decorator.js';
-import { ApiResponseWrapper, ApiErrorResponse } from '../../common/decorators/api-response-wrapper.decorator.js';
+import {
+  ApiResponseWrapper,
+  ApiErrorResponse,
+} from '../../common/decorators/api-response-wrapper.decorator.js';
 
 @ApiTags('认证管理')
 @Controller('auth')

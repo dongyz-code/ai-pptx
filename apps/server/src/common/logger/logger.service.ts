@@ -145,7 +145,11 @@ export class Logger {
   /**
    * 写入 Elasticsearch
    */
-  private async writeToElasticsearch(level: LogLevel, message: string, metadata: any): Promise<void> {
+  private async writeToElasticsearch(
+    level: LogLevel,
+    message: string,
+    metadata: any
+  ): Promise<void> {
     if (!this.esTransport) return;
 
     const logEntry = {

@@ -41,7 +41,12 @@ const loadRoles = async () => {
     const res = await roleApi.getList({ page: 1, pageSize: 100 });
     roles.value = res.items;
   } catch (error: any) {
-    notify({ severity: 'error', summary: '错误', detail: error.message || '加载角色失败', life: 3000 });
+    notify({
+      severity: 'error',
+      summary: '错误',
+      detail: error.message || '加载角色失败',
+      life: 3000,
+    });
   }
 };
 
@@ -53,7 +58,7 @@ const openDialog = (user?: UserListItem) => {
       nickname: user.nickname,
       email: user.email,
       status: user.status,
-      roleIds: user.roles.map(r => r.id),
+      roleIds: user.roles.map((r) => r.id),
     };
   } else {
     editingUser.value = null;
@@ -114,7 +119,7 @@ onMounted(() => {
       <Column field="email" header="邮箱" />
       <Column field="status" header="状态">
         <template #body="{ data }">
-          {{ statusOptions.find(s => s.value === data.status)?.label }}
+          {{ statusOptions.find((s) => s.value === data.status)?.label }}
         </template>
       </Column>
       <Column field="roles" header="角色">
@@ -132,7 +137,11 @@ onMounted(() => {
       </Column>
     </DataTable>
 
-    <Dialog v-model:visible="dialogVisible" :header="editingUser ? '编辑用户' : '新建用户'" :style="{ width: '500px' }">
+    <Dialog
+      v-model:visible="dialogVisible"
+      :header="editingUser ? '编辑用户' : '新建用户'"
+      :style="{ width: '500px' }"
+    >
       <div class="space-y-4">
         <div>
           <label class="mb-2 block">用户名</label>
@@ -152,11 +161,23 @@ onMounted(() => {
         </div>
         <div>
           <label class="mb-2 block">状态</label>
-          <Dropdown v-model="formData.status" :options="statusOptions" optionLabel="label" optionValue="value" class="w-full" />
+          <Dropdown
+            v-model="formData.status"
+            :options="statusOptions"
+            optionLabel="label"
+            optionValue="value"
+            class="w-full"
+          />
         </div>
         <div>
           <label class="mb-2 block">角色</label>
-          <MultiSelect v-model="formData.roleIds" :options="roles" optionLabel="name" optionValue="id" class="w-full" />
+          <MultiSelect
+            v-model="formData.roleIds"
+            :options="roles"
+            optionLabel="name"
+            optionValue="id"
+            class="w-full"
+          />
         </div>
       </div>
       <div class="mt-4 flex justify-end gap-2">

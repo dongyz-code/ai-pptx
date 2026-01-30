@@ -1,10 +1,5 @@
 import { request } from '@/plugins';
-import type {
-  PermissionEntity,
-  CreatePermissionDto,
-  PageDto,
-  PageResponseDto,
-} from '@pkg/types';
+import type { PermissionEntity, CreatePermissionDto, PageDto, PageResponseDto } from '@pkg/types';
 
 export const permissionApi = {
   getList(params: PageDto): Promise<PageResponseDto<PermissionEntity>> {

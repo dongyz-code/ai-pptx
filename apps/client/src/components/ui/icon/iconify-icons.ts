@@ -9,7 +9,8 @@ export default {
   'uil:line-alt': async () => (await import('~icons/uil/line-alt')).default,
   'majesticons:table': async () => (await import('~icons/majesticons/table')).default,
   'ajesticons:table': async () => (await import('~icons/ajesticons/table')).default,
-  'teenyicons:donut-chart-solid': async () => (await import('~icons/teenyicons/donut-chart-solid')).default,
+  'teenyicons:donut-chart-solid': async () =>
+    (await import('~icons/teenyicons/donut-chart-solid')).default,
   'mynaui:heading-one': async () => (await import('~icons/mynaui/heading-one')).default,
   'mynaui:heading-two': async () => (await import('~icons/mynaui/heading-two')).default,
   'mynaui:heading-three': async () => (await import('~icons/mynaui/heading-three')).default,

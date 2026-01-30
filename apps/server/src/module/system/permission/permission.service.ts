@@ -1,8 +1,18 @@
-import { Injectable, ConflictException, NotFoundException, OnModuleInit, Inject } from '@nestjs/common';
+import {
+  Injectable,
+  ConflictException,
+  NotFoundException,
+  OnModuleInit,
+  Inject,
+} from '@nestjs/common';
 import { Logger } from '@/common/logger/logger.service.js';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like } from 'typeorm';
-import { PermissionEntity, PermissionType, PermissionStatus } from './entities/permission.entity.js';
+import {
+  PermissionEntity,
+  PermissionType,
+  PermissionStatus,
+} from './entities/permission.entity.js';
 import {
   CreatePermissionDto,
   UpdatePermissionDto,
@@ -243,7 +253,10 @@ export class PermissionService implements OnModuleInit {
     );
   }
 
-  private buildTree(permissions: PermissionEntity[], parentId?: string): PermissionTreeResponseDto[] {
+  private buildTree(
+    permissions: PermissionEntity[],
+    parentId?: string
+  ): PermissionTreeResponseDto[] {
     return permissions
       .filter((p) => p.parentId === parentId)
       .map((p) => ({
@@ -268,13 +281,19 @@ export class PermissionService implements OnModuleInit {
    */
   async findByCodes(codes: string[]): Promise<PermissionEntity[]> {
     if (!codes || codes.length === 0) return [];
-    return this.permissionRepository.createQueryBuilder('p').where('p.code IN (:...codes)', { codes }).getMany();
+    return this.permissionRepository
+      .createQueryBuilder('p')
+      .where('p.code IN (:...codes)', { codes })
+      .getMany();
   }
 
   /**
    * 更新权限
    */
-  async update(id: string, updatePermissionDto: UpdatePermissionDto): Promise<PermissionResponseDto> {
+  async update(
+    id: string,
+    updatePermissionDto: UpdatePermissionDto
+  ): Promise<PermissionResponseDto> {
     const permission = await this.permissionRepository.findOne({ where: { id } });
     if (!permission) {
       throw new NotFoundException('权限不存在');

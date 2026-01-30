@@ -31,7 +31,8 @@ const lineOptions: LineOption[] = [
   {
     label: '直线',
     value: 'straight',
-    preview: '<svg viewBox="0 0 60 20" width="60" height="20"><line x1="5" y1="10" x2="55" y2="10" stroke="#4A90E2" stroke-width="2"/></svg>',
+    preview:
+      '<svg viewBox="0 0 60 20" width="60" height="20"><line x1="5" y1="10" x2="55" y2="10" stroke="#4A90E2" stroke-width="2"/></svg>',
     data: {
       style: 'solid',
       points: ['', ''],
@@ -41,7 +42,8 @@ const lineOptions: LineOption[] = [
   {
     label: '箭头线',
     value: 'arrow',
-    preview: '<svg viewBox="0 0 60 20" width="60" height="20"><defs><marker id="arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0, 10 3, 0 6" fill="#4A90E2" /></marker></defs><line x1="5" y1="10" x2="55" y2="10" stroke="#4A90E2" stroke-width="2" marker-end="url(#arrowhead)"/></svg>',
+    preview:
+      '<svg viewBox="0 0 60 20" width="60" height="20"><defs><marker id="arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0, 10 3, 0 6" fill="#4A90E2" /></marker></defs><line x1="5" y1="10" x2="55" y2="10" stroke="#4A90E2" stroke-width="2" marker-end="url(#arrowhead)"/></svg>',
     data: {
       style: 'solid',
       points: ['', 'arrow'],
@@ -51,7 +53,8 @@ const lineOptions: LineOption[] = [
   {
     label: '双箭头线',
     value: 'doubleArrow',
-    preview: '<svg viewBox="0 0 60 20" width="60" height="20"><defs><marker id="arrowstart" markerWidth="10" markerHeight="10" refX="2" refY="3" orient="auto"><polygon points="10 0, 0 3, 10 6" fill="#4A90E2" /></marker><marker id="arrowend" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0, 10 3, 0 6" fill="#4A90E2" /></marker></defs><line x1="5" y1="10" x2="55" y2="10" stroke="#4A90E2" stroke-width="2" marker-start="url(#arrowstart)" marker-end="url(#arrowend)"/></svg>',
+    preview:
+      '<svg viewBox="0 0 60 20" width="60" height="20"><defs><marker id="arrowstart" markerWidth="10" markerHeight="10" refX="2" refY="3" orient="auto"><polygon points="10 0, 0 3, 10 6" fill="#4A90E2" /></marker><marker id="arrowend" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0, 10 3, 0 6" fill="#4A90E2" /></marker></defs><line x1="5" y1="10" x2="55" y2="10" stroke="#4A90E2" stroke-width="2" marker-start="url(#arrowstart)" marker-end="url(#arrowend)"/></svg>',
     data: {
       style: 'solid',
       points: ['arrow', 'arrow'],
@@ -61,7 +64,8 @@ const lineOptions: LineOption[] = [
   {
     label: '虚线',
     value: 'dashed',
-    preview: '<svg viewBox="0 0 60 20" width="60" height="20"><line x1="5" y1="10" x2="55" y2="10" stroke="#4A90E2" stroke-width="2" stroke-dasharray="5,5"/></svg>',
+    preview:
+      '<svg viewBox="0 0 60 20" width="60" height="20"><line x1="5" y1="10" x2="55" y2="10" stroke="#4A90E2" stroke-width="2" stroke-dasharray="5,5"/></svg>',
     data: {
       style: 'dashed',
       points: ['', ''],
@@ -71,7 +75,8 @@ const lineOptions: LineOption[] = [
   {
     label: '虚线箭头',
     value: 'dashedArrow',
-    preview: '<svg viewBox="0 0 60 20" width="60" height="20"><defs><marker id="arrowhead2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0, 10 3, 0 6" fill="#4A90E2" /></marker></defs><line x1="5" y1="10" x2="55" y2="10" stroke="#4A90E2" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrowhead2)"/></svg>',
+    preview:
+      '<svg viewBox="0 0 60 20" width="60" height="20"><defs><marker id="arrowhead2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0, 10 3, 0 6" fill="#4A90E2" /></marker></defs><line x1="5" y1="10" x2="55" y2="10" stroke="#4A90E2" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrowhead2)"/></svg>',
     data: {
       style: 'dashed',
       points: ['', 'arrow'],
@@ -81,7 +86,8 @@ const lineOptions: LineOption[] = [
   {
     label: '点线',
     value: 'dotted',
-    preview: '<svg viewBox="0 0 60 20" width="60" height="20"><line x1="5" y1="10" x2="55" y2="10" stroke="#4A90E2" stroke-width="2" stroke-dasharray="2,3"/></svg>',
+    preview:
+      '<svg viewBox="0 0 60 20" width="60" height="20"><line x1="5" y1="10" x2="55" y2="10" stroke="#4A90E2" stroke-width="2" stroke-dasharray="2,3"/></svg>',
     data: {
       style: 'dotted',
       points: ['', ''],
@@ -91,7 +97,8 @@ const lineOptions: LineOption[] = [
   {
     label: '圆点线',
     value: 'dotLine',
-    preview: '<svg viewBox="0 0 60 20" width="60" height="20"><defs><marker id="dot1" markerWidth="6" markerHeight="6" refX="3" refY="3"><circle cx="3" cy="3" r="2" fill="#4A90E2" /></marker><marker id="dot2" markerWidth="6" markerHeight="6" refX="3" refY="3"><circle cx="3" cy="3" r="2" fill="#4A90E2" /></marker></defs><line x1="5" y1="10" x2="55" y2="10" stroke="#4A90E2" stroke-width="2" marker-start="url(#dot1)" marker-end="url(#dot2)"/></svg>',
+    preview:
+      '<svg viewBox="0 0 60 20" width="60" height="20"><defs><marker id="dot1" markerWidth="6" markerHeight="6" refX="3" refY="3"><circle cx="3" cy="3" r="2" fill="#4A90E2" /></marker><marker id="dot2" markerWidth="6" markerHeight="6" refX="3" refY="3"><circle cx="3" cy="3" r="2" fill="#4A90E2" /></marker></defs><line x1="5" y1="10" x2="55" y2="10" stroke="#4A90E2" stroke-width="2" marker-start="url(#dot1)" marker-end="url(#dot2)"/></svg>',
     data: {
       style: 'solid',
       points: ['dot', 'dot'],

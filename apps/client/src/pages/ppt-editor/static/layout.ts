@@ -102,7 +102,8 @@ export const layouts: Slide[] = [
         top: 249.84259259259264,
         width: 585,
         height: 56,
-        content: "<p style='text-align: center;'><span style='font-size: 24px'>在此处添加副标题</span></p>",
+        content:
+          "<p style='text-align: center;'><span style='font-size: 24px'>在此处添加副标题</span></p>",
         rotate: 0,
         defaultFontName: '{{fontName}}',
         defaultColor: '{{fontColor}}',
@@ -248,7 +249,8 @@ export const layouts: Slide[] = [
         top: 100.1388888888889,
         width: 359.25925925925924,
         height: 80,
-        content: "<p style=''><strong><span style='font-size: 40px'>在此处输入标题</span></strong></p>",
+        content:
+          "<p style=''><strong><span style='font-size: 40px'>在此处输入标题</span></strong></p>",
         rotate: 0,
         defaultFontName: '{{fontName}}',
         defaultColor: '{{fontColor}}',
@@ -501,7 +503,8 @@ export const layouts: Slide[] = [
         top: 235.24999999999994,
         width: 464.4444444444444,
         height: 92,
-        content: "<p style=''><strong><span style='font-size: 48px'>在此处添加标题</span></strong></p>",
+        content:
+          "<p style=''><strong><span style='font-size: 48px'>在此处添加标题</span></strong></p>",
         rotate: 0,
         defaultFontName: '{{fontName}}',
         defaultColor: '{{fontColor}}',
@@ -810,7 +813,8 @@ export const layouts: Slide[] = [
         top: 64.21296296296302,
         width: 323.7037037037037,
         height: 120,
-        content: "<p style=''>在此输入内容</p><p style=''>在此输入内容</p><p style=''>在此输入内容</p>",
+        content:
+          "<p style=''>在此输入内容</p><p style=''>在此输入内容</p><p style=''>在此输入内容</p>",
         rotate: 0,
         defaultFontName: '{{fontName}}',
         defaultColor: '{{fontColor}}',
@@ -842,7 +846,8 @@ export const layouts: Slide[] = [
         top: 64.21296296296302,
         width: 323.7037037037037,
         height: 120,
-        content: "<p style=''>在此输入内容</p><p style=''>在此输入内容</p><p style=''>在此输入内容</p>",
+        content:
+          "<p style=''>在此输入内容</p><p style=''>在此输入内容</p><p style=''>在此输入内容</p>",
         rotate: 0,
         defaultFontName: '{{fontName}}',
         defaultColor: '{{fontColor}}',
@@ -874,7 +879,8 @@ export const layouts: Slide[] = [
         top: 221.25000000000003,
         width: 323.7037037037037,
         height: 120,
-        content: "<p style=''>在此输入内容</p><p style=''>在此输入内容</p><p style=''>在此输入内容</p>",
+        content:
+          "<p style=''>在此输入内容</p><p style=''>在此输入内容</p><p style=''>在此输入内容</p>",
         rotate: 0,
         defaultFontName: '{{fontName}}',
         defaultColor: '{{fontColor}}',
@@ -906,7 +912,8 @@ export const layouts: Slide[] = [
         top: 221.25000000000003,
         width: 323.7037037037037,
         height: 120,
-        content: "<p style=''>在此输入内容</p><p style=''>在此输入内容</p><p style=''>在此输入内容</p>",
+        content:
+          "<p style=''>在此输入内容</p><p style=''>在此输入内容</p><p style=''>在此输入内容</p>",
         rotate: 0,
         defaultFontName: '{{fontName}}',
         defaultColor: '{{fontColor}}',
@@ -938,7 +945,8 @@ export const layouts: Slide[] = [
         top: 378.287037037037,
         width: 323.7037037037037,
         height: 120,
-        content: "<p style=''>在此输入内容</p><p style=''>在此输入内容</p><p style=''>在此输入内容</p>",
+        content:
+          "<p style=''>在此输入内容</p><p style=''>在此输入内容</p><p style=''>在此输入内容</p>",
         rotate: 0,
         defaultFontName: '{{fontName}}',
         defaultColor: '{{fontColor}}',
@@ -970,7 +978,8 @@ export const layouts: Slide[] = [
         top: 378.287037037037,
         width: 323.7037037037037,
         height: 120,
-        content: "<p style=''>在此输入内容</p><p style=''>在此输入内容</p><p style=''>在此输入内容</p>",
+        content:
+          "<p style=''>在此输入内容</p><p style=''>在此输入内容</p><p style=''>在此输入内容</p>",
         rotate: 0,
         defaultFontName: '{{fontName}}',
         defaultColor: '{{fontColor}}',

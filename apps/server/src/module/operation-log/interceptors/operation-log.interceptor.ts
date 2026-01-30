@@ -21,7 +21,10 @@ export class OperationLogInterceptor implements NestInterceptor {
   }
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    const operationLogMeta = this.reflector.get<OperationLogMetadata>(OPERATION_LOG_KEY, context.getHandler());
+    const operationLogMeta = this.reflector.get<OperationLogMetadata>(
+      OPERATION_LOG_KEY,
+      context.getHandler()
+    );
 
     // 如果没有装饰器，直接跳过
     if (!operationLogMeta) {

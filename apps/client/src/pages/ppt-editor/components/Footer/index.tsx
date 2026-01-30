@@ -11,8 +11,20 @@ const Footer = defineComponent({
     return () => (
       <div class="flex justify-between p-2">
         <div class="left">
-          <Button size="small" icon="pi pi-file-edit" label="备注" variant="text" severity="contrast" />
-          <Button size="small" icon="pi pi-clock" label="计时器" variant="text" severity="contrast" />
+          <Button
+            size="small"
+            icon="pi pi-file-edit"
+            label="备注"
+            variant="text"
+            severity="contrast"
+          />
+          <Button
+            size="small"
+            icon="pi pi-clock"
+            label="计时器"
+            variant="text"
+            severity="contrast"
+          />
         </div>
 
         <div class="right flex items-center gap-2">

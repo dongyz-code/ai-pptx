@@ -82,8 +82,13 @@ const LineElement = defineComponent({
             stroke={props.element.color}
             stroke-width={props.element.width}
             stroke-dasharray={strokeDasharray.value}
-            marker-start={props.element.points[0] && `url(#${props.element.id}-${props.element.points[0]}-start)`}
-            marker-end={props.element.points[1] && `url(#${props.element.id}-${props.element.points[1]}-end)`}
+            marker-start={
+              props.element.points[0] &&
+              `url(#${props.element.id}-${props.element.points[0]}-start)`
+            }
+            marker-end={
+              props.element.points[1] && `url(#${props.element.id}-${props.element.points[1]}-end)`
+            }
             fill="null"
           ></path>
           <path

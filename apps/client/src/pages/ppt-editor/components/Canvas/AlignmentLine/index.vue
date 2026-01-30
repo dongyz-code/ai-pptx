@@ -17,7 +17,9 @@ const top = computed(() => `${props.axis.y}px`);
 
 /** 线的长度 */
 const sizeStyle = computed(() => {
-  return props.type === 'horizontal' ? { width: `${props.length}px` } : { height: `${props.length}px` };
+  return props.type === 'horizontal'
+    ? { width: `${props.length}px` }
+    : { height: `${props.length}px` };
 });
 </script>
 

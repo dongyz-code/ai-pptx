@@ -2,7 +2,12 @@
   <div class="chart-content">
     <div class="content-title">选择图表类型</div>
     <div class="chart-options">
-      <div v-for="option in chartOptions" :key="option.value" class="chart-option" @click="handleSelect(option)">
+      <div
+        v-for="option in chartOptions"
+        :key="option.value"
+        class="chart-option"
+        @click="handleSelect(option)"
+      >
         <div class="chart-icon">
           <VIcon :icon="option.icon" />
         </div>

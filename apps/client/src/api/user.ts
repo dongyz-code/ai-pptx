@@ -1,10 +1,5 @@
 import { request } from '@/plugins';
-import type {
-  UserListItem,
-  CreateUserDto,
-  PageDto,
-  PageResponseDto,
-} from '@pkg/types';
+import type { UserListItem, CreateUserDto, PageDto, PageResponseDto } from '@pkg/types';
 
 export const userApi = {
   getList(params: PageDto): Promise<PageResponseDto<UserListItem>> {

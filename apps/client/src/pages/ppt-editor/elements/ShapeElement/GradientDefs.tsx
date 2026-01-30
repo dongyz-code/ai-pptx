@@ -21,11 +21,15 @@ export default defineComponent({
           y2="0%"
           gradientTransform={`rotate(${props.rotate}deg)`}
         >
-          {props.colors?.map((item, index) => <stop key={index} offset={`${item.pos}%`} stop-color={item.color} />)}
+          {props.colors?.map((item, index) => (
+            <stop key={index} offset={`${item.pos}%`} stop-color={item.color} />
+          ))}
         </linearGradient>
       ) : (
         <radialGradient id={props.id}>
-          {props.colors?.map((item, index) => <stop key={index} offset={`${item.pos}%`} stop-color={item.color} />)}
+          {props.colors?.map((item, index) => (
+            <stop key={index} offset={`${item.pos}%`} stop-color={item.color} />
+          ))}
         </radialGradient>
       );
     };

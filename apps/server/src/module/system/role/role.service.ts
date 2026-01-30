@@ -1,10 +1,22 @@
-import { Injectable, ConflictException, NotFoundException, OnModuleInit, Inject } from '@nestjs/common';
+import {
+  Injectable,
+  ConflictException,
+  NotFoundException,
+  OnModuleInit,
+  Inject,
+} from '@nestjs/common';
 import { Logger } from '@/common/logger/logger.service.js';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like } from 'typeorm';
 import { RoleEntity, RoleStatus } from './entities/role.entity.js';
 import { PermissionEntity } from '../permission/entities/permission.entity.js';
-import { CreateRoleDto, UpdateRoleDto, QueryRoleDto, RoleResponseDto, AssignPermissionsDto } from './dto/role.dto.js';
+import {
+  CreateRoleDto,
+  UpdateRoleDto,
+  QueryRoleDto,
+  RoleResponseDto,
+  AssignPermissionsDto,
+} from './dto/role.dto.js';
 import { PaginatedResponse } from '@/common/dto/response.dto.js';
 import { CacheService } from '@/common/cache/cache.service.js';
 import { IdService } from '@/common/id/id.service.js';

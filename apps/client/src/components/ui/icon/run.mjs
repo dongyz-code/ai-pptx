@@ -81,7 +81,9 @@ async function loadLocalSvgIcon() {
   svgFiles.forEach((file) => {
     const iconName = file.replace('.svg', '');
     const fullIconName = `${ICON_PREFIX}${iconName}`;
-    exports.push(`  '${fullIconName}': async () => (await import('~icons/local/${iconName}')).default,`);
+    exports.push(
+      `  '${fullIconName}': async () => (await import('~icons/local/${iconName}')).default,`
+    );
     types.push(`  '${fullIconName}': Component;`);
   });
 

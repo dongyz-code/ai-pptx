@@ -10,7 +10,12 @@
       ></resize-handler>
     </template>
 
-    <BorderLine v-for="item in operate.borderLines" :key="item.type" :type="item.type" :style="item.style" />
+    <BorderLine
+      v-for="item in operate.borderLines"
+      :key="item.type"
+      :type="item.type"
+      :style="item.style"
+    />
   </div>
 </template>
 
@@ -36,7 +41,11 @@ type PPTElementCommon = PPTVideoElement | PPTLatexElement | PPTAudioElement | PP
 
 interface Props {
   element: PPTElementCommon;
-  scaleElement: (e: MouseEvent, element: Exclude<PPTElement, PPTLineElement>, command: OPERATE_RESIZE_HANDLERS) => void;
+  scaleElement: (
+    e: MouseEvent,
+    element: Exclude<PPTElement, PPTLineElement>,
+    command: OPERATE_RESIZE_HANDLERS
+  ) => void;
 }
 
 const props = defineProps<Props>();

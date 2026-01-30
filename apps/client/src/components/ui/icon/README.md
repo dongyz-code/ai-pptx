@@ -34,11 +34,11 @@ import Icon from '@/components/ui/icon/index.vue';
 
 ### Props
 
-| 属性 | 类型 | 默认值 | 说明 |
-|------|------|--------|------|
-| `icon` | `IconName` | - | 图标名称（必填，有类型提示） |
-| `size` | `string \| number` | `'1em'` | 图标大小，数字自动添加 `px` |
-| `color` | `string` | `'currentColor'` | 图标颜色 |
+| 属性    | 类型               | 默认值           | 说明                         |
+| ------- | ------------------ | ---------------- | ---------------------------- |
+| `icon`  | `IconName`         | -                | 图标名称（必填，有类型提示） |
+| `size`  | `string \| number` | `'1em'`          | 图标大小，数字自动添加 `px`  |
+| `color` | `string`           | `'currentColor'` | 图标颜色                     |
 
 ## 添加图标
 

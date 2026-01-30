@@ -1,7 +1,25 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, Query, HttpCode, HttpStatus, Inject } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Body,
+  Param,
+  Query,
+  HttpCode,
+  HttpStatus,
+  Inject,
+} from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth, ApiParam } from '@nestjs/swagger';
 import { UserService } from './user.service.js';
-import { CreateUserDto, UpdateUserDto, QueryUserDto, UserResponseDto, ChangePasswordDto } from './dto/user.dto.js';
+import {
+  CreateUserDto,
+  UpdateUserDto,
+  QueryUserDto,
+  UserResponseDto,
+  ChangePasswordDto,
+} from './dto/user.dto.js';
 import { Permissions } from '@/common/decorators/permissions.decorator.js';
 import { CurrentUser } from '@/common/decorators/current-user.decorator.js';
 import { ApiResponseWrapper } from '@/common/decorators/api-response-wrapper.decorator.js';
@@ -42,7 +60,10 @@ export class UserController {
   @ApiParam({ name: 'id', description: '用户ID' })
   @ApiResponseWrapper(UserResponseDto, { description: '更新成功' })
   @Permissions('user:update')
-  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto): Promise<UserResponseDto> {
+  async update(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto
+  ): Promise<UserResponseDto> {
     return this.userService.update(id, updateUserDto);
   }
 

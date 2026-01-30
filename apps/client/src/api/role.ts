@@ -1,10 +1,5 @@
 import { request } from '@/plugins';
-import type {
-  RoleEntity,
-  CreateRoleDto,
-  PageDto,
-  PageResponseDto,
-} from '@pkg/types';
+import type { RoleEntity, CreateRoleDto, PageDto, PageResponseDto } from '@pkg/types';
 
 export const roleApi = {
   getList(params: PageDto): Promise<PageResponseDto<RoleEntity>> {

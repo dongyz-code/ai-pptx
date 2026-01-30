@@ -1,5 +1,13 @@
 import { ApiProperty, ApiPropertyOptional, OmitType, PartialType } from '@nestjs/swagger';
-import { IsString, IsEmail, IsOptional, MinLength, MaxLength, IsEnum, IsArray } from 'class-validator';
+import {
+  IsString,
+  IsEmail,
+  IsOptional,
+  MinLength,
+  MaxLength,
+  IsEnum,
+  IsArray,
+} from 'class-validator';
 import { UserStatus } from '../entities/user.entity.js';
 import { PaginationDto } from '@/common/dto/response.dto.js';
 

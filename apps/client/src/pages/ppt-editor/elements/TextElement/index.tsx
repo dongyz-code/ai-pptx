@@ -68,7 +68,10 @@ const TextElement = defineComponent({
         />
 
         {!editable.value && (
-          <div class="absolute left-0 top-0 h-full w-full cursor-move select-none" onMousedown={onMouseDown}></div>
+          <div
+            class="absolute top-0 left-0 h-full w-full cursor-move select-none"
+            onMousedown={onMouseDown}
+          ></div>
         )}
       </div>
     );

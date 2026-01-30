@@ -16,9 +16,7 @@ export interface UseOptionsResolverReturn {
   refresh: () => Promise<void>;
 }
 
-export function useOptionsResolver(
-  optionsSource?: ProFormOptions
-): UseOptionsResolverReturn {
+export function useOptionsResolver(optionsSource?: ProFormOptions): UseOptionsResolverReturn {
   const options = ref<ProFormOption[]>([]);
   const loading = ref(false);
   const error = ref<Error | null>(null);

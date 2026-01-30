@@ -44,9 +44,14 @@ const Home = defineComponent({
           <div class="mb-16 text-center">
             <h1 class="mb-6 text-6xl font-bold text-gray-900">
               AI-PPT
-              <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"> 智能演示</span>
+              <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                {' '}
+                智能演示
+              </span>
             </h1>
-            <p class="mx-auto mb-8 max-w-2xl text-xl text-gray-600">让 AI 帮你创建专业演示文稿，节省时间，提升效率</p>
+            <p class="mx-auto mb-8 max-w-2xl text-xl text-gray-600">
+              让 AI 帮你创建专业演示文稿，节省时间，提升效率
+            </p>
             <div class="flex justify-center gap-4">
               <Button onClick={goEditor} size="large" class="px-8 py-3 text-lg">
                 <VIcon icon="solar:add-circle-bold" class="mr-2" />

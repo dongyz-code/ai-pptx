@@ -50,7 +50,12 @@ const EditorElement = defineComponent({
     });
 
     return () => (
-      <div ref={wrapperRef} data-id={props.element.id} class="element-wrapper" style={{ zIndex: props.zIndex }}>
+      <div
+        ref={wrapperRef}
+        data-id={props.element.id}
+        class="element-wrapper"
+        style={{ zIndex: props.zIndex }}
+      >
         {Component && <Component element={props.element} {...componentProps.value} />}
       </div>
     );

@@ -40,7 +40,8 @@ export const slides: Slide[] = [
         width: 450,
         height: 188,
         lineHeight: 1.2,
-        content: '<p><strong><span style="font-size: 112px; color: red;">PPTist</span></strong></p>',
+        content:
+          '<p><strong><span style="font-size: 112px; color: red;">PPTist</span></strong></p>',
         rotate: -30,
         defaultFontName: 'Microsoft Yahei',
         defaultColor: '#333',
@@ -52,7 +53,8 @@ export const slides: Slide[] = [
         top: 253.25,
         width: 585,
         height: 56,
-        content: '<p><span style="font-size: 24px;">基于 Vue 3.x + TypeScript 的在线演示文稿应用</span></p>',
+        content:
+          '<p><span style="font-size: 24px;">基于 Vue 3.x + TypeScript 的在线演示文稿应用</span></p>',
         rotate: 0,
         defaultFontName: 'Microsoft Yahei',
         defaultColor: '#333',
@@ -100,7 +102,8 @@ export const slides: Slide[] = [
         top: 249.84259259259264,
         width: 585,
         height: 56,
-        content: '<p style="text-align: center;"><span style="font-size: 24px;">在此处添加副标题</span></p>',
+        content:
+          '<p style="text-align: center;"><span style="font-size: 24px;">在此处添加副标题</span></p>',
         rotate: 0,
         defaultFontName: 'Microsoft Yahei',
         defaultColor: '#333',

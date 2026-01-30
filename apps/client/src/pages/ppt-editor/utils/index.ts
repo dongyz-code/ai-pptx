@@ -14,7 +14,10 @@ export function getContainer(container: string | Element | HTMLElement) {
   return container as HTMLElement;
 }
 
-export function getCanvasPosition(editorWrapper: Ref<HTMLElement | undefined>, canvas: Ref<HTMLElement | undefined>) {
+export function getCanvasPosition(
+  editorWrapper: Ref<HTMLElement | undefined>,
+  canvas: Ref<HTMLElement | undefined>
+) {
   const editorWrapperRect = editorWrapper.value?.getBoundingClientRect();
   const canvasRect = canvas.value?.getBoundingClientRect();
 

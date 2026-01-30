@@ -1,7 +1,11 @@
 import { reactive } from 'vue';
 import { defineStore, acceptHMRUpdate } from 'pinia';
 import { uuid } from '@/utils';
-import { theme as defaultTheme, layouts as defaultLayouts, slides as defaultSlides } from '../static';
+import {
+  theme as defaultTheme,
+  layouts as defaultLayouts,
+  slides as defaultSlides,
+} from '../static';
 
 import type { PPTElement, Slide, SlideTheme } from '@/types';
 

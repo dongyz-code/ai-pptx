@@ -117,6 +117,7 @@ pnpm docker:build
   - Query params: `?concurrent=100`
 
 Example:
+
 ```bash
 # Health check
 curl http://localhost:3000/api/health
@@ -138,6 +139,7 @@ curl "http://localhost:3000/api/ids/test-concurrency?concurrent=50"
 Provides Redis connection and unique ID generation.
 
 **Features**:
+
 - Automatic connection management with reconnection
 - Two ID generation strategies:
   - **incr**: Date-prefixed incremental IDs (default, recommended)
@@ -148,6 +150,7 @@ Provides Redis connection and unique ID generation.
 **Documentation**: See [src/module/redis/README.md](./src/module/redis/README.md)
 
 **Usage Example**:
+
 ```typescript
 import { Injectable } from '@nestjs/common';
 import { IdService } from './module/redis';
@@ -157,9 +160,9 @@ export class MyService {
   constructor(private readonly idService: IdService) {}
 
   async createOrder() {
-    const orderId = await this.idService.nextId({ 
-      strategy: 'incr', 
-      prefix: 'order:' 
+    const orderId = await this.idService.nextId({
+      strategy: 'incr',
+      prefix: 'order:',
     });
     console.log(orderId); // e.g., "order:20251104-1L2"
   }
@@ -311,6 +314,7 @@ curl http://your-server:3000/api/health
 ```
 
 Expected response when healthy:
+
 ```json
 {
   "status": "ok",
@@ -329,12 +333,14 @@ Expected response when healthy:
 如果看到 `Failed to connect to Redis` 错误：
 
 1. 验证 Redis 正在运行:
+
    ```bash
    redis-cli ping
    # 应该返回: PONG
    ```
 
 2. 检查配置文件 `.conf/conf.json` 中的 Redis 配置:
+
    ```json
    {
      "redis": {
@@ -347,6 +353,7 @@ Expected response when healthy:
    ```
 
 3. 手动测试连接:
+
    ```bash
    redis-cli -h localhost -p 6379 ping
    ```
@@ -364,6 +371,7 @@ pnpm dev
 ```
 
 Or update `.conf/conf.json`:
+
 ```json
 {
   "app": {

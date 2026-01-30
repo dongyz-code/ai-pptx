@@ -1,0 +1,22 @@
+# --- 忽略所有子包中的构建产物 ---
+**/dist/
+**/build/
+
+# --- 忽略所有子包的依赖 ---
+**/node_modules/
+
+# --- 忽略所有子包中的特定配置文件 ---
+**/tsconfig.json
+**/tsconfig.*.json
+
+# --- 忽略锁文件 ---
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# --- 其他环境与工具配置 ---
+.env
+.env.*
+.cache/
+.vscode/
+.idea/

@@ -88,7 +88,10 @@ export function getRectElementPoint(rect: RectPosition) {
 /**
  * 获取元素缩放点相对的另一个点的位置 如：【上】对应【下】、【左上】对应【右下】
  */
-export function getOppositePoint(direction: OPERATE_RESIZE_HANDLERS, points: ReturnType<typeof getRectElementPoint>) {
+export function getOppositePoint(
+  direction: OPERATE_RESIZE_HANDLERS,
+  points: ReturnType<typeof getRectElementPoint>
+) {
   const oppositeMap = {
     [OPERATE_RESIZE_HANDLERS.TOP]: points.bottomPoint,
     [OPERATE_RESIZE_HANDLERS.BOTTOM]: points.topPoint,
@@ -108,7 +111,10 @@ export function getOppositePoint(direction: OPERATE_RESIZE_HANDLERS, points: Ret
  * @param direction 方向
  * @param points 8个控制点
  */
-export function getCurrentPoint(direction: OPERATE_RESIZE_HANDLERS, points: ReturnType<typeof getRectElementPoint>) {
+export function getCurrentPoint(
+  direction: OPERATE_RESIZE_HANDLERS,
+  points: ReturnType<typeof getRectElementPoint>
+) {
   const oppositeMap = {
     [OPERATE_RESIZE_HANDLERS.TOP]: points.topPoint,
     [OPERATE_RESIZE_HANDLERS.BOTTOM]: points.bottomPoint,
@@ -316,10 +322,19 @@ export function getCommonOperate(width: number, height: number) {
     { direction: OPERATE_RESIZE_HANDLERS.TOP, style: { left: halfWidth + 'px' } },
     { direction: OPERATE_RESIZE_HANDLERS.RIGHT_TOP, style: { left: width + 'px' } },
     { direction: OPERATE_RESIZE_HANDLERS.LEFT, style: { top: halfHeight + 'px' } },
-    { direction: OPERATE_RESIZE_HANDLERS.RIGHT, style: { top: halfHeight + 'px', left: width + 'px' } },
+    {
+      direction: OPERATE_RESIZE_HANDLERS.RIGHT,
+      style: { top: halfHeight + 'px', left: width + 'px' },
+    },
     { direction: OPERATE_RESIZE_HANDLERS.LEFT_BOTTOM, style: { top: height + 'px' } },
-    { direction: OPERATE_RESIZE_HANDLERS.BOTTOM, style: { top: height + 'px', left: halfWidth + 'px' } },
-    { direction: OPERATE_RESIZE_HANDLERS.RIGHT_BOTTOM, style: { top: height + 'px', left: width + 'px' } },
+    {
+      direction: OPERATE_RESIZE_HANDLERS.BOTTOM,
+      style: { top: height + 'px', left: halfWidth + 'px' },
+    },
+    {
+      direction: OPERATE_RESIZE_HANDLERS.RIGHT_BOTTOM,
+      style: { top: height + 'px', left: width + 'px' },
+    },
   ];
 
   /** 元素选中边框线 */

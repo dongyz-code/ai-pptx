@@ -13,7 +13,7 @@
       class="flex items-center font-medium text-gray-700"
       :class="{
         'mb-2': labelPosition === 'top',
-        'flex-shrink-0 pt-2 mr-4 text-right': labelPosition === 'left',
+        'mr-4 flex-shrink-0 pt-2 text-right': labelPosition === 'left',
       }"
       :style="labelPosition === 'left' && labelWidth ? { width: labelWidth } : undefined"
     >
@@ -25,15 +25,12 @@
       <i
         v-if="field.tooltip"
         v-tooltip.top="tooltipContent"
-        class="pi pi-question-circle ml-1 text-gray-400 cursor-help"
+        class="pi pi-question-circle ml-1 cursor-help text-gray-400"
       />
     </div>
 
     <!-- 字段渲染区域 -->
-    <div
-      class="w-full"
-      :class="{ 'flex-1 min-w-0': labelPosition === 'left' }"
-    >
+    <div class="w-full" :class="{ 'min-w-0 flex-1': labelPosition === 'left' }">
       <FieldRenderer
         :field="field"
         :model-value="modelValue"

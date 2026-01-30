@@ -70,7 +70,11 @@ export class CacheService {
   /**
    * 缓存旁路模式 - 如果缓存不存在则执行factory并缓存结果
    */
-  async getOrSet<T>(key: string, factory: () => Promise<T>, ttl: number = this.defaultTTL): Promise<T> {
+  async getOrSet<T>(
+    key: string,
+    factory: () => Promise<T>,
+    ttl: number = this.defaultTTL
+  ): Promise<T> {
     const cached = await this.get<T>(key);
     if (cached !== null) {
       this.logger.debug(`Cache hit for key: ${key}`);

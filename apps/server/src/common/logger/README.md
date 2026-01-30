@@ -123,6 +123,7 @@ export class YourService implements OnModuleInit {
 ## HTTP 请求日志
 
 HTTP 请求会自动记录（通过 pino-http），包含：
+
 - 请求方法、URL
 - 响应状态码
 - 请求时长
@@ -135,6 +136,7 @@ HTTP 请求会自动记录（通过 pino-http），包含：
 Logger 预留了 Elasticsearch 写入接口，可以通过以下步骤启用：
 
 1. 安装 Elasticsearch 客户端：
+
    ```bash
    pnpm add @elastic/elasticsearch
    ```
@@ -151,5 +153,3 @@ Logger 预留了 Elasticsearch 写入接口，可以通过以下步骤启用：
 - ES 写入失败不会影响主流程
 - 开发环境下不会写入 ES，避免污染数据
 - 日志文件路径：`apps/server/logs/`
-
-

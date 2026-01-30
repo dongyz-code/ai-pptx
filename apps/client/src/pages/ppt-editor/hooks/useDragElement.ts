@@ -16,9 +16,13 @@ export function useDragElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
   const editorStore = useEditor();
   const slidesStore = useSlides();
   const keyboardStore = useKeyboard();
-  const { selectedElementIds, viewportSize, viewportScale, viewportRatio } = toRefs(editorStore.editorState);
+  const { selectedElementIds, viewportSize, viewportScale, viewportRatio } = toRefs(
+    editorStore.editorState
+  );
 
-  const elementList = computed(() => slidesStore.state.slides[slidesStore.state.sliderIndex]?.elements || []);
+  const elementList = computed(
+    () => slidesStore.state.slides[slidesStore.state.sliderIndex]?.elements || []
+  );
 
   const onDragElement = (e: MouseEvent, element: PPTElement) => {
     /** 非选中元素不处理 */
@@ -60,7 +64,8 @@ export function useDragElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
       /** 鼠标滑动距离较小，判定为误操作 */
       if (isMisoperation !== false) {
         isMisoperation =
-          Math.abs(currentPageX - startPageX) < sorptionRange && Math.abs(currentPageY - startPageY) < sorptionRange;
+          Math.abs(currentPageX - startPageX) < sorptionRange &&
+          Math.abs(currentPageY - startPageY) < sorptionRange;
       }
 
       if (!isMouseDown || isMisoperation) {
@@ -158,19 +163,31 @@ export function useDragElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
 
         if (Math.abs(minY - value) < sorptionRange) {
           moveY = moveY - (minY - value);
-          _alignmentLineList.push({ type: 'horizontal', axis: { x: min - 50, y: value }, length: max - min + 100 });
+          _alignmentLineList.push({
+            type: 'horizontal',
+            axis: { x: min - 50, y: value },
+            length: max - min + 100,
+          });
           break;
         }
 
         if (Math.abs(maxY - value) < sorptionRange) {
           moveY = moveY - (maxY - value);
-          _alignmentLineList.push({ type: 'horizontal', axis: { x: min - 50, y: value }, length: max - min + 100 });
+          _alignmentLineList.push({
+            type: 'horizontal',
+            axis: { x: min - 50, y: value },
+            length: max - min + 100,
+          });
           break;
         }
 
         if (Math.abs(centerY - value) < sorptionRange) {
           moveY = moveY - (centerY - value);
-          _alignmentLineList.push({ type: 'horizontal', axis: { x: min - 50, y: value }, length: max - min + 100 });
+          _alignmentLineList.push({
+            type: 'horizontal',
+            axis: { x: min - 50, y: value },
+            length: max - min + 100,
+          });
           break;
         }
       }
@@ -182,19 +199,31 @@ export function useDragElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
 
         if (Math.abs(minX - value) < sorptionRange) {
           moveX = moveX - (minX - value);
-          _alignmentLineList.push({ type: 'vertical', axis: { x: value, y: min - 50 }, length: max - min + 100 });
+          _alignmentLineList.push({
+            type: 'vertical',
+            axis: { x: value, y: min - 50 },
+            length: max - min + 100,
+          });
           break;
         }
 
         if (Math.abs(maxX - value) < sorptionRange) {
           moveX = moveX - (maxX - value);
-          _alignmentLineList.push({ type: 'vertical', axis: { x: value, y: min - 50 }, length: max - min + 100 });
+          _alignmentLineList.push({
+            type: 'vertical',
+            axis: { x: value, y: min - 50 },
+            length: max - min + 100,
+          });
           break;
         }
 
         if (Math.abs(centerX - value) < sorptionRange) {
           moveX = moveX - (centerX - value);
-          _alignmentLineList.push({ type: 'vertical', axis: { x: value, y: min - 50 }, length: max - min + 100 });
+          _alignmentLineList.push({
+            type: 'vertical',
+            axis: { x: value, y: min - 50 },
+            length: max - min + 100,
+          });
           break;
         }
       }

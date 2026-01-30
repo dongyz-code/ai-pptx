@@ -1,18 +1,27 @@
 import { computed, toRefs, type Ref } from 'vue';
 import { cloneDeep } from 'lodash-es';
-import { arrObject, getKeys } from '@/utils';
-import { useSlides, useEditor, useKeyboard } from '@/pages/Editor/models';
-import { collectAlignLines, getCurrentPoint, getOppositePoint, getRectElementPoint, uniqueAlignLines } from '../utils';
+import { arrObject } from '@/utils';
+import { useSlides, useEditor, useKeyboard } from '@/pages/ppt-editor/models';
+import {
+  collectAlignLines,
+  getCurrentPoint,
+  getOppositePoint,
+  getRectElementPoint,
+} from '../utils';
 import { MIN_SIZE, OPERATE_RESIZE_HANDLERS } from '@/constants';
 
-import type { AlignmentLineProps, PPTElement, AlignLine, PPTLineElement } from '@/types';
+import type { AlignmentLineProps, PPTElement, PPTLineElement } from '@/types';
 
 export function useScaleElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
   const slidesStore = useSlides();
   const editorStore = useEditor();
 
-  const { selectedElementIds, viewportSize, viewportScale, viewportRatio } = toRefs(editorStore.editorState);
-  const elementList = computed(() => slidesStore.state.slides[slidesStore.state.sliderIndex]?.elements || []);
+  const { selectedElementIds, viewportSize, viewportScale, viewportRatio } = toRefs(
+    editorStore.editorState
+  );
+  const elementList = computed(
+    () => slidesStore.state.slides[slidesStore.state.sliderIndex]?.elements || []
+  );
 
   const scaleElement = (
     e: MouseEvent,
@@ -166,9 +175,15 @@ export function useScaleElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
          * 元素未被旋转的情况下，直接根据操作点计算缩放后的大小和位置
          */
         if (fixedRatio) {
-          if (command === OPERATE_RESIZE_HANDLERS.RIGHT_BOTTOM || command === OPERATE_RESIZE_HANDLERS.LEFT_TOP) {
+          if (
+            command === OPERATE_RESIZE_HANDLERS.RIGHT_BOTTOM ||
+            command === OPERATE_RESIZE_HANDLERS.LEFT_TOP
+          ) {
             moveY = moveY / aspectRatio;
-          } else if (command === OPERATE_RESIZE_HANDLERS.LEFT_BOTTOM || command === OPERATE_RESIZE_HANDLERS.RIGHT_TOP) {
+          } else if (
+            command === OPERATE_RESIZE_HANDLERS.LEFT_BOTTOM ||
+            command === OPERATE_RESIZE_HANDLERS.RIGHT_TOP
+          ) {
             moveY = -moveY / aspectRatio;
           }
         }

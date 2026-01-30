@@ -1,4 +1,9 @@
-import axios, { AxiosError, type AxiosInstance, type AxiosRequestConfig, type AxiosResponse } from 'axios';
+import axios, {
+  AxiosError,
+  type AxiosInstance,
+  type AxiosRequestConfig,
+  type AxiosResponse,
+} from 'axios';
 import { useUserStore } from '@/models/user';
 import { router } from '@/router';
 import { ENV } from '@/constants/env';

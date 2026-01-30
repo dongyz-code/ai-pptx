@@ -29,7 +29,11 @@ import type { OperateLineHandlers, PPTElement, PPTLineElement } from '@/types';
 
 const props = defineProps<{
   element: PPTElement;
-  scaleElement: (e: MouseEvent, element: Exclude<PPTElement, PPTLineElement>, command: OPERATE_RESIZE_HANDLERS) => void;
+  scaleElement: (
+    e: MouseEvent,
+    element: Exclude<PPTElement, PPTLineElement>,
+    command: OPERATE_RESIZE_HANDLERS
+  ) => void;
   dragLineElement: (e: MouseEvent, element: PPTLineElement, command: OperateLineHandlers) => void;
 }>();
 

@@ -30,7 +30,10 @@ const ShapeElement = defineComponent({
         }}
         onMousedown={props.selectElement}
       >
-        <div class="shape-element" style={{ opacity: props.element.opacity, filter: '', transform: flipStyle.value }}>
+        <div
+          class="shape-element"
+          style={{ opacity: props.element.opacity, filter: '', transform: flipStyle.value }}
+        >
           <svg overflow="visible" width={props.element.width} height={props.element.height}>
             {props.element?.gradient && (
               <defs>
@@ -52,7 +55,11 @@ const ShapeElement = defineComponent({
                 stroke-linecap="butt"
                 stroke-miterlimit={8}
                 d={props.element?.path}
-                fill={props.element.gradient ? `url(#editable-gradient-${props.element?.id})` : props.element?.fill}
+                fill={
+                  props.element.gradient
+                    ? `url(#editable-gradient-${props.element?.id})`
+                    : props.element?.fill
+                }
               />
             </g>
           </svg>

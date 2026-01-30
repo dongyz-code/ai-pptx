@@ -68,7 +68,10 @@ export function useRequest<R extends object, P extends object>(
 
   /** 真实的loading */
   const realLoading = ref(false);
-  const delayLoading = useDelayLoading(realLoading, { delay: options.loadingDelay, keep: options.loadingKeep });
+  const delayLoading = useDelayLoading(realLoading, {
+    delay: options.loadingDelay,
+    keep: options.loadingKeep,
+  });
 
   async function run(p?: P) {
     try {

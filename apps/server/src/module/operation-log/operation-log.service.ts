@@ -39,7 +39,17 @@ export class OperationLogService {
    * 查询操作日志列表（分页）
    */
   async findAll(query: QueryOperationLogDto) {
-    const { page = 1, pageSize = 10, username, module, action, url, statusCode, startTime, endTime } = query;
+    const {
+      page = 1,
+      pageSize = 10,
+      username,
+      module,
+      action,
+      url,
+      statusCode,
+      startTime,
+      endTime,
+    } = query;
 
     const where: any = {};
     if (username) where.username = Like(`%${username}%`);

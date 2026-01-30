@@ -30,7 +30,12 @@ const TiptapEditor = defineComponent({
   setup(props, { emit }) {
     const editor = useEditor({
       content: props.value,
-      extensions: [TextStyle, FontSize, Color.configure({ types: [TextStyle.name, ListItem.name] }), StarterKit],
+      extensions: [
+        TextStyle,
+        FontSize,
+        Color.configure({ types: [TextStyle.name, ListItem.name] }),
+        StarterKit,
+      ],
       editable: props.editable,
       autofocus: 'all',
       onUpdate: ({ editor }) => emit('change', editor.getHTML()),

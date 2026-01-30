@@ -81,7 +81,7 @@ const onMouseWheel = (e: WheelEvent) => {
       @dblclick="onDoubleClickBlankArea"
     >
       <div
-        class="viewport absolute left-0 top-0 origin-center"
+        class="viewport absolute top-0 left-0 origin-center"
         :style="{ transform: `scale(${editorState.viewportScale})` }"
       >
         <EditorElement
@@ -95,7 +95,10 @@ const onMouseWheel = (e: WheelEvent) => {
     </div>
 
     <div class="pointer-events-none absolute transform-gpu" :style="positionStyle">
-      <div class="absolute left-0 top-0 origin-center" :style="{ transform: `scale(${editorState.viewportScale})` }">
+      <div
+        class="absolute top-0 left-0 origin-center"
+        :style="{ transform: `scale(${editorState.viewportScale})` }"
+      >
         <!-- Hover 框 -->
         <HoverOperator />
 

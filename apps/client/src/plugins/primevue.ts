@@ -1,6 +1,6 @@
 import PrimeVue from 'primevue/config';
-import Aura from '@primevue/themes/aura';
-import { definePreset } from '@primevue/themes';
+import Aura from '@primeuix/themes/aura';
+import { definePreset } from '@primeuix/themes';
 import Tooltip from 'primevue/tooltip';
 import ToastService from 'primevue/toastservice';
 

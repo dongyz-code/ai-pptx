@@ -19,8 +19,8 @@ const loadPermissions = async () => {
   try {
     const res = await permissionApi.getList({ page: 1, pageSize: 100 });
     permissions.value = res.items;
-  } catch (error: any) {
-    notify({ severity: 'error', summary: '错误', detail: error.message || '加载失败', life: 3000 });
+  } catch (error) {
+    notify({ severity: 'error', summary: '错误', detail: (error as Error).message || '加载失败' });
   } finally {
     loading.value = false;
   }

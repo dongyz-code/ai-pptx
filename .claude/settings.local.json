@@ -17,7 +17,13 @@
       "Bash(npm install:*)",
       "Bash(pnpm --filter ai-ppt-server add:*)",
       "Bash(timeout 15 pnpm dev:server:*)",
-      "Bash(pnpm exec tsc:*)"
+      "Bash(pnpm exec tsc:*)",
+      "Bash(npm view tailwindcss-primeui versions --json)",
+      "Bash(npm view @tailwindcss/vite --json)",
+      "Bash(npm view:*)",
+      "Bash(pnpm dev:*)",
+      "Bash(pnpm build:*)",
+      "Bash(npx vite build:*)"
     ],
     "deny": [],
     "ask": []

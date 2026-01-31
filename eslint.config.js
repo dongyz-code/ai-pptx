@@ -24,6 +24,12 @@ export default defineConfig([
       '@typescript-eslint/no-unused-vars': 'warn',
       '@typescript-eslint/no-explicit-any': 'warn',
       'no-console': ['warn', { allow: ['warn', 'error'] }],
+      'vue/multi-word-component-names': [
+        'error',
+        {
+          ignores: ['index'], // 在这里添加你想要忽略的名字
+        },
+      ],
       'prettier/prettier': 'error', // 将 prettier 错误改为警告
     },
   },

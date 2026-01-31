@@ -1,0 +1,14 @@
+@import 'tailwindcss';
+@import 'tailwindcss-primeui';
+
+@layer base {
+  /* 自定义滚动条样式 */
+  .scroll-bar::-webkit-scrollbar {
+    width: 0.5rem;
+    height: 0.5rem;
+  }
+  .scroll-bar::-webkit-scrollbar-thumb {
+    border-radius: 0.5rem;
+    background-color: var(--color-gray-300);
+  }
+}

@@ -14,9 +14,9 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useEditor, useSlides } from '@/pages/Editor/models';
+import { useEditor, useSlides } from '@/pages/ppt-editor/models';
 import { arrObject } from '@/utils';
-import { getElementsRange } from '@/pages/Editor/utils';
+import { getElementsRange } from '@/pages/ppt-editor/utils';
 
 const { editorState } = useEditor();
 const { state: slidesState } = useSlides();

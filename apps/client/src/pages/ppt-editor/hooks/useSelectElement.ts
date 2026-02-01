@@ -1,6 +1,6 @@
 import { computed } from 'vue';
 import { arrObject, unique } from '@/utils';
-import { useSlides, useEditor, useKeyboard } from '@/pages/Editor/models';
+import { useSlides, useEditor, useKeyboard } from '@/pages/ppt-editor/models';
 
 import type { PPTElement } from '@/types';
 

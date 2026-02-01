@@ -1,7 +1,7 @@
 import { computed, toRefs, type Ref } from 'vue';
 import { cloneDeep } from 'lodash-es';
 import { arrObject } from '@/utils';
-import { useSlides, useEditor, useKeyboard } from '@/pages/Editor/models';
+import { useSlides, useEditor, useKeyboard } from '@/pages/ppt-editor/models';
 import { collectAlignLines, getRectRotateRange } from '../utils';
 
 import type { AlignmentLineProps, PPTElement, AlignLine } from '@/types';

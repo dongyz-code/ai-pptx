@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useEditor, useSlides } from '@/pages/Editor/models';
+import { useEditor, useSlides } from '@/pages/ppt-editor/models';
 
 const { editorState } = useEditor();
 const { state: slidesState } = useSlides();

@@ -2,11 +2,12 @@
   <div class="common-operator">
     <template v-if="editor.editorState.selectedElementIds.length === 1">
       <resize-handler
-        v-for="item in operate.resizeHandlers"
+        v-for="(item, i) in operate.resizeHandlers"
+        :key="i"
         :style="{ ...item.style }"
         :direction="item.direction"
         :rotate="element.rotate"
-        @mousedown.nativate="($event: MouseEvent) => scaleElement($event, element, item.direction)"
+        @mousedown="($event: MouseEvent) => scaleElement($event, element, item.direction)"
       ></resize-handler>
     </template>
 
@@ -22,8 +23,8 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { OPERATE_RESIZE_HANDLERS } from '@/constants';
-import { getCommonOperate } from '@/pages/Editor/utils';
-import { useEditor } from '@/pages/Editor/models';
+import { getCommonOperate } from '@/pages/ppt-editor/utils';
+import { useEditor } from '@/pages/ppt-editor/models';
 
 import BorderLine from './BorderLine.vue';
 import ResizeHandler from './ResizeHandler.vue';

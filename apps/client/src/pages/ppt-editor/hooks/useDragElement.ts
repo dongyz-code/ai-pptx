@@ -4,7 +4,7 @@ import { arrObject } from '@/utils';
 import { useSlides, useEditor, useKeyboard } from '@/pages/ppt-editor/models';
 import { collectAlignLines, getRectRotateRange } from '../utils';
 
-import type { AlignmentLineProps, PPTElement, AlignLine } from '@/types';
+import type { AlignmentLineProps, PPTElement } from '@/types';
 
 /**
  * 拖拽元素
@@ -40,8 +40,9 @@ export function useDragElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
     let isMisoperation: boolean | null = null;
 
     const selectedIdMap = arrObject(selectedElementIds.value);
-    const originElementList = cloneDeep(elementList.value);
-    const selectedElementList = originElementList.filter((item) => selectedIdMap[item.id]);
+    const originSelectedElementList = cloneDeep(
+      elementList.value.filter((item) => selectedIdMap[item.id])
+    );
 
     const originWidth = element.width;
     const originHeight = 'height' in element && element.height ? element.height : 0;
@@ -50,6 +51,9 @@ export function useDragElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
     const originTop = element.top;
     const startPageX = e.pageX;
     const startPageY = e.pageY;
+    let rafId: number | null = null;
+    let latestPageX = startPageX;
+    let latestPageY = startPageY;
 
     const { horizontalLines, verticalLines } = collectAlignLines({
       elementList: elementList.value?.filter((item) => !selectedIdMap[item.id]),
@@ -57,9 +61,10 @@ export function useDragElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
       edgeHeight,
     });
 
-    const onMouseMove = (e: MouseEvent) => {
-      const currentPageX = e.pageX;
-      const currentPageY = e.pageY;
+    const applyMove = (currentPageX: number, currentPageY: number) => {
+      if (!isMouseDown) {
+        return;
+      }
 
       /** 鼠标滑动距离较小，判定为误操作 */
       if (isMisoperation !== false) {
@@ -68,7 +73,7 @@ export function useDragElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
           Math.abs(currentPageY - startPageY) < sorptionRange;
       }
 
-      if (!isMouseDown || isMisoperation) {
+      if (isMisoperation) {
         return;
       }
 
@@ -121,7 +126,7 @@ export function useDragElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
         const rightValues = [];
         const topValues = [];
         const bottomValues = [];
-        for (const item of selectedElementList) {
+        for (const item of originSelectedElementList) {
           if ('rotate' in item && item.rotate) {
             const { x1, x2, y1, y2 } = getRectRotateRange(item);
             leftValues.push(x1);
@@ -230,25 +235,36 @@ export function useDragElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
 
       alignmentLineList.value = _alignmentLineList;
 
-      const newElementList = originElementList.map((item) => {
-        if (selectedIdMap[item.id]) {
-          return {
-            ...item,
-            left: item.left + moveX,
-            top: item.top + moveY,
-          };
-        } else {
-          return item;
-        }
-      });
+      const updates = originSelectedElementList.map((item) => ({
+        id: item.id,
+        props: {
+          left: item.left + moveX,
+          top: item.top + moveY,
+        },
+      }));
 
-      slidesStore.setElements(newElementList);
+      slidesStore.updateElements(updates);
     };
 
-    const onMouseUp = (e: MouseEvent) => {
+    const onMouseMove = (e: MouseEvent) => {
+      latestPageX = e.pageX;
+      latestPageY = e.pageY;
+
+      if (rafId !== null) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+        applyMove(latestPageX, latestPageY);
+      });
+    };
+
+    const onMouseUp = () => {
       isMouseDown = false;
       document.body.removeEventListener('mousemove', onMouseMove);
       document.body.removeEventListener('mouseup', onMouseUp);
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+      }
 
       alignmentLineList.value = [];
 

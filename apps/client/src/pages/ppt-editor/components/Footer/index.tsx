@@ -1,9 +1,9 @@
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
 import { Button, Slider } from 'primevue';
 import { useSlides, useEditor } from '../../models';
 
 const Footer = defineComponent({
-  name: 'Footer',
+  name: 'PptFooter',
   setup() {
     const { state } = useSlides();
     const { editorState } = useEditor();

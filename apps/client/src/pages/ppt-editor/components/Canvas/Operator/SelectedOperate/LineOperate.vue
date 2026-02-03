@@ -4,7 +4,7 @@
       v-for="(item, i) in handlers"
       :key="i"
       :style="{ ...item.position }"
-      @mousedown.nativate="($event: MouseEvent) => dragLineElement($event, element, item.type)"
+      @mousedown="($event: MouseEvent) => dragLineElement($event, element, item.type)"
     ></resize-handler>
   </div>
 </template>

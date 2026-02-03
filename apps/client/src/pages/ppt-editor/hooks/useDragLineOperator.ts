@@ -1,4 +1,4 @@
-import { computed, toRefs } from 'vue';
+import { toRefs } from 'vue';
 import { cloneDeep } from 'lodash-es';
 import { OperateLineHandlers, PPTLineElement } from '@/types';
 import { useEditor, useSlides } from '../models';
@@ -7,10 +7,6 @@ export function useDragLineOperator() {
   const editorStore = useEditor();
   const slidesStore = useSlides();
   const { viewportScale } = toRefs(editorStore.editorState);
-
-  const elementList = computed(
-    () => slidesStore.state.slides[slidesStore.state.sliderIndex]?.elements || []
-  );
 
   const onDragLineOperator = (
     e: MouseEvent,
@@ -23,29 +19,12 @@ export function useDragLineOperator() {
 
     const startPageX = e.pageX;
     const startPageY = e.pageY;
+    let rafId: number | null = null;
+    let latestPageX = startPageX;
+    let latestPageY = startPageY;
 
     // 克隆原始元素数据
     const originElement = cloneDeep(element);
-    const originElementList = cloneDeep(elementList.value);
-
-    // 旋转角度转弧度
-    const theta = ((element.rotate || 0) * Math.PI) / 180;
-    const cos = Math.cos(theta);
-    const sin = Math.sin(theta);
-
-    /**
-     * 将屏幕坐标的偏移量转换为考虑旋转后的局部坐标偏移量
-     */
-    const transformOffset = (offsetX: number, offsetY: number) => {
-      if (!element.rotate) {
-        return { x: offsetX, y: offsetY };
-      }
-      // 应用反向旋转矩阵
-      return {
-        x: offsetX * cos + offsetY * sin,
-        y: -offsetX * sin + offsetY * cos,
-      };
-    };
 
     /**
      * 自动计算控制点位置
@@ -95,22 +74,17 @@ export function useDragLineOperator() {
       return [c1, c2];
     };
 
-    const onMouseMove = (e: MouseEvent) => {
+    const applyMove = (pageX: number, pageY: number) => {
       if (!isMouseDown) return;
 
       // 计算鼠标移动的屏幕距离（考虑缩放）
-      const screenOffsetX = (e.pageX - startPageX) / viewportScale.value;
-      const screenOffsetY = (e.pageY - startPageY) / viewportScale.value;
+      const screenOffsetX = (pageX - startPageX) / viewportScale.value;
+      const screenOffsetY = (pageY - startPageY) / viewportScale.value;
 
-      // 转换为考虑旋转的局部坐标偏移
-      const offset = transformOffset(screenOffsetX, screenOffsetY);
-
-      // 找到当前元素在列表中的索引
-      const elementIndex = originElementList.findIndex((el) => el.id === element.id);
-      if (elementIndex === -1) return;
+      const offset = { x: screenOffsetX, y: screenOffsetY };
 
       // 克隆当前元素
-      const updatedElement = cloneDeep(originElement) as PPTLineElement;
+      const updatedElement = { ...originElement } as PPTLineElement;
 
       switch (command) {
         case OperateLineHandlers.START:
@@ -206,18 +180,38 @@ export function useDragLineOperator() {
           break;
       }
 
-      // 更新元素列表
-      const newElementList = [...originElementList];
-      newElementList[elementIndex] = updatedElement;
+      slidesStore.updateElement({
+        id: element.id,
+        props: {
+          start: updatedElement.start,
+          end: updatedElement.end,
+          broken: updatedElement.broken,
+          broken2: updatedElement.broken2,
+          curve: updatedElement.curve,
+          cubic: updatedElement.cubic,
+        },
+      });
+    };
 
-      // 应用更新
-      slidesStore.setElements(newElementList);
+    const onMouseMove = (e: MouseEvent) => {
+      latestPageX = e.pageX;
+      latestPageY = e.pageY;
+
+      if (rafId !== null) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+        applyMove(latestPageX, latestPageY);
+      });
     };
 
     const onMouseUp = () => {
       isMouseDown = false;
       document.body.removeEventListener('mousemove', onMouseMove);
       document.body.removeEventListener('mouseup', onMouseUp);
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+      }
     };
 
     document.body.addEventListener('mousemove', onMouseMove);

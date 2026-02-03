@@ -12,7 +12,7 @@ export default defineComponent({
   },
   setup(props) {
     return () => {
-      props.type === 'linear' ? (
+      return props.type === 'linear' ? (
         <linearGradient
           id={props.id}
           x1="0%"

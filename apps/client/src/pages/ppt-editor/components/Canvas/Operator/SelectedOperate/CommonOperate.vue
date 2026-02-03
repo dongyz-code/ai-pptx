@@ -1,6 +1,9 @@
 <template>
   <div class="common-operator">
     <template v-if="editor.editorState.selectedElementIds.length === 1">
+      <RotateHandler
+        @mousedown="($event: MouseEvent) => rotateElement($event, element)"
+      ></RotateHandler>
       <resize-handler
         v-for="(item, i) in operate.resizeHandlers"
         :key="i"
@@ -28,6 +31,7 @@ import { useEditor } from '@/pages/ppt-editor/models';
 
 import BorderLine from './BorderLine.vue';
 import ResizeHandler from './ResizeHandler.vue';
+import RotateHandler from '../RotateHandler.vue';
 
 import type {
   PPTVideoElement,
@@ -47,6 +51,7 @@ interface Props {
     element: Exclude<PPTElement, PPTLineElement>,
     command: OPERATE_RESIZE_HANDLERS
   ) => void;
+  rotateElement: (e: MouseEvent, element: Exclude<PPTElement, PPTLineElement>) => void;
 }
 
 const props = defineProps<Props>();

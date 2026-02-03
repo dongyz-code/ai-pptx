@@ -6,7 +6,7 @@ import { useDraggable } from 'vue-draggable-plus';
 import { VIcon } from '@/components/ui';
 
 const Slider = defineComponent({
-  name: 'Slider',
+  name: 'PptSlides',
   setup() {
     const dragRef = ref<HTMLElement | null>(null);
     const { state, addSlide, setSlideIndex, setSlides } = useSlides();

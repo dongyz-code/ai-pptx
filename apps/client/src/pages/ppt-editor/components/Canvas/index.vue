@@ -8,6 +8,8 @@ import {
   useSelectedElements,
   useScaleElement,
   useScaleCanvas,
+  useRotateElement,
+  useDragLineOperator,
 } from '../../hooks';
 
 import EditorElement from './EditorElement';
@@ -17,7 +19,6 @@ import MultipleSelectedOperator from './Operator/MultipleSelectedOperator/index.
 import AlignmentLine from './AlignmentLine/index.vue';
 
 import type { AlignmentLineProps } from '@/types';
-import { useDragLineOperator } from '../../hooks/useDragLineOperator';
 
 const wrapperRef = ref<HTMLDivElement>();
 
@@ -35,6 +36,7 @@ const { onSelectElement } = useSelectElement(onDragElement);
 const { selectedElements } = useSelectedElements();
 const { scaleElement } = useScaleElement(alignmentLineList);
 const { scaleCanvas } = useScaleCanvas();
+const { rotateElement } = useRotateElement();
 
 const currentSlide = computed(() => state.slides[state.sliderIndex]);
 
@@ -112,6 +114,7 @@ const onMouseWheel = (e: WheelEvent) => {
           :element="element"
           :scale-element="scaleElement"
           :drag-line-element="onDragLineOperator"
+          :rotate-element="rotateElement"
         />
 
         <!-- 吸附对齐线 -->

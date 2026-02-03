@@ -2,7 +2,7 @@ import { defineComponent } from 'vue';
 
 const ImgElement = defineComponent({
   props: {},
-  render: () => {},
+  render: () => null,
 });
 
 export default ImgElement;

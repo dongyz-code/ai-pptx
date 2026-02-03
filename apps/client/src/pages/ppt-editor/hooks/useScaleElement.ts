@@ -1,27 +1,16 @@
-import { computed, toRefs, type Ref } from 'vue';
-import { cloneDeep } from 'lodash-es';
-import { arrObject } from '@/utils';
+import { toRefs, type Ref } from 'vue';
 import { useSlides, useEditor, useKeyboard } from '@/pages/ppt-editor/models';
-import {
-  collectAlignLines,
-  getCurrentPoint,
-  getOppositePoint,
-  getRectElementPoint,
-} from '../utils';
+import { getCurrentPoint, getOppositePoint, getRectElementPoint } from '../utils';
 import { MIN_SIZE, OPERATE_RESIZE_HANDLERS } from '@/constants';
 
 import type { AlignmentLineProps, PPTElement, PPTLineElement } from '@/types';
 
-export function useScaleElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
+export function useScaleElement(_alignmentLineList: Ref<AlignmentLineProps[]>) {
   const slidesStore = useSlides();
   const editorStore = useEditor();
+  void _alignmentLineList;
 
-  const { selectedElementIds, viewportSize, viewportScale, viewportRatio } = toRefs(
-    editorStore.editorState
-  );
-  const elementList = computed(
-    () => slidesStore.state.slides[slidesStore.state.sliderIndex]?.elements || []
-  );
+  const { selectedElementIds, viewportScale } = toRefs(editorStore.editorState);
 
   const scaleElement = (
     e: MouseEvent,
@@ -36,15 +25,6 @@ export function useScaleElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
     // 定义一个变量，用于判断鼠标是否按下
     let isMouseDown = true;
     editorStore.setIsScaling(true);
-    /** 视口宽度 */
-    const edgeWidth = viewportSize.value;
-    /** 视口高度 */
-    const edgeHeight = viewportSize.value / viewportRatio.value;
-
-    const selectedIdMap = arrObject(selectedElementIds.value);
-    const originElementList = cloneDeep(elementList.value);
-    const selectedElementList = originElementList.filter((item) => selectedIdMap[item.id]);
-
     const originWidth = element.width;
     const originHeight = 'height' in element && element.height ? element.height : 0;
     const originRotate = 'rotate' in element && element.rotate ? element.rotate : 0;
@@ -53,6 +33,9 @@ export function useScaleElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
     const originTop = element.top;
     const startPageX = e.pageX;
     const startPageY = e.pageY;
+    let rafId: number | null = null;
+    let latestPageX = startPageX;
+    let latestPageY = startPageY;
 
     // 元素最小缩放限制
     const minSize = MIN_SIZE[element.type] ?? 20;
@@ -74,35 +57,23 @@ export function useScaleElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
     const aspectRatio = originWidth / originHeight;
 
     /**
-     * @TODO 吸附线逻辑
-     */
-    const { horizontalLines, verticalLines } = collectAlignLines({
-      elementList: elementList.value?.filter((item) => item.id !== element.id),
-      edgeWidth,
-      edgeHeight,
-    });
-
-    /**
      *  1: 算出操作点和对角基点
      */
     const points = getRectElementPoint(element);
     const basePoint = getOppositePoint(command, points);
     const dragPoint = getCurrentPoint(command, points);
 
-    const onMouseMove = (e: MouseEvent) => {
-      const currentPageX = e.pageX;
-      const currentPageY = e.pageY;
+    const applyMove = (currentPageX: number, currentPageY: number) => {
+      if (!isMouseDown) {
+        return;
+      }
 
       let width = originWidth;
       let height = originHeight;
       let left = originLeft;
       let top = originTop;
 
-      if (!isMouseDown) {
-        return;
-      }
-
-      let moveX = (currentPageX - startPageX) / viewportScale.value;
+      const moveX = (currentPageX - startPageX) / viewportScale.value;
       let moveY = (currentPageY - startPageY) / viewportScale.value;
 
       /**
@@ -228,29 +199,38 @@ export function useScaleElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
         }
       }
 
-      const newElementList = elementList.value.map((item) => {
-        if (item.id !== element.id) {
-          return item;
-        }
-
-        return {
-          ...item,
+      slidesStore.updateElement({
+        id: element.id,
+        props: {
           width,
           height,
           left,
           top,
           rotate: originRotate,
-        };
+        },
       });
-
-      slidesStore.setElements(newElementList);
     };
 
-    const onMouseUp = (e: MouseEvent) => {
+    const onMouseMove = (e: MouseEvent) => {
+      latestPageX = e.pageX;
+      latestPageY = e.pageY;
+
+      if (rafId !== null) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+        applyMove(latestPageX, latestPageY);
+      });
+    };
+
+    const onMouseUp = () => {
       isMouseDown = false;
       editorStore.setIsScaling(false);
       document.body.removeEventListener('mousemove', onMouseMove);
       document.body.removeEventListener('mouseup', onMouseUp);
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+      }
     };
 
     document.body.addEventListener('mousemove', onMouseMove);

@@ -14,6 +14,7 @@
       :element="element"
       :scale-element="scaleElement"
       :drag-line-element="dragLineElement"
+      :rotate-element="rotateElement"
     />
   </div>
 </template>
@@ -35,6 +36,7 @@ const props = defineProps<{
     command: OPERATE_RESIZE_HANDLERS
   ) => void;
   dragLineElement: (e: MouseEvent, element: PPTLineElement, command: OperateLineHandlers) => void;
+  rotateElement: (e: MouseEvent, element: Exclude<PPTElement, PPTLineElement>) => void;
 }>();
 
 const OperateComponentMap: Record<PPTElement['type'], Component> = {

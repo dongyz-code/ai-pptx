@@ -66,6 +66,22 @@ export const useSlides = defineStore('slider', () => {
     }
   };
 
+  const updateElements = (updates: { id: string; props: Partial<PPTElement> }[]) => {
+    if (!updates.length) return;
+    const slide = state.slides[state.sliderIndex];
+    const updateMap = new Map<string, Partial<PPTElement>>();
+    for (const update of updates) {
+      updateMap.set(update.id, update.props);
+    }
+
+    for (const element of slide.elements) {
+      const props = updateMap.get(element.id);
+      if (props) {
+        Object.assign(element, props);
+      }
+    }
+  };
+
   const setElements = (elements: PPTElement[]) => {
     const slide = state.slides[state.sliderIndex];
     slide.elements = elements;
@@ -94,6 +110,7 @@ export const useSlides = defineStore('slider', () => {
     setElements,
     addElement,
     updateElement,
+    updateElements,
     deleteElement,
   };
 });

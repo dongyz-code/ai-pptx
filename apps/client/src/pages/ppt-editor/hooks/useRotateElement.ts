@@ -1,4 +1,4 @@
-import { toRefs } from 'vue';
+import { ref, toRefs } from 'vue';
 import { useEditor, useKeyboard, useSlides } from '@/pages/ppt-editor/models';
 import type { PPTElement, PPTLineElement } from '@/types';
 
@@ -7,6 +7,7 @@ export function useRotateElement() {
   const slidesStore = useSlides();
   const keyboardStore = useKeyboard();
   const { viewportScale } = toRefs(editorStore.editorState);
+  const isRotating = ref(false);
 
   const rotateElement = (e: MouseEvent, element: Exclude<PPTElement, PPTLineElement>) => {
     e.stopPropagation();
@@ -25,6 +26,7 @@ export function useRotateElement() {
     const centerY = canvasTop + (element.top + element.height / 2) * viewportScale.value;
 
     let isMouseDown = true;
+    isRotating.value = true;
     const originRotate = element.rotate || 0;
     const startAngle = Math.atan2(e.pageY - centerY, e.pageX - centerX);
     let rafId: number | null = null;
@@ -67,6 +69,7 @@ export function useRotateElement() {
         cancelAnimationFrame(rafId);
         rafId = null;
       }
+      isRotating.value = false;
     };
 
     document.body.addEventListener('mousemove', onMouseMove);
@@ -75,5 +78,6 @@ export function useRotateElement() {
 
   return {
     rotateElement,
+    isRotating,
   };
 }

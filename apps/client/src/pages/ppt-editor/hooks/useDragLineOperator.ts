@@ -3,6 +3,9 @@ import { cloneDeep } from 'lodash-es';
 import { OperateLineHandlers, PPTLineElement } from '@/types';
 import { useEditor, useSlides } from '../models';
 
+/**
+ * 线条元素 关键点控制
+ */
 export function useDragLineOperator() {
   const editorStore = useEditor();
   const slidesStore = useSlides();

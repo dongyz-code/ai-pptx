@@ -15,6 +15,7 @@
       :scale-element="scaleElement"
       :drag-line-element="dragLineElement"
       :rotate-element="rotateElement"
+      :is-rotating="isRotating"
     />
   </div>
 </template>
@@ -37,6 +38,7 @@ const props = defineProps<{
   ) => void;
   dragLineElement: (e: MouseEvent, element: PPTLineElement, command: OperateLineHandlers) => void;
   rotateElement: (e: MouseEvent, element: Exclude<PPTElement, PPTLineElement>) => void;
+  isRotating: boolean;
 }>();
 
 const OperateComponentMap: Record<PPTElement['type'], Component> = {

@@ -2,6 +2,7 @@
   <div class="common-operator">
     <template v-if="editor.editorState.selectedElementIds.length === 1">
       <RotateHandler
+        :hidden="isRotating"
         @mousedown="($event: MouseEvent) => rotateElement($event, element)"
       ></RotateHandler>
       <resize-handler
@@ -52,6 +53,7 @@ interface Props {
     command: OPERATE_RESIZE_HANDLERS
   ) => void;
   rotateElement: (e: MouseEvent, element: Exclude<PPTElement, PPTLineElement>) => void;
+  isRotating: boolean;
 }
 
 const props = defineProps<Props>();

@@ -28,6 +28,7 @@ export interface IconTypes {
   'solar:add-circle-bold': Component;
   'solar:eye-bold': Component;
   'solar:arrow-right-bold': Component;
+  'fluent:arrow-sync-24-filled': Component;
 }
 
 export type IconName = keyof IconTypes;

@@ -32,6 +32,7 @@ const iconifyIcons = [
   'solar:add-circle-bold',
   'solar:eye-bold',
   'solar:arrow-right-bold',
+  'fluent:arrow-sync-24-filled',
 ];
 
 /**

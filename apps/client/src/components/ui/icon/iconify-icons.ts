@@ -22,4 +22,5 @@ export default {
   'solar:add-circle-bold': async () => (await import('~icons/solar/add-circle-bold')).default,
   'solar:eye-bold': async () => (await import('~icons/solar/eye-bold')).default,
   'solar:arrow-right-bold': async () => (await import('~icons/solar/arrow-right-bold')).default,
+  'fluent:arrow-sync-24-filled': async () => (await import('~icons/fluent/arrow-sync-24-filled')).default,
 };

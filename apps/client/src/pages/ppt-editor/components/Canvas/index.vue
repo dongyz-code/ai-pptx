@@ -36,7 +36,7 @@ const { onSelectElement } = useSelectElement(onDragElement);
 const { selectedElements } = useSelectedElements();
 const { scaleElement } = useScaleElement(alignmentLineList);
 const { scaleCanvas } = useScaleCanvas();
-const { rotateElement } = useRotateElement();
+const { rotateElement, isRotating } = useRotateElement();
 
 const currentSlide = computed(() => state.slides[state.sliderIndex]);
 
@@ -115,6 +115,7 @@ const onMouseWheel = (e: WheelEvent) => {
           :scale-element="scaleElement"
           :drag-line-element="onDragLineOperator"
           :rotate-element="rotateElement"
+          :is-rotating="isRotating"
         />
 
         <!-- 吸附对齐线 -->

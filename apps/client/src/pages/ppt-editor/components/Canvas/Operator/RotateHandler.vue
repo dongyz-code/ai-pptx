@@ -6,7 +6,7 @@
     @mousedown="handleMouseDown"
   >
     <div
-      class="flex items-center justify-center rounded-full bg-white text-sm text-gray-500 shadow-sm"
+      class="flex items-center justify-center rounded-full bg-white text-xs text-gray-600 shadow-sm"
       :style="{ width: `${props.knobSize}px`, height: `${props.knobSize}px` }"
     >
       <v-icon icon="fluent:arrow-sync-24-filled"></v-icon>
@@ -25,7 +25,7 @@ const props = withDefaults(
   }>(),
   {
     offset: 20,
-    knobSize: 22,
+    knobSize: 18,
     hidden: false,
   }
 );

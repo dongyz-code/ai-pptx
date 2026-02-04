@@ -11,6 +11,7 @@ import {
   useRotateElement,
   useDragLineOperator,
 } from '../../hooks';
+import { uuid } from '@/utils';
 
 import EditorElement from './EditorElement';
 import HoverOperator from './Operator/HoverOperator/index.vue';
@@ -18,13 +19,13 @@ import SelectedOperator from './Operator/SelectedOperate/index.vue';
 import MultipleSelectedOperator from './Operator/MultipleSelectedOperator/index.vue';
 import AlignmentLine from './AlignmentLine/index.vue';
 
-import type { AlignmentLineProps } from '@/types';
+import type { AlignmentLineProps, PPTShapeElement } from '@/types';
 
 const wrapperRef = ref<HTMLDivElement>();
 
 /** store 数据 */
 const { editorState, setHoverElementId, setIsCanvasFocus, setSelectedElementIds } = useEditor();
-const { state } = useSlides();
+const { state, addElement } = useSlides();
 
 /** hooks 调用 */
 const { keyboardState } = useKeyboard();
@@ -71,6 +72,51 @@ const onMouseWheel = (e: WheelEvent) => {
     return;
   }
 };
+
+const onCanvasDragOver = (e: DragEvent) => {
+  if (!e.dataTransfer) return;
+  if (e.dataTransfer.types.includes('application/x-ppt-shape')) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'copy';
+  }
+};
+
+const onCanvasDrop = (e: DragEvent) => {
+  if (!e.dataTransfer) return;
+  const raw = e.dataTransfer.getData('application/x-ppt-shape');
+  if (!raw) return;
+  e.preventDefault();
+
+  const payload = JSON.parse(raw) as Partial<PPTShapeElement> & {
+    width?: number;
+    height?: number;
+  };
+  const width = payload.width ?? 140;
+  const height = payload.height ?? 90;
+
+  const target = e.currentTarget as HTMLElement;
+  const rect = target.getBoundingClientRect();
+  const left = (e.clientX - rect.left) / editorState.viewportScale - width / 2;
+  const top = (e.clientY - rect.top) / editorState.viewportScale - height / 2;
+
+  const element: PPTShapeElement = {
+    id: uuid(),
+    type: 'shape',
+    left,
+    top,
+    width,
+    height,
+    rotate: 0,
+    viewBox: payload.viewBox ?? [200, 200],
+    path: payload.path ?? 'M 0 0 L 200 0 L 200 200 L 0 200 Z',
+    fill: payload.fill ?? '#f2f2f2',
+    fixedRatio: payload.fixedRatio ?? false,
+    outline: payload.outline,
+    pathFormula: payload.pathFormula,
+  };
+
+  addElement(element);
+};
 </script>
 
 <template>
@@ -81,6 +127,8 @@ const onMouseWheel = (e: WheelEvent) => {
       :style="positionStyle"
       @mousedown="onClickBlankArea"
       @dblclick="onDoubleClickBlankArea"
+      @dragover="onCanvasDragOver"
+      @drop="onCanvasDrop"
     >
       <div
         class="viewport absolute top-0 left-0 origin-center"

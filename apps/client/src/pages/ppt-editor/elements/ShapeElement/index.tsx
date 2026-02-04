@@ -16,6 +16,20 @@ const ShapeElement = defineComponent({
     const flipH = computed(() => props.element.flipH);
     const flipV = computed(() => props.element.flipV);
     const { flipStyle } = useElementFlip(flipH, flipV);
+    const outline = computed(() => props.element.outline);
+    const outlineWidth = computed(() => outline.value?.width ?? 0);
+    const outlineColor = computed(() => outline.value?.color ?? '#000');
+    const outlineDasharray = computed(() => {
+      if (!outlineWidth.value) return undefined;
+      switch (outline.value?.style) {
+        case 'dashed':
+          return `${outlineWidth.value * 4} ${outlineWidth.value * 2}`;
+        case 'dotted':
+          return `${outlineWidth.value} ${outlineWidth.value * 2}`;
+        default:
+          return undefined;
+      }
+    });
 
     return () => (
       <div
@@ -54,6 +68,9 @@ const ShapeElement = defineComponent({
                 vector-effect="non-scaling-stroke"
                 stroke-linecap="butt"
                 stroke-miterlimit={8}
+                stroke={outlineWidth.value ? outlineColor.value : 'none'}
+                stroke-width={outlineWidth.value || undefined}
+                stroke-dasharray={outlineDasharray.value}
                 d={props.element?.path}
                 fill={
                   props.element.gradient

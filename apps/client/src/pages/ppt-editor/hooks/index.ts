@@ -9,3 +9,4 @@ export * from './useScaleElement';
 export * from './useScaleCanvas';
 export * from './useRotateElement';
 export * from './useDragLineOperator';
+export * from './useDragCreate';

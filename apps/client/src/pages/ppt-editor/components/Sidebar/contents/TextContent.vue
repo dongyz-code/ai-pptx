@@ -4,8 +4,10 @@
       <div
         v-for="option in textOptions"
         :key="option.value"
-        class="flex cursor-pointer gap-2 rounded-md p-2 pr-12 hover:bg-gray-100"
+        class="flex cursor-grab gap-2 rounded-md p-2 pr-12 hover:bg-gray-100 active:cursor-grabbing"
         :style="{ fontSize: option.previewSize }"
+        draggable="true"
+        @dragstart="onDragStart($event, option)"
         @click="handleClick(option)"
       >
         <div>
@@ -19,7 +21,7 @@
 
 <script setup lang="ts">
 import { useAction } from '../useAction';
-import { useDragCreate } from '@/pages/ppt-editor/hooks';
+import { startElementDrag } from '../../../hooks/useDragCreate';
 import type { PPTTextElement } from '@/types';
 import { VIcon, type IconName } from '@/components/ui';
 
@@ -106,5 +108,22 @@ const { onAddText } = useAction();
 const handleClick = (option: TextOption) => {
   onAddText(option.data);
   emit('close');
+};
+
+const onDragStart = (event: DragEvent, option: TextOption) => {
+  startElementDrag(
+    event,
+    {
+      type: 'text',
+      width: 200,
+      height: 30,
+      rotate: 0,
+      content: '你的段落文字',
+      defaultFontName: 'Microsoft Yahei',
+      defaultColor: '#333',
+      ...option.data,
+    },
+    option.label
+  );
 };
 </script>

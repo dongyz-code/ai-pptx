@@ -10,7 +10,7 @@
             class="flex cursor-grab flex-col items-center gap-1 rounded-lg border border-[#e5e5e5] bg-white p-1.5 transition-all duration-200 hover:border-[#c9c9c9] hover:bg-gray-100 hover:shadow-[0_2px_6px_rgba(0,0,0,0.06)] active:cursor-grabbing"
             draggable="true"
             @dragstart="($event: DragEvent) => onDragStart($event, option)"
-            @click="handleSelect(option)"
+            @click="handleClick(option)"
             :title="option.label"
           >
             <div class="flex h-6 w-6 items-center justify-center" v-html="option.preview"></div>
@@ -22,20 +22,22 @@
 </template>
 
 <script setup lang="ts">
-import { useDragCreate } from '../../../hooks';
+import { startElementDrag } from '../../../hooks/useDragCreate';
+import { useAction } from '../useAction';
 import { shapeGroups, type ShapeOption } from './shapes';
 
-const { startDrag } = useDragCreate();
-
 const emit = defineEmits<{
-  select: [option: ShapeOption];
+  (e: 'close'): void;
 }>();
 
-const handleSelect = (option: ShapeOption) => {
-  emit('select', option);
+const { onAddShape } = useAction();
+
+const handleClick = (option: ShapeOption) => {
+  onAddShape(option.data);
+  emit('close');
 };
 
 const onDragStart = (event: DragEvent, option: ShapeOption) => {
-  startDrag(event, 'shape', option.data, option.label);
+  startElementDrag(event, option.data, option.label);
 };
 </script>

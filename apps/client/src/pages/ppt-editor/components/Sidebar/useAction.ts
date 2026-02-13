@@ -14,21 +14,29 @@ export const useAction = () => {
   const { addElement } = useSlides();
   const { editorState } = useEditor();
 
-  const onAddText = (textElement: Partial<PPTTextElement> = {}) => {
-    const { viewportSize } = editorState;
+  /** 获取画布中心位置 */
+  const getCanvasCenter = (elementWidth: number, elementHeight: number) => {
+    const { viewportSize, viewportRatio } = editorState;
+    const canvasWidth = viewportSize;
+    const canvasHeight = viewportSize / viewportRatio;
+    return {
+      left: canvasWidth / 2 - elementWidth / 2,
+      top: canvasHeight / 2 - elementHeight / 2,
+    };
+  };
 
+  const onAddText = (textElement: Partial<PPTTextElement> = {}) => {
     const width = 200;
     const height = 30;
-    const left = viewportSize / 2 - width / 2;
-    const top = viewportSize / 2 - height / 2;
+    const { left, top } = getCanvasCenter(width, height);
 
     const defaultTextElement: PPTTextElement = {
       id: uuid(),
       type: 'text',
-      top: top,
-      left: left,
-      width: width,
-      height: height,
+      top,
+      left,
+      width,
+      height,
       content: '你的段落文字',
       rotate: 0,
       defaultFontName: 'Microsoft Yahei',
@@ -39,20 +47,17 @@ export const useAction = () => {
   };
 
   const onAddShape = (shapeElement: Partial<PPTShapeElement> = {}) => {
-    const { viewportSize } = editorState;
-
     const width = 200;
     const height = 200;
-    const left = viewportSize / 2 - width / 2;
-    const top = viewportSize / 2 - height / 2;
+    const { left, top } = getCanvasCenter(width, height);
 
     const defaultShapeElement: PPTShapeElement = {
       id: uuid(),
       type: 'shape',
-      top: top,
-      left: left,
-      width: width,
-      height: height,
+      top,
+      left,
+      width,
+      height,
       viewBox: [200, 200],
       path: 'M 0 0 L 200 0 L 200 200 L 0 200 Z',
       fill: '#4A90E2',
@@ -64,19 +69,16 @@ export const useAction = () => {
   };
 
   const onAddLine = (lineElement: Partial<PPTLineElement> = {}) => {
-    const { viewportSize } = editorState;
-
-    const startX = viewportSize / 2 - 100;
-    const startY = viewportSize / 2;
-    const endX = viewportSize / 2 + 100;
-    const endY = viewportSize / 2;
+    const width = 200;
+    const height = 0;
+    const { left, top } = getCanvasCenter(width, height);
 
     const defaultLineElement: PPTLineElement = {
       id: uuid(),
       type: 'line',
-      top: startY,
-      left: startX,
-      width: 200,
+      top,
+      left,
+      width,
       start: [0, 0],
       end: [200, 0],
       style: 'solid',
@@ -88,20 +90,17 @@ export const useAction = () => {
   };
 
   const onAddImage = (imageElement: Partial<PPTImageElement> = {}) => {
-    const { viewportSize } = editorState;
-
     const width = 300;
     const height = 200;
-    const left = viewportSize / 2 - width / 2;
-    const top = viewportSize / 2 - height / 2;
+    const { left, top } = getCanvasCenter(width, height);
 
     const defaultImageElement: PPTImageElement = {
       id: uuid(),
       type: 'image',
-      top: top,
-      left: left,
-      width: width,
-      height: height,
+      top,
+      left,
+      width,
+      height,
       src: '',
       fixedRatio: true,
       rotate: 0,
@@ -111,15 +110,13 @@ export const useAction = () => {
   };
 
   const onAddTable = (options: { rows: number; cols: number }) => {
-    const { viewportSize } = editorState;
     const { rows, cols } = options;
 
     const cellWidth = 100;
     const cellHeight = 40;
     const width = cellWidth * cols;
     const height = cellHeight * rows;
-    const left = viewportSize / 2 - width / 2;
-    const top = viewportSize / 2 - height / 2;
+    const { left, top } = getCanvasCenter(width, height);
 
     // 生成表格数据
     const data: TableCell[][] = [];
@@ -161,21 +158,19 @@ export const useAction = () => {
   };
 
   const onAddChart = (options: { chartType: string }) => {
-    const { viewportSize } = editorState;
     const { chartType } = options;
 
     const width = 400;
     const height = 300;
-    const left = viewportSize / 2 - width / 2;
-    const top = viewportSize / 2 - height / 2;
+    const { left, top } = getCanvasCenter(width, height);
 
     const defaultChartElement: PPTChartElement = {
       id: uuid(),
       type: 'chart',
-      top: top,
-      left: left,
-      width: width,
-      height: height,
+      top,
+      left,
+      width,
+      height,
       rotate: 0,
       chartType: chartType as any,
       data: {

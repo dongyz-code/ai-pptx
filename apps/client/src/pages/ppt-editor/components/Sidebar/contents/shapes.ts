@@ -1,11 +1,13 @@
-import type { PPTElementOutline } from '@/types';
-import type { ShapeDragData } from '../../../hooks/useDragCreate';
+import type { PPTElementOutline, PPTShapeElement } from '@/types';
+
+/** 完整的形状元素模板，不含 id / left / top（drop 时自动补上） */
+export type ShapeElementTemplate = Omit<PPTShapeElement, 'id' | 'left' | 'top'>;
 
 export interface ShapeOption {
   label: string;
   value: string;
   preview: string;
-  data: ShapeDragData;
+  data: ShapeElementTemplate;
 }
 
 export interface ShapeGroup {
@@ -29,13 +31,15 @@ const createShape = (
   value: string,
   path: string,
   size: [number, number],
-  options: Partial<ShapeDragData> = {}
+  options: Partial<ShapeElementTemplate> = {}
 ): ShapeOption => {
   return {
     label,
     value,
     preview: createPreview(path, options.viewBox),
     data: {
+      type: 'shape',
+      rotate: 0,
       viewBox: [200, 200],
       path,
       fill: baseFill,

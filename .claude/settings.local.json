@@ -25,7 +25,8 @@
       "Bash(pnpm build:*)",
       "Bash(npx vite build:*)",
       "Bash(pnpm type-check:*)",
-      "Bash(pnpm vue-tsc:*)"
+      "Bash(pnpm vue-tsc:*)",
+      "Bash(npx:*)"
     ],
     "deny": [],
     "ask": []

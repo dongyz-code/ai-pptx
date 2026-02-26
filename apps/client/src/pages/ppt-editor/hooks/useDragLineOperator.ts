@@ -1,7 +1,82 @@
 import { toRefs } from 'vue';
-import { cloneDeep } from 'lodash-es';
 import { OperateLineHandlers, PPTLineElement } from '@/types';
 import { useEditor, useSlides } from '../models';
+
+const movePoint = (point: [number, number], offsetX: number, offsetY: number): [number, number] => [
+  point[0] + offsetX,
+  point[1] + offsetY,
+];
+
+const cloneLineElement = (element: PPTLineElement): PPTLineElement => ({
+  ...element,
+  start: [...element.start] as [number, number],
+  end: [...element.end] as [number, number],
+  broken: element.broken ? ([...element.broken] as [number, number]) : undefined,
+  broken2: element.broken2 ? ([...element.broken2] as [number, number]) : undefined,
+  curve: element.curve ? ([...element.curve] as [number, number]) : undefined,
+  cubic: element.cubic
+    ? [[...element.cubic[0]] as [number, number], [...element.cubic[1]] as [number, number]]
+    : undefined,
+});
+
+const isBroken2Horizontal = (element: PPTLineElement) =>
+  Math.abs(element.end[0] - element.start[0]) >= Math.abs(element.end[1] - element.start[1]);
+
+const updateLineByCommand = (
+  originElement: PPTLineElement,
+  command: OperateLineHandlers,
+  offsetX: number,
+  offsetY: number
+) => {
+  const updatedElement = cloneLineElement(originElement);
+
+  switch (command) {
+    case OperateLineHandlers.START:
+      updatedElement.start = movePoint(originElement.start, offsetX, offsetY);
+      break;
+
+    case OperateLineHandlers.END:
+      updatedElement.end = movePoint(originElement.end, offsetX, offsetY);
+      break;
+
+    case OperateLineHandlers.C:
+      if (originElement.broken) {
+        updatedElement.broken = movePoint(originElement.broken, offsetX, offsetY);
+      } else if (originElement.broken2) {
+        const isHorizontal = isBroken2Horizontal(originElement);
+        updatedElement.broken2 = [
+          originElement.broken2[0] + (isHorizontal ? offsetX : 0),
+          originElement.broken2[1] + (isHorizontal ? 0 : offsetY),
+        ];
+      } else if (originElement.curve) {
+        updatedElement.curve = movePoint(originElement.curve, offsetX, offsetY);
+      }
+      break;
+
+    case OperateLineHandlers.C1:
+      if (originElement.cubic) {
+        updatedElement.cubic = [
+          movePoint(originElement.cubic[0], offsetX, offsetY),
+          [...originElement.cubic[1]] as [number, number],
+        ];
+      }
+      break;
+
+    case OperateLineHandlers.C2:
+      if (originElement.cubic) {
+        updatedElement.cubic = [
+          [...originElement.cubic[0]] as [number, number],
+          movePoint(originElement.cubic[1], offsetX, offsetY),
+        ];
+      }
+      break;
+
+    default:
+      break;
+  }
+
+  return updatedElement;
+};
 
 /**
  * 线条元素 关键点控制
@@ -26,162 +101,14 @@ export function useDragLineOperator() {
     let latestPageX = startPageX;
     let latestPageY = startPageY;
 
-    // 克隆原始元素数据
-    const originElement = cloneDeep(element);
-
-    /**
-     * 自动计算控制点位置
-     */
-    const autoCalculateControlPoint = (
-      start: [number, number],
-      end: [number, number],
-      type: 'curve' | 'broken'
-    ) => {
-      const midX = (start[0] + end[0]) / 2;
-      const midY = (start[1] + end[1]) / 2;
-
-      if (type === 'curve') {
-        // 二次贝塞尔曲线：控制点在中点的垂直方向偏移
-        const dx = end[0] - start[0];
-        const dy = end[1] - start[1];
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        const offset = distance * 0.2; // 偏移量为距离的20%
-
-        // 垂直方向的单位向量
-        const perpX = -dy / distance;
-        const perpY = dx / distance;
-
-        return [midX + perpX * offset, midY + perpY * offset] as [number, number];
-      } else {
-        // 折线：控制点在中点
-        return [midX, midY] as [number, number];
-      }
-    };
-
-    /**
-     * 自动计算三次贝塞尔曲线的两个控制点
-     */
-    const autoCalculateCubicControlPoints = (
-      start: [number, number],
-      end: [number, number]
-    ): [[number, number], [number, number]] => {
-      const dx = end[0] - start[0];
-      const dy = end[1] - start[1];
-
-      // 第一个控制点在起点后1/3处
-      const c1: [number, number] = [start[0] + dx / 3, start[1] + dy / 3];
-
-      // 第二个控制点在终点前1/3处
-      const c2: [number, number] = [start[0] + (dx * 2) / 3, start[1] + (dy * 2) / 3];
-
-      return [c1, c2];
-    };
+    const originElement = cloneLineElement(element);
 
     const applyMove = (pageX: number, pageY: number) => {
       if (!isMouseDown) return;
 
-      // 计算鼠标移动的屏幕距离（考虑缩放）
-      const screenOffsetX = (pageX - startPageX) / viewportScale.value;
-      const screenOffsetY = (pageY - startPageY) / viewportScale.value;
-
-      const offset = { x: screenOffsetX, y: screenOffsetY };
-
-      // 克隆当前元素
-      const updatedElement = { ...originElement } as PPTLineElement;
-
-      switch (command) {
-        case OperateLineHandlers.START:
-          // 更新起点位置
-          updatedElement.start = [
-            originElement.start[0] + offset.x,
-            originElement.start[1] + offset.y,
-          ];
-
-          // 如果有曲线控制点，自动重新计算
-          if (updatedElement.curve) {
-            updatedElement.curve = autoCalculateControlPoint(
-              updatedElement.start,
-              updatedElement.end,
-              'curve'
-            );
-          } else if (updatedElement.broken) {
-            updatedElement.broken = autoCalculateControlPoint(
-              updatedElement.start,
-              updatedElement.end,
-              'broken'
-            );
-          } else if (updatedElement.cubic) {
-            updatedElement.cubic = autoCalculateCubicControlPoints(
-              updatedElement.start,
-              updatedElement.end
-            );
-          }
-          break;
-
-        case OperateLineHandlers.END:
-          // 更新终点位置
-          updatedElement.end = [originElement.end[0] + offset.x, originElement.end[1] + offset.y];
-
-          // 如果有曲线控制点，自动重新计算
-          if (updatedElement.curve) {
-            updatedElement.curve = autoCalculateControlPoint(
-              updatedElement.start,
-              updatedElement.end,
-              'curve'
-            );
-          } else if (updatedElement.broken) {
-            updatedElement.broken = autoCalculateControlPoint(
-              updatedElement.start,
-              updatedElement.end,
-              'broken'
-            );
-          } else if (updatedElement.cubic) {
-            updatedElement.cubic = autoCalculateCubicControlPoints(
-              updatedElement.start,
-              updatedElement.end
-            );
-          }
-          break;
-
-        case OperateLineHandlers.C:
-          // 更新单个控制点（broken/broken2/curve）
-          if (updatedElement.broken) {
-            updatedElement.broken = [
-              updatedElement.broken[0] + offset.x,
-              updatedElement.broken[1] + offset.y,
-            ];
-          } else if (updatedElement.broken2) {
-            updatedElement.broken2 = [
-              updatedElement.broken2[0] + offset.x,
-              updatedElement.broken2[1] + offset.y,
-            ];
-          } else if (updatedElement.curve) {
-            updatedElement.curve = [
-              updatedElement.curve[0] + offset.x,
-              updatedElement.curve[1] + offset.y,
-            ];
-          }
-          break;
-
-        case OperateLineHandlers.C1:
-          // 更新三次贝塞尔曲线的第一个控制点
-          if (updatedElement.cubic) {
-            const [c1, c2] = updatedElement.cubic;
-            updatedElement.cubic = [[c1[0] + offset.x, c1[1] + offset.y], c2];
-          }
-          break;
-
-        case OperateLineHandlers.C2:
-          // 更新三次贝塞尔曲线的第二个控制点
-          if (updatedElement.cubic) {
-            const [c1, c2] = updatedElement.cubic;
-            updatedElement.cubic = [c1, [c2[0] + offset.x, c2[1] + offset.y]];
-          }
-          break;
-
-        default:
-          break;
-      }
+      const offsetX = (pageX - startPageX) / viewportScale.value;
+      const offsetY = (pageY - startPageY) / viewportScale.value;
+      const updatedElement = updateLineByCommand(originElement, command, offsetX, offsetY);
 
       slidesStore.updateElement({
         id: element.id,

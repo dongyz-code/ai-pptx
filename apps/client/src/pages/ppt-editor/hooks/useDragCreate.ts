@@ -44,8 +44,24 @@ export const useDragCreate = () => {
     event.preventDefault();
     const payload = JSON.parse(raw);
 
-    const w = payload.width ?? 200;
-    const h = payload.height ?? 0;
+    // 线条的 width 是线宽（stroke-width），视觉尺寸由 start/end/控制点 决定
+    let w: number;
+    let h: number;
+    if (Array.isArray(payload.start) && Array.isArray(payload.end)) {
+      const allPoints: [number, number][] = [payload.start, payload.end];
+      if (payload.broken) allPoints.push(payload.broken);
+      if (payload.broken2) allPoints.push(payload.broken2);
+      if (payload.curve) allPoints.push(payload.curve);
+      if (payload.cubic) allPoints.push(...payload.cubic);
+
+      const xs = allPoints.map((p: [number, number]) => p[0]);
+      const ys = allPoints.map((p: [number, number]) => p[1]);
+      w = Math.max(...xs) - Math.min(...xs);
+      h = Math.max(...ys) - Math.min(...ys);
+    } else {
+      w = payload.width ?? 200;
+      h = payload.height ?? 0;
+    }
 
     const target = event.currentTarget as HTMLElement;
     const rect = target.getBoundingClientRect();

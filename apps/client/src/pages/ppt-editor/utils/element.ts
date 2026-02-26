@@ -303,7 +303,7 @@ export function getLineElementPath(element: PPTLineElement) {
 
   if (element.cubic) {
     const [c1, c2] = element.cubic;
-    return `M${start} c${c1} c${c2} ${end}`;
+    return `M${start} C${c1} ${c2} ${end}`;
   }
 
   return `M${start} L${end}`;

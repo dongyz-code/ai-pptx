@@ -1,12 +1,16 @@
-import { computed, defineComponent, PropType, toRefs } from 'vue';
+import { computed, defineComponent, PropType } from 'vue';
 import classNames from 'classnames';
 import { getLineElementPath } from '../../utils';
 import PointMarker from './PointMarker';
 import { PPTLineElement } from '@/types';
 
-/**
- *
- */
+const toLocalPoint = (
+  point: [number, number],
+  minX: number,
+  minY: number,
+  padding: number
+): [number, number] => [point[0] - minX + padding, point[1] - minY + padding];
+
 const LineElement = defineComponent({
   name: 'LineElement',
   props: {
@@ -20,18 +24,50 @@ const LineElement = defineComponent({
     },
   },
   setup(props) {
-    /** 计算svg的宽高 */
-    const svgSize = computed(() => {
-      const width = Math.abs(props.element.start[0] - props.element.end[0]);
-      const height = Math.abs(props.element.start[1] - props.element.end[1]);
+    const geometry = computed(() => {
+      const el = props.element;
+      const allPoints: [number, number][] = [el.start, el.end];
+
+      if (el.broken) allPoints.push(el.broken);
+      if (el.broken2) allPoints.push(el.broken2);
+      if (el.curve) allPoints.push(el.curve);
+      if (el.cubic) allPoints.push(...el.cubic);
+
+      const xs = allPoints.map((p) => p[0]);
+      const ys = allPoints.map((p) => p[1]);
+      const minX = Math.min(...xs);
+      const maxX = Math.max(...xs);
+      const minY = Math.min(...ys);
+      const maxY = Math.max(...ys);
+      const padding = Math.max(12, el.width * 5);
+
+      const localElement: PPTLineElement = {
+        ...el,
+        start: toLocalPoint(el.start, minX, minY, padding),
+        end: toLocalPoint(el.end, minX, minY, padding),
+        broken: el.broken ? toLocalPoint(el.broken, minX, minY, padding) : undefined,
+        broken2: el.broken2 ? toLocalPoint(el.broken2, minX, minY, padding) : undefined,
+        curve: el.curve ? toLocalPoint(el.curve, minX, minY, padding) : undefined,
+        cubic: el.cubic
+          ? [
+              toLocalPoint(el.cubic[0], minX, minY, padding),
+              toLocalPoint(el.cubic[1], minX, minY, padding),
+            ]
+          : undefined,
+      };
+
+      const width = Math.max(maxX - minX + padding * 2, 24);
+      const height = Math.max(maxY - minY + padding * 2, 24);
+
       return {
-        width: Math.max(width, 24),
-        height: Math.max(height, 24),
+        width,
+        height,
+        left: minX - padding,
+        top: minY - padding,
+        path: getLineElementPath(localElement),
+        hitStrokeWidth: Math.max(20, el.width * 8),
       };
     });
-
-    /** 线条路径 */
-    const path = computed(() => getLineElementPath(props.element));
 
     /** 线条样式 */
     const strokeDasharray = computed(() => {
@@ -53,7 +89,16 @@ const LineElement = defineComponent({
         class="line-element absolute"
         style={{ top: props.element?.top + 'px', left: props.element?.left + 'px' }}
       >
-        <svg overflow="visible" width={svgSize.value.width} height={svgSize.value.height}>
+        <svg
+          overflow="visible"
+          width={geometry.value.width}
+          height={geometry.value.height}
+          style={{
+            position: 'absolute',
+            left: `${geometry.value.left}px`,
+            top: `${geometry.value.top}px`,
+          }}
+        >
           <defs>
             {props.element.points[0] && (
               <PointMarker
@@ -78,7 +123,7 @@ const LineElement = defineComponent({
 
           <path
             class="line-point"
-            d={path.value}
+            d={geometry.value.path}
             stroke={props.element.color}
             stroke-width={props.element.width}
             stroke-dasharray={strokeDasharray.value}
@@ -89,14 +134,14 @@ const LineElement = defineComponent({
             marker-end={
               props.element.points[1] && `url(#${props.element.id}-${props.element.points[1]}-end)`
             }
-            fill="null"
+            fill="none"
           ></path>
           <path
-            class={classNames('pointer-events-auto, cursor-move')}
-            d={path.value}
+            class={classNames('pointer-events-auto', 'cursor-move')}
+            d={geometry.value.path}
             stroke="transparent"
-            stroke-width="20"
-            fill="null"
+            stroke-width={geometry.value.hitStrokeWidth}
+            fill="none"
             onMousedown={props.selectElement}
           ></path>
         </svg>

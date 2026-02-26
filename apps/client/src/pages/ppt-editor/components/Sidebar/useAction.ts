@@ -69,16 +69,29 @@ export const useAction = () => {
   };
 
   const onAddLine = (lineElement: Partial<PPTLineElement> = {}) => {
-    const width = 200;
-    const height = 0;
-    const { left, top } = getCanvasCenter(width, height);
+    // 计算包含控制点的实际 bounding box
+    const allPoints: [number, number][] = [
+      (lineElement.start as [number, number]) ?? [0, 0],
+      (lineElement.end as [number, number]) ?? [200, 0],
+    ];
+    if (lineElement.broken) allPoints.push(lineElement.broken);
+    if (lineElement.broken2) allPoints.push(lineElement.broken2);
+    if (lineElement.curve) allPoints.push(lineElement.curve);
+    if (lineElement.cubic) allPoints.push(...lineElement.cubic);
+
+    const xs = allPoints.map((p) => p[0]);
+    const ys = allPoints.map((p) => p[1]);
+    const bboxWidth = Math.max(...xs) - Math.min(...xs);
+    const bboxHeight = Math.max(...ys) - Math.min(...ys);
+
+    const { left, top } = getCanvasCenter(bboxWidth, bboxHeight);
 
     const defaultLineElement: PPTLineElement = {
       id: uuid(),
       type: 'line',
       top,
       left,
-      width,
+      width: 2,
       start: [0, 0],
       end: [200, 0],
       style: 'solid',

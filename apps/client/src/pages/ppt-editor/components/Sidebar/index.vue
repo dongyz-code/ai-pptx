@@ -37,10 +37,11 @@ import TextContent from './contents/TextContent.vue';
 import ShapeContent from './contents/ShapeContent.vue';
 import LineContent from './contents/LineContent.vue';
 import ImageContent from './contents/ImageContent.vue';
+import VideoContent from './contents/VideoContent.vue';
 import TableContent from './contents/TableContent.vue';
 import ChartContent from './contents/ChartContent.vue';
 
-type ActionType = 'text' | 'shape' | 'line' | 'image' | 'table' | 'chart';
+type ActionType = 'text' | 'shape' | 'line' | 'image' | 'video' | 'table' | 'chart';
 
 type ActionItem = { label: string; value: ActionType; icon: IconName; component: Component };
 
@@ -68,6 +69,12 @@ const actions = shallowRef<ActionItem[]>([
     value: 'image',
     icon: 'mage:image-fill',
     component: markRaw(ImageContent),
+  },
+  {
+    label: '视频',
+    value: 'video',
+    icon: 'solar:widget-2-bold',
+    component: markRaw(VideoContent),
   },
   {
     label: '表格',

@@ -5,6 +5,8 @@ import { useEditor } from '../../models';
 import TextElement from '../../elements/TextElement';
 import ShapeElement from '../../elements/ShapeElement';
 import LineElement from '../../elements/LineElement';
+import ImgElement from '../../elements/ImgElement';
+import VideoElement from '../../elements/VideoElement';
 
 import type { PPTElement } from '@/types';
 
@@ -12,6 +14,8 @@ const elementMap = {
   text: TextElement,
   shape: ShapeElement,
   line: LineElement,
+  image: ImgElement,
+  video: VideoElement,
 };
 
 const EditorElement = defineComponent({

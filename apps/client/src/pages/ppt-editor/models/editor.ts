@@ -29,6 +29,9 @@ interface EditorState {
 
   /** 是否正在进行缩放 */
   isScaling: boolean;
+
+  /** 是否显示属性编辑面板 */
+  showPropertyPanel: boolean;
 }
 
 export const useEditor = defineStore('editor', () => {
@@ -42,6 +45,7 @@ export const useEditor = defineStore('editor', () => {
     viewportSize: 1000,
     viewportRatio: 16 / 9,
     isScaling: false,
+    showPropertyPanel: false,
   });
 
   const selectedIdMap = computed(() => arrObject(editorState.selectedElementIds));
@@ -70,6 +74,14 @@ export const useEditor = defineStore('editor', () => {
     editorState.isScaling = isScaling;
   };
 
+  const togglePropertyPanel = () => {
+    editorState.showPropertyPanel = !editorState.showPropertyPanel;
+  };
+
+  const setShowPropertyPanel = (show: boolean) => {
+    editorState.showPropertyPanel = show;
+  };
+
   return {
     editorState,
     selectedIdMap,
@@ -79,6 +91,8 @@ export const useEditor = defineStore('editor', () => {
     setHoverElementId,
     setIsCanvasFocus,
     setIsScaling,
+    togglePropertyPanel,
+    setShowPropertyPanel,
   };
 });
 

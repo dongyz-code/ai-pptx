@@ -5,6 +5,7 @@ import type {
   PPTShapeElement,
   PPTLineElement,
   PPTImageElement,
+  PPTVideoElement,
   PPTTableElement,
   PPTChartElement,
   TableCell,
@@ -122,6 +123,26 @@ export const useAction = () => {
     addElement(Object.assign(defaultImageElement, imageElement));
   };
 
+  const onAddVideo = (videoElement: Partial<PPTVideoElement> = {}) => {
+    const width = 400;
+    const height = 225;
+    const { left, top } = getCanvasCenter(width, height);
+
+    const defaultVideoElement: PPTVideoElement = {
+      id: uuid(),
+      type: 'video',
+      top,
+      left,
+      width,
+      height,
+      rotate: 0,
+      src: '',
+      autoplay: false,
+    };
+
+    addElement(Object.assign(defaultVideoElement, videoElement));
+  };
+
   const onAddTable = (options: { rows: number; cols: number }) => {
     const { rows, cols } = options;
 
@@ -202,6 +223,7 @@ export const useAction = () => {
     onAddShape,
     onAddLine,
     onAddImage,
+    onAddVideo,
     onAddTable,
     onAddChart,
   };

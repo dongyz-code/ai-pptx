@@ -1,17 +1,17 @@
 <template>
-  <div class="chart-content">
-    <div class="content-title">选择图表类型</div>
-    <div class="chart-options">
+  <div class="min-w-[340px] p-3">
+    <div class="mb-3 border-b border-[#e5e5e5] px-3 py-2 text-sm font-semibold text-[#333]">选择图表类型</div>
+    <div class="grid grid-cols-4 gap-2">
       <div
         v-for="option in chartOptions"
         :key="option.value"
-        class="chart-option"
+        class="flex cursor-pointer flex-col items-center gap-2 rounded-lg border border-[#e5e5e5] bg-white px-3 py-4 transition-all duration-200 hover:border-[#4A90E2] hover:bg-[#f0f7ff] hover:shadow-[0_2px_8px_rgba(74,144,226,0.1)]"
         @click="handleSelect(option)"
       >
-        <div class="chart-icon">
+        <div class="text-[32px] text-[#4A90E2]">
           <VIcon :icon="option.icon" />
         </div>
-        <div class="chart-label">{{ option.label }}</div>
+        <div class="text-center text-[13px] text-[#666]">{{ option.label }}</div>
       </div>
     </div>
   </div>
@@ -104,55 +104,3 @@ const handleSelect = (option: ChartOption) => {
   emit('select', option);
 };
 </script>
-
-<style scoped>
-.chart-content {
-  min-width: 340px;
-  padding: 12px;
-}
-
-.content-title {
-  padding: 8px 12px;
-  font-weight: 600;
-  font-size: 14px;
-  color: #333;
-  border-bottom: 1px solid #e5e5e5;
-  margin-bottom: 12px;
-}
-
-.chart-options {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-}
-
-.chart-option {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding: 16px 12px;
-  border: 1px solid #e5e5e5;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s;
-  background: white;
-}
-
-.chart-option:hover {
-  border-color: #4a90e2;
-  background: #f0f7ff;
-  box-shadow: 0 2px 8px rgba(74, 144, 226, 0.1);
-}
-
-.chart-icon {
-  font-size: 32px;
-  color: #4a90e2;
-}
-
-.chart-label {
-  font-size: 13px;
-  color: #666;
-  text-align: center;
-}
-</style>

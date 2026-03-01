@@ -1,9 +1,9 @@
 <template>
-  <div class="sidebar-container p-4">
+  <div class="relative flex flex-col gap-2 p-4">
     <div
       v-for="action in actions"
       :key="action.value"
-      class="sidebar-item flex h-14 w-14 cursor-pointer flex-col items-center justify-center rounded-lg text-center font-bold text-gray-600 transition-all hover:shadow-md"
+      class="relative flex h-14 w-14 cursor-pointer flex-col items-center justify-center rounded-lg text-center font-bold text-gray-600 transition-all hover:shadow-md"
       :class="{ 'bg-blue-50 shadow-md': activeAction?.value === action.value }"
       @click="handleActionClick($event, action)"
     >
@@ -137,16 +137,3 @@ onUnmounted(() => {
   document.removeEventListener('click', handleOutsideClick);
 });
 </script>
-
-<style scoped>
-.sidebar-container {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.sidebar-item {
-  position: relative;
-}
-</style>

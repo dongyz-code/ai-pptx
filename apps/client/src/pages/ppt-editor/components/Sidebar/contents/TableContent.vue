@@ -1,15 +1,15 @@
 <template>
-  <div class="table-content">
-    <div class="content-title">选择表格</div>
-    <div class="table-options">
+  <div class="min-w-[340px] p-3">
+    <div class="mb-3 border-b border-[#e5e5e5] px-3 py-2 text-sm font-semibold text-[#333]">选择表格</div>
+    <div class="grid grid-cols-3 gap-2">
       <div
         v-for="option in tableOptions"
         :key="option.value"
-        class="table-option"
+        class="flex cursor-pointer flex-col items-center gap-2 rounded-lg border border-[#e5e5e5] bg-white p-3 transition-all duration-200 hover:border-[#4A90E2] hover:bg-[#f0f7ff] hover:shadow-[0_2px_8px_rgba(74,144,226,0.1)]"
         @click="handleSelect(option)"
       >
-        <div class="table-preview" v-html="option.preview"></div>
-        <div class="table-label">{{ option.label }}</div>
+        <div class="flex items-center justify-center" v-html="option.preview"></div>
+        <div class="text-[13px] font-medium text-[#666]">{{ option.label }}</div>
       </div>
     </div>
   </div>
@@ -87,56 +87,3 @@ const handleSelect = (option: TableOption) => {
   emit('select', option);
 };
 </script>
-
-<style scoped>
-.table-content {
-  min-width: 340px;
-  padding: 12px;
-}
-
-.content-title {
-  padding: 8px 12px;
-  font-weight: 600;
-  font-size: 14px;
-  color: #333;
-  border-bottom: 1px solid #e5e5e5;
-  margin-bottom: 12px;
-}
-
-.table-options {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-}
-
-.table-option {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding: 12px;
-  border: 1px solid #e5e5e5;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s;
-  background: white;
-}
-
-.table-option:hover {
-  border-color: #4a90e2;
-  background: #f0f7ff;
-  box-shadow: 0 2px 8px rgba(74, 144, 226, 0.1);
-}
-
-.table-preview {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.table-label {
-  font-size: 13px;
-  color: #666;
-  font-weight: 500;
-}
-</style>

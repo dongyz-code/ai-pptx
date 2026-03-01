@@ -24,7 +24,7 @@ const Slider = defineComponent({
             <div
               key={slide.id}
               class={classNames(
-                'bg-primary-300 relative mr-4 h-full w-28 flex-shrink-0 cursor-pointer rounded border-2 border-transparent',
+                'bg-primary-300 relative mr-4 h-full w-28 shrink-0 cursor-pointer rounded border-2 border-transparent',
                 {
                   'ml-2': index === 0,
                   'border-primary': index === state.sliderIndex,
@@ -37,7 +37,7 @@ const Slider = defineComponent({
           ))}
 
           <div
-            class="flex h-full w-28 flex-shrink-0 cursor-pointer items-center justify-center rounded bg-slate-400 text-xl text-white"
+            class="flex h-full w-28 shrink-0 cursor-pointer items-center justify-center rounded bg-slate-400 text-xl text-white"
             onClick={() => addSlide()}
           >
             <VIcon icon="mdi:plus" />

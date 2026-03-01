@@ -14,7 +14,6 @@ export interface IconTypes {
   'weui:arrow-outlined': Component;
   'uil:line-alt': Component;
   'majesticons:table': Component;
-  'ajesticons:table': Component;
   'teenyicons:donut-chart-solid': Component;
   'mynaui:heading-one': Component;
   'mynaui:heading-two': Component;
@@ -29,6 +28,17 @@ export interface IconTypes {
   'solar:eye-bold': Component;
   'solar:arrow-right-bold': Component;
   'fluent:arrow-sync-24-filled': Component;
+  'mdi:flip-horizontal': Component;
+  'mdi:flip-vertical': Component;
+  'mdi:minus': Component;
+  'mdi:dots-horizontal': Component;
+  'mdi:play': Component;
+  'mdi:vector-union': Component;
+  'mdi:lock': Component;
+  'mdi:lock-open-variant': Component;
+  'mdi:arrow-up-bold': Component;
+  'mdi:arrow-down-bold': Component;
+  'mdi:delete-outline': Component;
 }
 
 export type IconName = keyof IconTypes;

@@ -18,7 +18,6 @@ const iconifyIcons = [
   'weui:arrow-outlined',
   'uil:line-alt',
   'majesticons:table',
-  'ajesticons:table',
   'teenyicons:donut-chart-solid',
   'mynaui:heading-one',
   'mynaui:heading-two',
@@ -33,6 +32,17 @@ const iconifyIcons = [
   'solar:eye-bold',
   'solar:arrow-right-bold',
   'fluent:arrow-sync-24-filled',
+  'mdi:flip-horizontal',
+  'mdi:flip-vertical',
+  'mdi:minus',
+  'mdi:dots-horizontal',
+  'mdi:play',
+  'mdi:vector-union',
+  'mdi:lock',
+  'mdi:lock-open-variant',
+  'mdi:arrow-up-bold',
+  'mdi:arrow-down-bold',
+  'mdi:delete-outline',
 ];
 
 /**

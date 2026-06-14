@@ -27,6 +27,8 @@ export function useDragElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
   const onDragElement = (e: MouseEvent, element: PPTElement) => {
     /** 非选中元素不处理 */
     if (!selectedElementIds.value.includes(element.id)) return;
+    /** 锁定元素禁止拖拽 */
+    if (element.lock) return;
 
     /** 是否是鼠标按下状态 */
     let isMouseDown = true;
@@ -41,8 +43,9 @@ export function useDragElement(alignmentLineList: Ref<AlignmentLineProps[]>) {
 
     const selectedIdMap = arrObject(selectedElementIds.value);
     const originSelectedElementList = cloneDeep(
-      elementList.value.filter((item) => selectedIdMap[item.id])
+      elementList.value.filter((item) => selectedIdMap[item.id] && !item.lock)
     );
+    if (!originSelectedElementList.length) return;
 
     const originWidth = element.width;
     const originHeight = 'height' in element && element.height ? element.height : 0;

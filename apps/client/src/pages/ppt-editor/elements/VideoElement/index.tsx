@@ -11,6 +11,7 @@ const VideoElement = defineComponent({
     selectElement: Function as PropType<(e: MouseEvent) => void>,
   },
   setup(props) {
+    const opacity = (props.element as { opacity?: number }).opacity ?? 1;
     return () => (
       <div
         id={props.element.id}
@@ -21,6 +22,7 @@ const VideoElement = defineComponent({
           left: `${props.element.left}px`,
           top: `${props.element.top}px`,
           transform: `rotate(${props.element.rotate}deg)`,
+          opacity,
         }}
       >
         <div class="relative h-full w-full overflow-hidden rounded-md border border-black/15 bg-black">

@@ -143,6 +143,14 @@ export interface PPTTextElement extends PPTBaseElement {
   defaultFontName: string;
   /** 默认颜色（会被文本内容中的HTML内联样式覆盖） */
   defaultColor: string;
+  /** 默认字号（px） */
+  fontSize?: number;
+  /** 默认字重 */
+  fontWeight?: number | 'normal' | 'bold';
+  /** 默认字体样式 */
+  fontStyle?: 'normal' | 'italic';
+  /** 文本水平对齐 */
+  textAlign?: 'left' | 'center' | 'right' | 'justify';
   /** 边框 */
   outline?: PPTElementOutline;
   /** 填充色 */

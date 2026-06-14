@@ -14,6 +14,7 @@ export function useRotateElement() {
     e.preventDefault();
 
     if (!editorStore.editorState.selectedElementIds.includes(element.id)) return;
+    if (element.lock) return;
 
     const canvas = document.getElementById('editor-canvas');
     if (!canvas) return;

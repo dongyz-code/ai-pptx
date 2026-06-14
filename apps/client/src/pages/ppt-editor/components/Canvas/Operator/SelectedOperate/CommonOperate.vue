@@ -1,6 +1,6 @@
 <template>
   <div class="common-operator">
-    <template v-if="editor.editorState.selectedElementIds.length === 1">
+    <template v-if="editor.editorState.selectedElementIds.length === 1 && !element.lock">
       <RotateHandler
         :hidden="isRotating"
         @mousedown="($event: MouseEvent) => rotateElement($event, element)"

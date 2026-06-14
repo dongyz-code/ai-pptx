@@ -18,7 +18,7 @@ import HoverOperator from './Operator/HoverOperator/index.vue';
 import SelectedOperator from './Operator/SelectedOperate/index.vue';
 import MultipleSelectedOperator from './Operator/MultipleSelectedOperator/index.vue';
 import AlignmentLine from './AlignmentLine/index.vue';
-import FloatingToolbar from './FloatingToolbar/index.vue';
+import Toolbar from './Toolbar/index.vue';
 
 import type { AlignmentLineProps } from '@/types';
 
@@ -105,7 +105,7 @@ const onCanvasDrop = (e: DragEvent) => handleDrop(e);
       </div>
     </div>
 
-    <FloatingToolbar />
+    <Toolbar />
 
     <div class="pointer-events-none absolute transform-gpu" :style="positionStyle">
       <div

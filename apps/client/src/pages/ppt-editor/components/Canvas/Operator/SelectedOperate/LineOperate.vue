@@ -1,11 +1,13 @@
 <template>
   <div>
-    <resize-handler
-      v-for="(item, i) in handlers"
-      :key="i"
-      :style="{ ...item.position }"
-      @mousedown="($event: MouseEvent) => dragLineElement($event, element, item.type)"
-    ></resize-handler>
+    <template v-if="!element.lock">
+      <resize-handler
+        v-for="(item, i) in handlers"
+        :key="i"
+        :style="{ ...item.position }"
+        @mousedown="($event: MouseEvent) => dragLineElement($event, element, item.type)"
+      ></resize-handler>
+    </template>
   </div>
 </template>
 

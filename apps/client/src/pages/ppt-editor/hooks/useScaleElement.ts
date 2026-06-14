@@ -19,6 +19,8 @@ export function useScaleElement(_alignmentLineList: Ref<AlignmentLineProps[]>) {
   ) => {
     /** 非选中元素不处理 */
     if (!selectedElementIds.value.includes(element.id)) return;
+    /** 锁定元素禁止缩放 */
+    if (element.lock) return;
 
     const { ctrlOrShiftKeyActive } = useKeyboard();
 

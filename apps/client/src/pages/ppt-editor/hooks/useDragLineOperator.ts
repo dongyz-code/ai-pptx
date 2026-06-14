@@ -92,6 +92,7 @@ export function useDragLineOperator() {
     command: OperateLineHandlers
   ) => {
     e.stopPropagation();
+    if (element.lock) return;
 
     let isMouseDown = true;
 

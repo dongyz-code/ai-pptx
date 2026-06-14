@@ -35,6 +35,7 @@ const TextElement = defineComponent({
     };
 
     const onActive = () => {
+      if (props.element?.lock) return;
       editable.value = true;
     };
 
@@ -54,6 +55,10 @@ const TextElement = defineComponent({
           opacity: props.element?.opacity,
           wordSpacing: `${props.element?.wordSpace}px`,
           writingMode: props.element?.vertical ? 'vertical-rl' : 'horizontal-tb',
+          fontSize: props.element?.fontSize ? `${props.element.fontSize}px` : undefined,
+          fontWeight: props.element?.fontWeight,
+          fontStyle: props.element?.fontStyle,
+          textAlign: props.element?.textAlign,
         }}
         onDblclick={onActive}
       >
@@ -69,7 +74,10 @@ const TextElement = defineComponent({
 
         {!editable.value && (
           <div
-            class="absolute top-0 left-0 h-full w-full cursor-move select-none"
+            class={[
+              'absolute top-0 left-0 h-full w-full select-none',
+              props.element?.lock ? 'cursor-not-allowed' : 'cursor-move',
+            ]}
             onMousedown={onMouseDown}
           ></div>
         )}

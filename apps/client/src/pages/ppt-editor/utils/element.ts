@@ -1,6 +1,6 @@
 import { OPERATE_RESIZE_HANDLERS, OPERATE_LINE } from '@/constants';
 import { getKeys } from '@/utils';
-import type { AlignLine, OperateLineHandlers, PPTElement, PPTLineElement } from '@/types';
+import type { AlignLine, PPTElement, PPTLineElement } from '@/types';
 
 type RectPosition = {
   left: number;
